@@ -5,6 +5,7 @@ import Login from '@/views/Login.vue'
 import Settings from "@/views/Settings.vue"
 import BarcodeSample from "@/views/BarcodeSample.vue"
 import QRcodeSample from "@/views/QRcodeSample.vue"
+import BarcodeQRcodeScanner from "@/views/BarcodeQRcodeScanner.vue"
 import store from '@/store'
 
 const authGuard = (to: any, from: any, next: any) => {
@@ -53,6 +54,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path:"/qrcode",
     component: QRcodeSample
+  },
+  {
+    path:"/scanner",
+    component: BarcodeQRcodeScanner
   }
 ]
 
