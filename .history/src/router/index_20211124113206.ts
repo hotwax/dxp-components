@@ -52,7 +52,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path:"/qrcode",
-    component: QRcodeSample
+    component: BarcodeSample
   }
 ]
 
