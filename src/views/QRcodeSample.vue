@@ -1,11 +1,11 @@
 <template>
-    <vue-qrcode value="Hello, World!" ></vue-qrcode>
+  <vue-qrcode value="Hello, World!" />
 </template>
 <script>
 import VueQrcode from '@chenfengyuan/vue-qrcode';
 export default {
-    components:{
-        VueQrcode
-    }
+  components: {
+    VueQrcode
+  }
 }
 </script>
