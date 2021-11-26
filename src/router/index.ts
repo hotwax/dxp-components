@@ -36,27 +36,27 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter: authGuard
   },
   {
+    path: "/settings",
+    name: "Settings",
+    component: Settings,
+    beforeEnter: authGuard
+  },  
+  {
     path: '/login',
     name: 'Login',
     component: Login,
     beforeEnter: loginGuard
   },
   {
-    path: "/settings",
-    name: "Settings",
-    component: Settings,
-    beforeEnter: authGuard
-  },
-  {
-    path:"/barcode",
+    path: '/barcode',
     component: BarcodeSample
   },
   {
-    path:"/qrcode",
+    path: '/qrcode',
     component: QRcodeSample
   },
   {
-    path:"/scanner",
+    path: '/scanner',
     component: BarcodeQRcodeScanner
   }
 ]

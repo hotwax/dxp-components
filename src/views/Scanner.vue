@@ -16,8 +16,8 @@ export default {
     StreamBarcodeReader,
   },
   methods: {
-    onDecode(result) {
-      modalController.dismiss({dismissed:true});
+    onDecode (result) {
+      modalController.dismiss({dismissed: true});
     }
   }
 }

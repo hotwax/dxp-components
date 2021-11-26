@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content >
+    <ion-content>
       <ion-button @click="scanCode">Scan</ion-button>
     </ion-content>
   </ion-page>
@@ -17,7 +17,7 @@ export default defineComponent({
     IonPage,
   },
   methods: {
-    async scanCode() {
+    async scanCode () {
       const modal = await modalController
         .create({
           component: Scanner,
