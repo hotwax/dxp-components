@@ -1,72 +1,33 @@
 <template>
-
-  <ion-content>
-    <ion-button @click="setOpen(true)">Open Scanner</ion-button>
-    <ion-modal
-    :is-open="isOpenRef"
-    css-class="my-custom-class"
-    @didDismiss="setOpen(false)"
-  >
-    <Scanner :data="data" />
-  </ion-modal>
-  </ion-content>
-
-<!-- <div class="scanner">
-     <StreamBarcodeReader
-    @decode="onDecode"
-    @loaded="onLoaded"
-></StreamBarcodeReader>
-</div> -->
-
+  <ion-page>
+    <ion-content >
+      <ion-button @click="scanCode">Scan</ion-button>
+    </ion-content>
+  </ion-page>
 </template>
 
-<script>
+<script lang="ts">
+import { IonContent, IonPage, modalController } from '@ionic/vue';
+import { defineComponent } from 'vue';
 import Scanner from './Scanner.vue'
-import { IonButton, IonContent, IonModal } from '@ionic/vue';
-// import Scanner from './Scanner.vue'
-// import { StreamBarcodeReader } from "vue-barcode-reader";
-import { defineComponent, ref } from 'vue';
 export default defineComponent({
-  components: { IonModal, IonButton, 
-    IonContent, Scanner
-},
-  setup() {
-    const isOpenRef = ref(false);
-    const setOpen = (state) => isOpenRef.value = state;
-    const data = { content: 'New Content' };
-    return { isOpenRef, setOpen, data }
+  name: 'Home',
+  components: {
+    IonContent,
+    IonPage,
   },
   methods: {
-    onDecode (result) {
-      console.log(result)
-    }
-  }
+    async scanCode() {
+      const modal = await modalController
+        .create({
+          component: Scanner,
+        })
+      return modal.present();
+    },
+  },
 });
-// export default {
-//   components: {
-//     // StreamBarcodeReader,
-//     IonButton,
-//     IonContent,
-//     IonModal
-//     // Scanner
-//   },
-//   methods: {
-//     onDecode (result) {
-//       console.log(result)
-//     },
-//     async openScanner() {
-//       const scanner = await modalController
-//         .create({
-//           component: Scanner,
-//         })
-//       return scanner.present();
-//     },
-// }
-  
-// }
 </script>
+
 <style scoped>
-/* .scanner{
-  text-align: center;
-} */
+
 </style>
