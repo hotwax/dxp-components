@@ -7,6 +7,7 @@
 </template>
 
 <script lang="ts">
+
 import { IonContent, IonPage, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import Scanner from './Scanner.vue'
@@ -16,14 +17,24 @@ export default defineComponent({
     IonContent,
     IonPage,
   },
+         
   methods: {
+  
     async scanCode () {
       const modal = await modalController
         .create({
           component: Scanner,
-        })
+        });
+        modal.onDidDismiss()
+      .then((result) => {
+        console.log(result);
+        alert(result.role);
+    });
       return modal.present();
+      
     },
+    
   },
+  
 });
 </script>
