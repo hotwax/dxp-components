@@ -1,6 +1,12 @@
 <template>
   <ion-app>
     <ion-router-outlet />
+    <v-contextmenu ref="contextmenu">
+      <v-contextmenu-item>Menu Item 1</v-contextmenu-item>
+      <v-contextmenu-item>Menu Item 2</v-contextmenu-item>
+      <v-contextmenu-item>Menu Item 3</v-contextmenu-item>
+    </v-contextmenu>
+    <div v-contextmenu:contextmenu class="context-menu"></div>
   </ion-app>
 </template>
 
@@ -48,3 +54,9 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+.context-menu{
+  z-index:1;
+  height:100%;
+}
+</style>

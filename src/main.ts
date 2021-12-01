@@ -3,7 +3,8 @@ import App from './App.vue'
 import router from './router';
 import moment from 'moment'
 import "moment-timezone";
-
+import contextmenu from "v-contextmenu";
+import "v-contextmenu/dist/themes/default.css";
 
 import { IonicVue } from '@ionic/vue';
 
@@ -33,7 +34,8 @@ const app = createApp(App)
   .use(IonicVue)
   .use(router)
   .use(i18n)
-  .use(store);
+  .use(store)
+  .use(contextmenu);
 
 // Filters are removed in Vue 3 and global filter introduced https://v3.vuejs.org/guide/migration/filters.html#global-filters
 app.config.globalProperties.$filters = {
