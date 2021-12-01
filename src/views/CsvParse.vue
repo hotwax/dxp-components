@@ -2,7 +2,7 @@
   <div class="container">
     <div class="large-12 medium-12 small-12 cell">
       <label>File
-        <input type="file" id="file" ref="file" v-on:change="handleFileUpload($event)"/>
+        <input type="file" accept=".csv" id="file" ref="file" v-on:change="handleFileUpload($event)"/>
       </label>
         <button v-on:click="submitFile()">Submit</button>
     </div>
@@ -33,8 +33,9 @@
 
 <script>
 
-import Papa from 'papaparse';
-import axios from 'axios';
+// import Papa, { parse } from 'papaparse';
+// import axios from 'axios';
+import { parseCsv } from '@/utils'
 
 export default {
     name: "CsvParse",
@@ -51,14 +52,22 @@ methods: {
         this.parseFile();
     },
     parseFile(){
-    Papa.parse( this.file, {
-        header: true,
-        skipEmptyLines: true,
-        complete: function( results ){
-            this.content = results;
-            this.parsed = true;
-        }.bind(this)
-    } );
+    // Papa.parse( this.file, {
+    //     header: true,
+    //     skipEmptyLines: true,
+    //     complete: function( results ){
+    //         this.content = results;
+    //         this.parsed = true;
+    //     }.bind(this)
+    
+    // } );
+    console.log("parseFile started")
+    const abc = parseCsv(this.file)
+    abc.then(res => {
+        this.content = res
+        console.log(res)
+        // this.parsed=true
+    })
 },
 }
 }
