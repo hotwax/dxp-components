@@ -1,22 +1,21 @@
 import { toastController } from '@ionic/vue';
-import { helperNameMap } from '@vue/compiler-core';
 import Papa from 'papaparse'
 
 // TODO Use separate files for specific utilities
 
 // TODO Remove it when HC APIs are fully REST compliant
 const hasError = (response: any) => {
-    return !!response.data._ERROR_MESSAGE_ || !!response.data._ERROR_MESSAGE_LIST_;
+  return !!response.data._ERROR_MESSAGE_ || !!response.data._ERROR_MESSAGE_LIST_;
 }
 
 const showToast = async (message: string) => {
-    const toast = await toastController
-        .create({
-          message,
-          duration: 3000,
-          position: 'top',
-        })
-      return toast.present();
+  const toast = await toastController
+    .create({
+      message,
+      duration: 3000,
+      position: 'top',
+    })
+  return toast.present();
 }
 
 
@@ -64,21 +63,20 @@ const showToast = async (message: string) => {
 
 
 const parseCsv = async (file: File, options: any) => {
-  return new Promise((resolve,reject) => {
-    Papa.parse( file, {
+  return new Promise ((resolve, reject) => {
+    Papa.parse(file, {
       header: false,
       skipEmptyLines: true,
-      complete: function( results: any ){
-          if(results.errors.length){
-            reject(results.error)
-          }
-          else{
-            resolve(results.data)
-          }
+      complete: function (results: any) {
+        if (results.errors.length) {
+          reject(results.error)
+        } else {
+          resolve(results.data)
+        }
       },
       ...options
-  } );
+    });
   })
 }
 
-export { showToast, hasError , parseCsv}
+export {showToast, hasError , parseCsv}
