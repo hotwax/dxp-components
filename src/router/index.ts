@@ -44,13 +44,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Settings",
     component: Settings,
     beforeEnter: authGuard
-  },
-  {
-    path: "/csvparse",
-    name: "CsvParse",
-    component: CsvParse
   }
-
 ]
 
 const router = createRouter({
