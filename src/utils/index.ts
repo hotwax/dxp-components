@@ -1,6 +1,6 @@
 import { toastController } from '@ionic/vue';
 import { helperNameMap } from '@vue/compiler-core';
-import  Papa  from 'papaparse'
+import Papa from 'papaparse'
 
 // TODO Use separate files for specific utilities
 
@@ -25,18 +25,18 @@ const showToast = async (message: string) => {
 // Package Used : PapaParse (Link to Documentation : https://www.papaparse.com/docs#config)
 
 // In this we will be recieving the file and options in the function 
-// and we will be returning a promise with resulys in it 
+// and we returning a promise with results in it 
 
-// We have used the parse method of the Papa utility which whill take a config object with File.
+// We have used the parse method of the Papa utility which will take a config object with File.
 // In the config object we have passed various keys:
 //   - header : It tells Papaparse that there will be a header in the CSV. 
-//   - skipEmptyLines : It will ignore any empty lines in the CSV
+//   - skipEmptyLines : It will ignore any empty lines in the CSV.
 //   - complete : A parse result always contains three objects: data, errors, and meta. 
 //     Data and errors are arrays, and meta is an object. In the step callback, the data 
 //     array will only contain one element.
 
 // Also, we have passed options, as if user wants to add some more properties to the method 
-// or if he want to modify some pre build keys ten he can do do.
+// or if he want to modify some pre build keys then he can do so.
 
 // Types of Responses
 
