@@ -3,7 +3,6 @@ import { RouteRecordRaw } from 'vue-router';
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import Settings from "@/views/Settings.vue"
-import CsvParse from "@/views/CsvParse.vue"
 import store from '@/store'
 
 const authGuard = (to: any, from: any, next: any) => {
