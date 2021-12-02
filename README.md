@@ -1,5 +1,23 @@
 # IonicSDK for ionic 5.x
 
+## How to use?
+
+- Clone your repository  
+`git clone <your repository url>`
+
+- Create a new branch
+- Add IonicSDK repo URL to remote  
+`git remote add ionicSDK https://github.com/hotwax/ionic-sdk.git`
+
+- Fetch IonicSDK branches  
+`git fetch ionicSDK`
+
+- Merge IonicSDK master to your branch with [--allow-unrelated-histories](https://git-scm.com/docs/git-merge#Documentation/git-merge.txt---allow-unrelated-histories) flag  
+`git merge ionicSDK/main --allow-unrelated-histories`
+
+- Resolve conflicts  
+- Push your branch and create a PR
+
 ## Firebase Hosting
 
 We are using firebase hosting for the Pre-order app deployment
