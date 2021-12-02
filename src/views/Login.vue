@@ -6,6 +6,10 @@
           <img src="../assets/images/hc.png"/>
 
           <ion-item lines="full">
+            <ion-label>{{ $t("Instance Url") }}</ion-label>
+            <ion-input name="instanceUrl" v-model="instanceUrl" id="instanceUrl"  type="text" required></ion-input>
+          </ion-item>
+          <ion-item lines="full">
             <ion-label>{{ $t("Username") }}</ion-label>
             <ion-input name="username" v-model="username" id="username"  type="text" required></ion-input>
           </ion-item>
@@ -34,6 +38,7 @@ import {
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "@/store";
+import { mapGetters } from 'vuex';
 
 export default defineComponent({
   name: "Login",
@@ -48,11 +53,21 @@ export default defineComponent({
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      instanceUrl: ""
     };
+  },
+  computed: {
+    ...mapGetters({
+      instanceUrlSaved: 'user/getInstanceUrl'
+    })
+  },
+  mounted() {
+    this.instanceUrl= this.instanceUrlSaved;
   },
   methods: {
     login: function () {
+      this.store.dispatch("user/setUserInstanceUrl", this.instanceUrl)
       const { username, password } = this;
       this.store.dispatch("user/login", { username, password }).then((data: any) => {
         if (data.token) {

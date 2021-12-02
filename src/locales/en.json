@@ -1,11 +1,15 @@
 {
   "Blank": "Blank",
   "Click the backdrop to dismiss.": "Click the backdrop to dismiss.",
-  "Logout":"Logout",
+  "Instance Url": "Instance Url",
+  "Login": "Login",
+  "Logout": "Logout",
+  "Password":  "Password",
   "Ready to create an app?": "Ready to create an app?",
   "Settings":"Settings",
   "Start with Ionic": "Start with Ionic",
   "Store":"Store",
   "store name":"store name",
-  "UI Components": "UI Components"
+  "UI Components": "UI Components",
+  "Username":"Username"
 }
