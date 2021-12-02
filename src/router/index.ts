@@ -3,6 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import Settings from "@/views/Settings.vue"
+import CsvParse from "@/views/CsvParse.vue"
 import store from '@/store'
 
 const authGuard = (to: any, from: any, next: any) => {
@@ -43,6 +44,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "Settings",
     component: Settings,
     beforeEnter: authGuard
+  },
+  {
+    path:"/csvparse",
+    name: 'CsvParse',
+    component: CsvParse
   }
 ]
 
