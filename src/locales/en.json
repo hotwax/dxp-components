@@ -6,10 +6,13 @@
   "Logout": "Logout",
   "Password":  "Password",
   "Ready to create an app?": "Ready to create an app?",
-  "Settings":"Settings",
+  "Something went wrong": "Something went wrong",
+  "Sorry, your username or password is incorrect. Please try again.": "Sorry, your username or password is incorrect. Please try again.",
+  "Settings": "Settings",
   "Start with Ionic": "Start with Ionic",
-  "Store":"Store",
-  "store name":"store name",
+  "Store": "Store",
+  "store name": "store name",
+  "Time zone updated successfully": "Time zone updated successfully",
   "UI Components": "UI Components",
-  "Username":"Username"
+  "Username": "Username"
 }
