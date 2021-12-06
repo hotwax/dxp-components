@@ -89,7 +89,6 @@ const actions: ActionTree<UserState, RootState> = {
   setUserInstanceUrl ( { state, commit }, payload){
     commit(types.USER_INSTANCE_URL,payload)
   }
-
 }
 
 export default actions;
