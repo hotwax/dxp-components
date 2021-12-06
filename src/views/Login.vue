@@ -7,15 +7,15 @@
 
           <ion-item lines="full">
             <ion-label>{{ $t("Instance Url") }}</ion-label>
-            <ion-input name="instanceUrl" v-model="instanceUrl" id="instanceUrl"  type="text" required></ion-input>
+            <ion-input name="instanceUrl" v-model="instanceUrl" id="instanceUrl" type="text" required />
           </ion-item>
           <ion-item lines="full">
             <ion-label>{{ $t("Username") }}</ion-label>
-            <ion-input name="username" v-model="username" id="username"  type="text" required></ion-input>
+            <ion-input name="username" v-model="username" id="username" type="text" required />
           </ion-item>
           <ion-item lines="none">
             <ion-label>{{ $t("Password") }}</ion-label>
-            <ion-input name="password" v-model="password" id="password" type="password" required></ion-input>
+            <ion-input name="password" v-model="password" id="password" type="password" required />
           </ion-item>
 
           <div class="ion-padding">
