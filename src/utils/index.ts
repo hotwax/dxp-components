@@ -66,7 +66,7 @@ const parseCsv = async (file: File, options: any) => {
         if (results.errors.length) {
           reject(results.error)
         } else {
-          resolve(results.data)
+          resolve(results)
         }
       },
       ...options
