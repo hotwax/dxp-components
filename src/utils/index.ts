@@ -1,5 +1,6 @@
 import { toastController } from '@ionic/vue';
 import Papa from 'papaparse'
+import saveAs from "file-saver";
 
 // TODO Use separate files for specific utilities
 
@@ -74,4 +75,47 @@ const parseCsv = async (file: File, options: any) => {
   })
 }
 
-export {showToast, hasError , parseCsv}
+// Here we have created a JsonToCsvOption which contains the properties which we can pass to jsonToCsv function
+
+interface JsonToCsvOption {
+  parse?: object | null;
+  encode?: object | null;
+  name?: string;
+  download?: boolean;
+}
+
+// Utility for converting Javascript Object into blob and download it as Csv
+// Package Used : PapaParse (Link to Documentation : https://www.papaparse.com/docs#config)
+//                file-saver (Link to Documentation : https://www.npmjs.com/package/file-saver)
+
+// In this we will be reveiving a Javascript object and options in the function and we will be 
+// returning a blob object 
+
+// We have used a unparse method of papaparse library for converting javascript object into csv file,
+// and in addition to this we are using saveAs method to download our blob file
+// In the options we will be passing various keys:
+//     parse: In this we will be passing a object which contains various properties to be passed in unparse method
+//     encode: In this we will be passing a object which contains various properties related to the encoding in Blob constructor
+//     name: In this we will provide a name by which we want to download the csv File, and it is necessary to provide the .csv in the name
+//     download: In this we will provide a valur which will decide whether we want to download the file or not
+
+const jsonToCsv = (file: any, options: JsonToCsvOption = {}) => {
+  const csv = Papa.unparse(file, {
+    ...options.parse
+  });
+  const encoding = {
+    type: String,
+    default: "utf-8",
+    ...options.encode
+  };
+  const blob = new Blob([csv], {
+    type: "application/csvcharset=" + encoding 
+  });
+  if (options.download) {
+    saveAs(blob, options.name ? options.name: "default.csv");
+  }
+  return blob; 
+}
+
+
+export {showToast, hasError , parseCsv , jsonToCsv, JsonToCsvOption}
