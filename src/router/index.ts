@@ -44,13 +44,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Settings",
     component: Settings,
     beforeEnter: authGuard
-  },
-  {
-    path: "/csv",
-    name: "csv",
-    component: csv
   }
-
 ]
 
 const router = createRouter({
