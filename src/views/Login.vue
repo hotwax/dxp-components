@@ -64,6 +64,7 @@ export default defineComponent({
   },
   mounted() {
     this.instanceUrl= this.currentInstanceUrlSaved;
+    console.log(this.currentInstanceUrlSaved)
   },
   methods: {
     login: function () {

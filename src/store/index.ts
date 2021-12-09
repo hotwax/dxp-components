@@ -5,7 +5,9 @@ import actions from './actions'
 import RootState from './RootState'
 import createPersistedState from "vuex-persistedstate";
 import userModule from './modules/user';
-import productModule from "./modules/product"
+import productModule from "./modules/product";
+import SecureLS from "secure-ls";
+const ls = new SecureLS({ encodingType: 'aes' , isCompression: true });
 
 
 // TODO check how to register it from the components only
@@ -19,8 +21,42 @@ const state: any = {
 
 const persistState = createPersistedState({
     paths: ['user'],
-    fetchBeforeUse: true
+    fetchBeforeUse: true,
+    storage: {
+        // getItem: key => {
+        //     try{
+        //         ls.get(key)
+        //     }
+        //     catch(err){
+        //         console.log(persistState)
+        //         console.log(err)
+        //     }
+        //     },
+        getItem(key){
+                try{
+                    return ls.get(key)
+                }
+                catch(err){
+                    // console.log(this)
+                    // console.log(err)
+                    // console.log(persistState)
+                    ls.remove(key)
+                    return ls.get(key)
+                }
+            },
+        setItem: (key, value) => ls.set(key, value),
+        removeItem: key => ls.remove(key)
+      }
 })
+
+// window.localStorage.clear();
+                // store.replaceState({})
+
+                // const mutations = {
+                //     resetState (state) {
+                //       Object.assign(state, getDefaultState())
+                //     }
+                //   }
 
 // Added modules here so that hydration takes place before routing
 const store = createStore<RootState>({
