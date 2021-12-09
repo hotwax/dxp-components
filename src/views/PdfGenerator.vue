@@ -17,15 +17,20 @@ import htmlToPdfmake from 'html-to-pdfmake';
 export default {
   methods: {
     generatePdf() {
-      //get table html
-      const pdfDocument = document.getElementById('PDF');
-      //html to pdf format
-      const html = htmlToPdfmake(pdfDocument.innerHTML);  
-      const documentDefinition = { content: html };
       pdfMake.vfs = pdfFonts.pdfMake.vfs;
-      pdfMake.createPdf(documentDefinition).open();  
+      const pdfDocument = document.getElementById('PDF');
+      const html = htmlToPdfmake(pdfDocument.innerHTML);  
+
+      const docDefinition = {
+        content: [html],
+        defaultStyle: {
+          fontSize: 15,
+          bold: true,
+          color: 'red'
+        }
+      };
+      pdfMake.createPdf(docDefinition).open();
     }
   }  
 }
-
 </script>
