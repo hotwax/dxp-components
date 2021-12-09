@@ -2,7 +2,6 @@ import saveAs from "file-saver";
 import { toastController } from '@ionic/vue';
 import Papa from 'papaparse'
 
-
 // TODO Use separate files for specific utilities
 
 // TODO Remove it when HC APIs are fully REST compliant
@@ -89,16 +88,16 @@ interface JsonToCsvOption {
 // Package Used : PapaParse (Link to Documentation : https://www.papaparse.com/docs#config)
 //                file-saver (Link to Documentation : https://www.npmjs.com/package/file-saver)
 
-// In this we will be reveiving a Javascript object and options in the function and we will be 
+// In this we will be receiving a Javascript object and options in the function and we will be 
 // returning a blob object 
 
 // We have used a unparse method of papaparse library for converting javascript object into csv file,
 // and in addition to this we are using saveAs method to download our blob file
 // In the options we will be passing various keys:
-//     parse: In this we will be passing a object which contains various properties to be passed in unparse method
-//     encode: In this we will be passing a object which contains various properties related to the encoding in Blob constructor
+//     parse: In this we will be passing a object which contains various properties (headers,skipEmptyLines) to be passed in unparse method
+//     encode: In this we will be passing a object which contains various properties related to the encoding like { type }
 //     name: In this we will provide a name by which we want to download the csv File, and it is necessary to provide the .csv in the name
-//     download: In this we will provide a valur which will decide whether we want to download the file or not
+//     download: In this we will provide a value which will decide whether we want to download the file or not
 
 const jsonToCsv = (file: any, options: JsonToCsvOption = {}) => {
   const csv = Papa.unparse(file, {
@@ -113,9 +112,9 @@ const jsonToCsv = (file: any, options: JsonToCsvOption = {}) => {
     type: "application/csvcharset=" + encoding 
   });
   if (options.download) {
-    saveAs(blob, options.name ? options.name: "default.csv");
+    saveAs(blob, options.name ? options.name : "default.csv");
   }
   return blob; 
 }
 
-export {showToast, hasError , parseCsv , jsonToCsv, JsonToCsvOption}
+export { showToast, hasError , parseCsv , jsonToCsv, JsonToCsvOption }
