@@ -81,6 +81,13 @@ const actions: ActionTree<UserState, RootState> = {
       commit(types.USER_INFO_UPDATED, current);
       showToast(translate("Time zone updated successfully"));
     }
+  },
+
+  /**
+   * Set User Instance Url
+   */
+  setUserInstanceUrl ({ state, commit }, payload){
+    commit(types.USER_INSTANCE_URL_UPDATED, payload)
   }
 }
 
