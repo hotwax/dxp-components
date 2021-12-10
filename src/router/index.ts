@@ -45,11 +45,6 @@ const routes: Array<RouteRecordRaw> = [
     component: Settings,
     beforeEnter: authGuard
   },
-  {
-    path: "/pdf",
-    component: PdfGenerator,
-    name: 'PdfGenerator'
-  },
 ]
 
 const router = createRouter({
