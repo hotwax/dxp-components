@@ -8,6 +8,17 @@ import userModule from './modules/user';
 import productModule from "./modules/product";
 import SecureLS from "secure-ls";
 
+// We will be using secure-ls for secure localStorage data with high level of encryption and data compression.
+// (Package Link : https://www.npmjs.com/package/secure-ls)
+
+// First we will be creating a instance of Securels where the constructor accepts a
+// configurable bbject with all three keys being optional. The keys are as follows :
+// 1. encodingType : the type of encoding technique we want to provide (base64/aes/des/rabbit/rc4/' ')
+// 2. isCompression : whether we want to store the data in the compressed form or not (True/False)
+// 3. encryptionSecret : encryptionSecret will only be used for the Encryption and Decryption 
+//                       of data with AES, DES, RC4, RABBIT, and the library will discard it 
+//                       if no encoding / Base64 encoding method is choosen.
+
 const ls = new SecureLS({ encodingType: 'aes' , isCompression: true , encryptionSecret: process.env.VUE_APP_SECURITY_KEY});
 
 
