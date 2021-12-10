@@ -29,7 +29,7 @@
         "Column 4": 7
     }
   ] -->
-  <button v-on:click="convert">Convert</button>
+  <button @click="convert">Convert</button>
 </div>
 </template>
 
