@@ -12,7 +12,7 @@ import SecureLS from "secure-ls";
 // (Package Link : https://www.npmjs.com/package/secure-ls)
 
 // First we will be creating a instance of Securels where the constructor accepts a
-// configurable bbject with all three keys being optional. The keys are as follows :
+// configurable object with all three keys being optional. The keys are as follows :
 // 1. encodingType : the type of encoding technique we want to provide (base64/aes/des/rabbit/rc4/' ')
 // 2. isCompression : whether we want to store the data in the compressed form or not (True/False)
 // 3. encryptionSecret : encryptionSecret will only be used for the Encryption and Decryption 
