@@ -7,7 +7,7 @@ import createPersistedState from "vuex-persistedstate";
 import userModule from './modules/user';
 import productModule from "./modules/product";
 import SecureLS from "secure-ls";
-const ls = new SecureLS({ encodingType: 'aes' , isCompression: true });
+const ls = new SecureLS({ encodingType: 'aes' , isCompression: true , encryptionSecret: process.env.VUE_APP_SECURITY_KEY});
 
 
 // TODO check how to register it from the components only
@@ -23,40 +23,18 @@ const persistState = createPersistedState({
     paths: ['user'],
     fetchBeforeUse: true,
     storage: {
-        // getItem: key => {
-        //     try{
-        //         ls.get(key)
-        //     }
-        //     catch(err){
-        //         console.log(persistState)
-        //         console.log(err)
-        //     }
-        //     },
-        getItem(key){
-                try{
-                    return ls.get(key)
-                }
-                catch(err){
-                    // console.log(this)
-                    // console.log(err)
-                    // console.log(persistState)
-                    ls.remove(key)
-                    return ls.get(key)
-                }
-            },
+        getItem: key => {
+            try {
+                return ls.get(key)
+            } catch(err) {
+                ls.remove(key)
+                return ls.get(key)
+            }
+        },       
         setItem: (key, value) => ls.set(key, value),
         removeItem: key => ls.remove(key)
-      }
+    }
 })
-
-// window.localStorage.clear();
-                // store.replaceState({})
-
-                // const mutations = {
-                //     resetState (state) {
-                //       Object.assign(state, getDefaultState())
-                //     }
-                //   }
 
 // Added modules here so that hydration takes place before routing
 const store = createStore<RootState>({
