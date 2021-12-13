@@ -1,6 +1,6 @@
 <template>
-  <div @click="onSelected(isToggle)" class="chip">
-    <ion-chip color="success" outline="true">
+  <div @click="onSelected(isToggle)" class="chip" ref="parentRef">
+    <ion-chip color="success">
       <ion-icon class="chip-icon" :icon="checkmark" ref="toggleIconRef" />
       <ion-label color="dark">Order here</ion-label>
     </ion-chip>
@@ -9,7 +9,7 @@
 
 
 <script lang="ts">
-import { createAnimation, IonChip, IonIcon } from "@ionic/vue";
+import { createAnimation, IonChip, IonIcon, IonLabel } from "@ionic/vue";
 import { ref, onMounted } from "vue";
 import { checkmark } from 'ionicons/icons';
 
@@ -18,66 +18,75 @@ export default {
 
   components: {
     IonChip,
-    IonIcon
+    IonIcon,
+    IonLabel
   },
 
   setup() {
     const toggleIconRef = ref();
     const isToggle = ref(true);
+    const parentRef = ref();
 
     let toggleAnimation: any;
     let removeAnimation: any;
     onMounted(() => {
       toggleAnimation = createAnimation()
         .addElement(toggleIconRef.value.$el)
-        .duration(500)
-        .easing('ease-in')
         .afterRemoveClass("chip-icon")
-        .keyframes([
-          { offset: 0, transform: "scale(1)" },
-          { offset: 0.5, transform: "scale(1.1)" },
-          { offset: 1, transform: "scale(1)" },
-        ]);
 
       removeAnimation = createAnimation()
         .addElement(toggleIconRef.value.$el)
-        .duration(500)
-        .easing('ease-in')
         .afterAddClass("chip-icon")
-        .keyframes([
-          { offset: 0, transform: "scale(1)" },
-          { offset: 0.5, transform: "scale(1.1)" },
-          { offset: 1, transform: "scale(1)" },
-        ]);
     });
 
     const onSelected = (selected: boolean) => {
+
       if(selected){
-        console.log(selected)
-        toggleAnimation && toggleAnimation.play();
-        isToggle.value = !selected;
+        console.log(parentRef.value.childNodes[0])
+        const animate = createAnimation()
+        .addElement(parentRef.value.childNodes[0])
+        // .easing('ease-in-out')
+        .duration(300)
+        .fromTo('transform', 'scaleX(1)', 'scaleX(1.1)')
+        // .keyframes([
+        //     { offset: 0, transform: 'scaleX(1)' },
+        //     { offset: 0.72, transform: 'scaleX(1.05)' },
+        //     { offset: 1, transform: 'scaleX(1)' },
+        //   ])
+        .addAnimation([toggleAnimation]);  
+
+        animate && animate.play();
       }
       else{
-        isToggle.value = !selected;
         console.log(selected)
-        removeAnimation && removeAnimation.play();
+
+        const animate = createAnimation()
+        .addElement(parentRef.value.childNodes[0])
+        // .easing('ease-out')
+        .duration(300)
+        .fromTo('transform', 'scaleX(1.1)', 'scaleX(1)')
+        // .keyframes([
+        //     { offset: 0, transform: 'scaleX(1)' },
+        //     { offset: 0.72, transform: 'scaleX(1.05)' },
+        //     { offset: 1, transform: 'scaleX(1)' },
+        //   ])
+        .addAnimation([removeAnimation]);  
+
+        animate && animate.play();
       }
+      isToggle.value = !selected;
     }
 
-    return { onSelected, toggleIconRef, checkmark, isToggle };
+    return { onSelected, parentRef, toggleIconRef, checkmark, isToggle };
   },
 };
 </script>
 
 <style scoped>
-.square {
-  width: 100px;
-  height: 100px;
-  margin: 100px;
-  background-color: black;
-}
 .chip {
-  margin: 100px 0px 0px 500px;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 }
 .chip-icon{
   display: none;

@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
-import Home from '@/views/Home.vue'
+import SingleChip from '@/views/SingleChip.vue'
+import DoubleChip from '@/views/DoubleChip.vue'
+import MultiChip from '@/views/MultiChip.vue'
 import Login from '@/views/Login.vue'
 import Settings from "@/views/Settings.vue"
 import store from '@/store'
@@ -24,12 +26,24 @@ const loginGuard = (to: any, from: any, next: any) => {
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/settings'
+    redirect: '/singlechip'
   },
   {
-    path: '/home',
-    name: 'Home',
-    component: Home,
+    path: '/singlechip',
+    name: 'SingleChip',
+    component: SingleChip,
+    beforeEnter: authGuard
+  },
+  {
+    path: '/doublechip',
+    name: 'DoubleChip',
+    component: DoubleChip,
+    beforeEnter: authGuard
+  },
+  {
+    path: '/multichip',
+    name: 'MultiChip',
+    component: MultiChip,
     beforeEnter: authGuard
   },
   {
