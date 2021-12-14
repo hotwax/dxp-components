@@ -1,14 +1,18 @@
 <template>
-  <img :src="imageUrl"/>
+<img :src="imageUrl" v-if="imageUrl" />
+  <ion-skeleton-text v-else animated></ion-skeleton-text>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { IonSkeletonText } from '@ionic/vue'
 
 export default defineComponent({
   name: "Image",
   props: ['src'],
-  components: {},
+  components: {
+    IonSkeletonText
+  },
   created() {
     if (
       process.env.VUE_APP_RESOURCE_URL
@@ -17,19 +21,26 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.setImageUrl();
+    setTimeout( () => {
+      this.setImageUrl();
+    }, 3000)
   },
   updated() {
-    this.setImageUrl();
+    setTimeout( () => {
+      this.setImageUrl();
+    })
+
   },
   data() {
     return {
       resourceUrl: '',
-      imageUrl: require("@/assets/images/defaultImage.png")
+      imageUrl: '',
+      // imageUrl: false
     }
   },
   methods: {
     checkIfImageExists(src: string) {
+      src = "https://uroostershop-cms.hotwax.io/content/urooster/assets/images/Cheegsshirt-collarlessblacklongsleeve1.jpeg"
       return new Promise((resolve, reject) => {
         const img = new Image();
         img.onload = function () {
@@ -39,6 +50,8 @@ export default defineComponent({
           reject(false);
         }
         img.src = src;
+        console.log(src)
+        console.log(this.src)
       })
     },
     setImageUrl() {

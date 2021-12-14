@@ -5,7 +5,7 @@
         <ion-title>{{ $t("Search") }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-content>
       <ion-searchbar @ionFocus="selectSearchBarText($event)" v-model="queryString" :placeholder="$t('Search')" v-on:keyup.enter="getProducts()"/>
 
       <ion-list v-if="products.length > 0">
@@ -104,6 +104,24 @@
         </ion-label>
       </ion-item>
 
+
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img src="https://uroostershop-cms.hotwax.io/content/urooster/assets/images/Cheegsshirt-collarlessblacklongsleeve1.jpeg" alt="">
+        </ion-thumbnail>
+        <ion-label>
+          <h3>
+            Bashu Tiwari
+          </h3>
+          <p>
+            Hotwax Commerce Pvt Ltd.
+          </p>
+          <p>
+            Hum Image pe skeletal text laga rhe hain
+          </p>
+        </ion-label>
+      </ion-item>
+
       </ion-list>
     </ion-content>
   </ion-page>
@@ -143,7 +161,7 @@ export default defineComponent({
     IonList,
     IonListHeader,
     ProductListItem,
-    IonSkeletonText
+    // IonSkeletonText
   },
   data (){
     return {
