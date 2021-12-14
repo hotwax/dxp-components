@@ -36,6 +36,9 @@ const persistState = createPersistedState({
     fetchBeforeUse: true,
     storage: {
         getItem: key => {
+            // Initially if data is not saved in localStorage in the encrypted form, then try block will
+            // throw an error, which will be taken care in the catch setBlockTracking. In the catch block,
+            // first we will will clear local storage and then proceed.
             try {
                 return ls.get(key)
             } catch(err) {
