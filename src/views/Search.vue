@@ -73,9 +73,10 @@ export default defineComponent({
       })
     },
     async loadMoreProducts (event: any) {
+      var size : any = process.env.VUE_APP_VIEW_SIZE;
       this.getProducts(
         undefined,
-        Math.ceil(this.products.length / process.env.VUE_APP_VIEW_SIZE).toString()
+        Math.ceil(this.products.length / size).toString()
       ).then(() => {
         event.target.complete();
       })
