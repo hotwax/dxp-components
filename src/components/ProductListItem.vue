@@ -26,7 +26,7 @@ export default defineComponent({
   components: {
     IonItem,
     IonThumbnail,
-    IonLabel,
+    IonLabel
   },
   props: ["product"],
   methods: {

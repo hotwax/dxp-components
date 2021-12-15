@@ -1,5 +1,5 @@
 <template>
-<img :src="imageUrl" v-if="imageUrl" />
+  <img :src="imageUrl" v-if="imageUrl" />
   <ion-skeleton-text v-else animated></ion-skeleton-text>
 </template>
 

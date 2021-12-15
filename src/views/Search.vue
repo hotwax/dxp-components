@@ -54,12 +54,11 @@ export default defineComponent({
     IonInfiniteScrollContent,
     IonList,
     IonListHeader,
-    ProductListItem,
+    ProductListItem
   },
   data (){
     return {
       queryString: '',
-      skeletal: false
     }
   },
   computed: {
