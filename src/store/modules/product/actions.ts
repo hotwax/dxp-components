@@ -14,7 +14,7 @@ const actions: ActionTree<ProductState, RootState> = {
   async findProduct ({ commit, state }, payload) {
 
     // Show loader only when new query and not the infinite scroll
-    // if (payload.viewIndex === 0) emitter.emit("presentLoader");
+    if (payload.viewIndex === 0) emitter.emit("presentLoader");
 
     let resp;
 
@@ -38,7 +38,7 @@ const actions: ActionTree<ProductState, RootState> = {
         showToast(translate("Product not found"));
       }
       // Remove added loader only when new query and not the infinite scroll
-      // if (payload.viewIndex === 0) emitter.emit("dismissLoader");
+      if (payload.viewIndex === 0) emitter.emit("dismissLoader");
     } catch(error){
       console.log(error)
       showToast(translate("Something went wrong"));

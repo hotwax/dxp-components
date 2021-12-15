@@ -1,8 +1,7 @@
 <template>
   <ion-item button @click="viewProduct()" detail="true" lines="none">
     <ion-thumbnail slot="start">
-      <!-- <img :src="product.mainImageUrl" /> -->
-      <Image :src="product.mainImageUrl" />
+      <img :src="product.mainImageUrl" />
     </ion-thumbnail>
     <ion-label>
       <p>{{ product.productName }}</p>
@@ -21,7 +20,6 @@ import {
 } from '@ionic/vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex';
-import Image from './Image.vue'
 
 export default defineComponent({
   name: "ProductListItem",
@@ -29,7 +27,6 @@ export default defineComponent({
     IonItem,
     IonThumbnail,
     IonLabel,
-    Image
   },
   props: ["product"],
   methods: {

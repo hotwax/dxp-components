@@ -17,112 +17,7 @@
           <ion-infinite-scroll-content loading-spinner="crescent" :loading-text="$t('Loading')"></ion-infinite-scroll-content>
         </ion-infinite-scroll>
       </ion-list>
-      <ion-list>
-        
-        <ion-item>
-        <ion-thumbnail slot="start">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-thumbnail>
-        <ion-label>
-          <h3>
-            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-          </h3>
-          <p>
-            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-          </p>
-        </ion-label>
-      </ion-item>
 
-      <ion-item>
-        <ion-thumbnail slot="start">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-thumbnail>
-        <ion-label>
-          <h3>
-            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-          </h3>
-          <p>
-            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-          </p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item>
-        <ion-thumbnail slot="start">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-thumbnail>
-        <ion-label>
-          <h3>
-            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-          </h3>
-          <p>
-            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-          </p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item>
-        <ion-thumbnail slot="start">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-thumbnail>
-        <ion-label>
-          <h3>
-            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-          </h3>
-          <p>
-            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-          </p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item>
-        <ion-thumbnail slot="start">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-thumbnail>
-        <ion-label>
-          <h3>
-            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-          </h3>
-          <p>
-            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-          </p>
-        </ion-label>
-      </ion-item>
-
-
-      <ion-item>
-        <ion-thumbnail slot="start">
-          <img src="https://uroostershop-cms.hotwax.io/content/urooster/assets/images/Cheegsshirt-collarlessblacklongsleeve1.jpeg" alt="">
-        </ion-thumbnail>
-        <ion-label>
-          <h3>
-            Bashu Tiwari
-          </h3>
-          <p>
-            Hotwax Commerce Pvt Ltd.
-          </p>
-          <p>
-            Hum Image pe skeletal text laga rhe hain
-          </p>
-        </ion-label>
-      </ion-item>
-
-      </ion-list>
     </ion-content>
   </ion-page>
 </template>
@@ -139,7 +34,6 @@ import {
   IonInfiniteScrollContent,
   IonList,
   IonListHeader,
-  IonSkeletonText
 } from '@ionic/vue'
 import { defineComponent } from 'vue'
 import { mapGetters, useStore } from 'vuex'
@@ -161,7 +55,6 @@ export default defineComponent({
     IonList,
     IonListHeader,
     ProductListItem,
-    // IonSkeletonText
   },
   data (){
     return {
@@ -182,10 +75,9 @@ export default defineComponent({
       })
     },
     async loadMoreProducts (event: any) {
-      const viewSize: any = process.env.VUE_APP_VIEW_SIZE || 20
       this.getProducts(
         undefined,
-        Math.ceil(this.products.length / viewSize).toString()
+        Math.ceil(this.products.length / process.env.VUE_APP_VIEW_SIZE).toString()
       ).then(() => {
         event.target.complete();
       })

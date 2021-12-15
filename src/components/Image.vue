@@ -21,26 +21,19 @@ export default defineComponent({
     }
   },
   mounted() {
-    setTimeout( () => {
       this.setImageUrl();
-    }, 3000)
   },
   updated() {
-    setTimeout( () => {
       this.setImageUrl();
-    })
-
   },
   data() {
     return {
       resourceUrl: '',
       imageUrl: '',
-      // imageUrl: false
     }
   },
   methods: {
     checkIfImageExists(src: string) {
-      src = "https://uroostershop-cms.hotwax.io/content/urooster/assets/images/Cheegsshirt-collarlessblacklongsleeve1.jpeg"
       return new Promise((resolve, reject) => {
         const img = new Image();
         img.onload = function () {
@@ -50,8 +43,6 @@ export default defineComponent({
           reject(false);
         }
         img.src = src;
-        console.log(src)
-        console.log(this.src)
       })
     },
     setImageUrl() {

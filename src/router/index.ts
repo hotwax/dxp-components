@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
-import Search from '@/views/Search.vue'
 import Settings from "@/views/Settings.vue"
 import store from '@/store'
 
@@ -38,12 +37,6 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Login',
     component: Login,
     beforeEnter: loginGuard
-  },
-  {
-    path: '/search',
-    name: 'Search',
-    component: Search,
-    beforeEnter: authGuard
   },
   {
     path: "/settings",
