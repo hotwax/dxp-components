@@ -1,6 +1,6 @@
 <template>
   <img :src="imageUrl" v-if="imageUrl" />
-  <ion-skeleton-text v-else animated></ion-skeleton-text>
+  <ion-skeleton-text v-else animated />
 </template>
 
 <script lang="ts">
