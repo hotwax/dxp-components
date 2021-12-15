@@ -21,10 +21,10 @@ export default defineComponent({
     }
   },
   mounted() {
-      this.setImageUrl();
+    this.setImageUrl();
   },
   updated() {
-      this.setImageUrl();
+    this.setImageUrl();
   },
   data() {
     return {

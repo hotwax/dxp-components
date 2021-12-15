@@ -17,7 +17,6 @@
           <ion-infinite-scroll-content loading-spinner="crescent" :loading-text="$t('Loading')"></ion-infinite-scroll-content>
         </ion-infinite-scroll>
       </ion-list>
-
     </ion-content>
   </ion-page>
 </template>
@@ -58,7 +57,7 @@ export default defineComponent({
   },
   data (){
     return {
-      queryString: '',
+      queryString: ''
     }
   },
   computed: {
