@@ -55,6 +55,7 @@ export default defineComponent({
           this.checkIfImageExists(this.src).then(() => {
             this.imageUrl = this.src;
           }).catch(() => {
+            this.imageUrl = require("@/assets/images/defaultImage.png") ;
             console.error("Image doesn't exist");
           })
         } else {
