@@ -32,7 +32,7 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonList,
-  IonListHeader,
+  IonListHeader
 } from '@ionic/vue'
 import { defineComponent } from 'vue'
 import { mapGetters, useStore } from 'vuex'
