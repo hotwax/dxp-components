@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1016150082702",
+    "project_id": "dynamic-links-39834",
+    "storage_bucket": "dynamic-links-39834.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016150082702:android:2af3e6684cc8567609b5df",
+        "android_client_info": {
+          "package_name": "co.hotwax.ionic.sdk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1016150082702-e43lgjho631e5ajn2858r181dbjijjjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCowfOrZSkAyn7pxU5QJE9uWCS1iA4rPIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1016150082702-e43lgjho631e5ajn2858r181dbjijjjp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

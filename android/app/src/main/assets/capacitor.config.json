@@ -1,0 +1,14 @@
+{
+  "appId": "co.hotwax.ionic.sdk",
+  "appName": "ionic-sdk",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "linuxAndroidStudioPath":"/home/disha/.local/share/JetBrains/Toolbox/apps/AndroidStudio/ch-0/203.7784292/bin/studio.sh",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}
