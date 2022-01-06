@@ -1,18 +1,18 @@
 <template>
-   <PdfTemplate v-show="false" />
-   <button @click="generatePdf">PDF</button>
+  <PdfTemplate v-show="false" />
+  <button @click="generatePdf">PDF</button>
 </template>
 <script>
 import PdfTemplate from "@/views/PdfTemplate.vue"
 export default {
-  components:{
+  components: {
     PdfTemplate
   },
-  methods:{
+  methods: {
     generatePdf() {
       pdfMake.vfs = pdfFonts.pdfMake.vfs;
-      const pdfDocument =  document.getElementById('PDF');
-      const html =  htmlToPdfmake(pdfDocument.innerHTML);  
+      const pdfDocument = document.getElementById('PDF');
+      const html = htmlToPdfmake(pdfDocument.innerHTML);
       const docDefinition = {
         content: [html],
         defaultStyle: {
