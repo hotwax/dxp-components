@@ -13,7 +13,10 @@
         <ion-label>{{ userProfile !== null ? userProfile.partyName : '' }}</ion-label>
         <ion-button slot="end" fill="outline" color="dark" @click="logout()">{{ $t("Logout") }}</ion-button>
       </ion-item>
-
+      <!-- OMS information -->
+      <ion-item>
+        <ion-label>OMS : {{instanceUrl}}</ion-label>
+      </ion-item>
       <!-- Select store -->
       <ion-item>
         <ion-icon :icon="storefrontOutline" slot="start" />
@@ -52,6 +55,7 @@ export default defineComponent({
     ...mapGetters({
       userProfile: 'user/getUserProfile',
       currentFacility: 'user/getCurrentFacility',
+      instanceUrl: 'user/getInstanceUrl'
     })
   },
   methods: {
