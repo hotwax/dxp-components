@@ -15,7 +15,9 @@
       </ion-item>
       <!-- OMS information -->
       <ion-item>
-        <ion-label>OMS : {{instanceUrl}}</ion-label>
+        <ion-icon :icon="codeWorkingOutline" slot="start"/>
+        <ion-label>OMS</ion-label>
+        <ion-note slot="end">{{instanceUrl}}</ion-note>
       </ion-item>
       <!-- Select store -->
       <ion-item>
@@ -32,7 +34,7 @@
 <script lang="ts">
 import { alertController, IonButton, IonContent, IonHeader,IonIcon, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar, popoverController } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { ellipsisVertical, personCircleOutline, storefrontOutline} from 'ionicons/icons'
+import { codeWorkingOutline, ellipsisVertical, personCircleOutline, storefrontOutline} from 'ionicons/icons'
 import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -78,6 +80,7 @@ export default defineComponent({
     const router = useRouter();
 
     return {
+      codeWorkingOutline,
       ellipsisVertical,
       personCircleOutline,
       storefrontOutline,
