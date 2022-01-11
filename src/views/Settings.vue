@@ -16,7 +16,7 @@
       <!-- OMS information -->
       <ion-item>
         <ion-icon :icon="codeWorkingOutline" slot="start"/>
-        <ion-label>OMS</ion-label>
+        <ion-label>{{ $t("OMS") }}</ion-label>
         <ion-note slot="end">{{instanceUrl}}</ion-note>
       </ion-item>
       <!-- Select store -->
