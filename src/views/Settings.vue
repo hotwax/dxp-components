@@ -59,9 +59,6 @@ export default defineComponent({
       currentFacility: 'user/getCurrentFacility',
     })
   },
-  mounted(){
-    console.log(this.userProfile);
-  },
   methods: {
     setFacility (facility: any) {
       this.userProfile.facilities.map((fac: any) => {
