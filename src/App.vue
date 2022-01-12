@@ -24,7 +24,7 @@ export default defineComponent({
     }
   },
   methods: {
-        async timeZoneDifferentAlert(payload: any) {
+    async timeZoneDifferentAlert(payload: any) {
       const alert = await alertController.create({
         header: this.$t("Change time zone"),
         message: this.$t('Would you like to update your time zone to . Your profile is currently set to . This setting can always be changed from the settings menu.', { localTimeZone: payload.localTimeZone, profileTimeZone: payload.profileTimeZone }),
@@ -45,7 +45,6 @@ export default defineComponent({
           ],
       });
       return alert.present();
-
     },
     async presentLoader() {
       if (!this.loader) {
