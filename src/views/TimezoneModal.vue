@@ -63,8 +63,6 @@ import { close, save } from "ionicons/icons";
 import { useStore } from "@/store";
 import { UserService } from "@/services/UserService";
 import { hasError } from '@/utils'
-import moment from 'moment';
-import "moment-timezone";
 
 export default defineComponent({
   name: "TimeZoneModal",
@@ -120,9 +118,10 @@ export default defineComponent({
           // Currently backend API returns some of the legacy timezones which are not found in moment list
           // Due to which if we set them we get an error
           // Filtered them out till it is fixed at backend
-          this.timeZones = resp.data.filter((timeZone: any) => {
-            return moment.tz.zone(timeZone.id);
-          });
+          // this.timeZones = resp.data.filter((timeZone: any) => {
+          //   return moment.tz.zone(timeZone.id);
+          // });
+          this.timeZones = resp.data;
           this.findTimeZone();
         }
       })
