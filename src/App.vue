@@ -47,17 +47,20 @@ export default defineComponent({
       return alert.present();
     },
     async presentLoader() {
-      this.loader = await loadingController
-        .create({
-          message: this.$t("Click the backdrop to dismiss."),
-          translucent: true,
-          backdropDismiss: true
-        });
-      await this.loader.present();
+      if (!this.loader) {
+        this.loader = await loadingController
+          .create({
+            message: this.$t("Click the backdrop to dismiss."),
+            translucent: true,
+            backdropDismiss: true
+          });
+      }
+      this.loader.present();
     },
     dismissLoader() {
       if (this.loader) {
         this.loader.dismiss();
+        this.loader = null as any;
       }
     }
   },
