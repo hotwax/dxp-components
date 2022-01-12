@@ -45,7 +45,6 @@ export default defineComponent({
         ],
       });
       return alert.present();
-
     },
     async presentLoader() {
       if (!this.loader) {
@@ -65,7 +64,13 @@ export default defineComponent({
       }
     }
   },
-  mounted() {
+  async mounted() {
+    this.loader = await loadingController
+      .create({
+        message: this.$t("Click the backdrop to dismiss."),
+        translucent: true,
+        backdropDismiss: true
+      });
     emitter.on('timeZoneDifferent', this.timeZoneDifferentAlert);
     emitter.on('presentLoader', this.presentLoader);
     emitter.on('dismissLoader', this.dismissLoader);
