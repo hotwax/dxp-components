@@ -62,12 +62,10 @@ export default defineComponent({
     }
   },
   mounted() {
-    emitter.on('timeZoneDifferent', this.timeZoneDifferentAlert);
     emitter.on('presentLoader', this.presentLoader);
     emitter.on('dismissLoader', this.dismissLoader);
   },
   unmounted() {
-    emitter.off('timeZoneDifferent', this.timeZoneDifferentAlert);
     emitter.off('presentLoader', this.presentLoader);
     emitter.off('dismissLoader', this.dismissLoader);
   },
