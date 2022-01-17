@@ -1,0 +1,6 @@
+---
+title: Removed .env, env.production and .env.staging and added .env.example
+ticket_id: "#1ytq0q0"
+merge_request: 30
+author: Bashu Tiwari
+type: changed
