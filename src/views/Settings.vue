@@ -17,7 +17,7 @@
       <ion-item>
         <ion-icon :icon="codeWorkingOutline" slot="start"/>
         <ion-label>{{ $t("OMS") }}</ion-label>
-        <ion-note slot="end">{{instanceUrl}}</ion-note>
+        <ion-label slot="end">{{ instanceUrl }}</ion-label>
       </ion-item>
       <!-- Select store -->
       <ion-item>
@@ -90,3 +90,8 @@ export default defineComponent({
   }
 });
 </script>
+<style scoped>
+ion-label[slot="end"] {
+  text-align: end;
+}
+</style>
