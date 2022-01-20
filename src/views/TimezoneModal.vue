@@ -63,6 +63,7 @@ import { close, save } from "ionicons/icons";
 import { useStore } from "@/store";
 import { UserService } from "@/services/UserService";
 import { hasError } from '@/utils'
+import { DateTime } from 'luxon';
 
 export default defineComponent({
   name: "TimeZoneModal",
@@ -111,8 +112,12 @@ export default defineComponent({
     },
     async getAvailableTimeZones() {
       UserService.getAvailableTimeZones().then((resp: any) => {
+        console.log("Timezones",resp.data);
         if (resp.status === 200 && !hasError(resp)) {
-          this.timeZones = resp.data;
+           this.timeZones = resp.data.filter((timeZone: any) => {
+              return DateTime.local().setZone(timeZone.id).isValid;
+          });
+          console.log("Filtered timezones",this.timeZones);
           this.findTimeZone();
         }
       })
