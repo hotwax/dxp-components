@@ -85,16 +85,16 @@ export default defineComponent({
         header: this.$t("Update time zone"),
         message,
         buttons: [
-          {
-            text: this.$t("Cancel"),
-          },
-          {
-            text: this.$t("Confirm"),
-            handler: () => {
-              this.setUserTimeZone();
-            }
-          }
-        ],
+            {
+              text: this.$t("Cancel"),
+            },
+            {
+              text: this.$t("Confirm"),
+              handler: () => {
+                this.setUserTimeZone();
+                }
+              }
+            ],
       });
       return alert.present();
     },
