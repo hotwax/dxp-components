@@ -112,12 +112,10 @@ export default defineComponent({
     },
     async getAvailableTimeZones() {
       UserService.getAvailableTimeZones().then((resp: any) => {
-        console.log("Timezones",resp.data);
         if (resp.status === 200 && !hasError(resp)) {
            this.timeZones = resp.data.filter((timeZone: any) => {
               return DateTime.local().setZone(timeZone.id).isValid;
           });
-          console.log("Filtered timezones",this.timeZones);
           this.findTimeZone();
         }
       })
