@@ -10,8 +10,6 @@ import { defineComponent } from 'vue';
 import { loadingController, alertController } from '@ionic/vue';
 import { useStore } from "./store";
 import emitter from "@/event-bus"
-
-
 export default defineComponent({
   name: 'App',
   components: {
@@ -29,20 +27,20 @@ export default defineComponent({
         header: this.$t("Change time zone"),
         message: this.$t('Would you like to update your time zone to . Your profile is currently set to . This setting can always be changed from the settings menu.', { localTimeZone: payload.localTimeZone, profileTimeZone: payload.profileTimeZone }),
         buttons: [
-          {
-            text: this.$t("Dismiss"),
-            role: 'cancel',
-            cssClass: 'secondary'
-          },
-          {
-            text: this.$t("Update time zone"),
-            handler: () => {
-              this.store.dispatch("user/setUserTimeZone", {
-                "tzId": payload.localTimeZone
-              });
+            {
+              text: this.$t("Dismiss"),
+              role: 'cancel',
+              cssClass: 'secondary'
             },
-          },
-        ],
+            {
+              text: this.$t("Update time zone"),
+              handler: () => {
+                this.store.dispatch("user/setUserTimeZone", {
+                    "tzId": payload.localTimeZone
+                });
+              },
+            },
+          ],
       });
       return alert.present();
     },

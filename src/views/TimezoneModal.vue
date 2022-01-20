@@ -112,13 +112,6 @@ export default defineComponent({
     async getAvailableTimeZones() {
       UserService.getAvailableTimeZones().then((resp: any) => {
         if (resp.status === 200 && !hasError(resp)) {
-          // TODO FIx this as fixed on backend
-          // Currently backend API returns some of the legacy timezones which are not found in moment list
-          // Due to which if we set them we get an error
-          // Filtered them out till it is fixed at backend
-          // this.timeZones = resp.data.filter((timeZone: any) => {
-          //   return moment.tz.zone(timeZone.id);
-          // });
           this.timeZones = resp.data;
           this.findTimeZone();
         }
