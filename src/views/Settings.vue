@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { alertController, IonBackButton , IonButton , IonContent, IonHeader,IonIcon, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar, popoverController, modalController } from '@ionic/vue';
+import { alertController, IonButton, IonBackButton , IonContent, IonHeader,IonIcon, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar, popoverController, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { codeWorkingOutline, ellipsisVertical, personCircleOutline, storefrontOutline} from 'ionicons/icons'
 import { mapGetters, useStore } from 'vuex';
