@@ -5,9 +5,7 @@
     </ion-content>
   </ion-page>
 </template>
-
 <script lang="ts">
-
 import { IonContent, IonPage, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import Scanner from './Scanner.vue'
@@ -16,10 +14,8 @@ export default defineComponent({
   components: {
     IonContent,
     IonPage,
-  },
-         
+  },       
   methods: {
-  
     async scanCode () {
       const modal = await modalController
         .create({
@@ -29,12 +25,9 @@ export default defineComponent({
       .then((result) => {
         console.log(result);
         alert(result.role);
-    });
+      });
       return modal.present();
-      
     },
-    
   },
-  
 });
 </script>
