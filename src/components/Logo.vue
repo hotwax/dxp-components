@@ -2,24 +2,20 @@
   <figure>
     <img class="light" src="../assets/images/hc.png"/>
     <img class="dark" src="../assets/images/HWCLogoDarkMode.png"/>
-    </figure>
+  </figure>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "HotwaxLogo",
+  name: "Logo",
 })
 </script>
 
 <style scoped>
 .dark {
   display: none;
-}
-
-.light {
-  display: unset;
 }
 
 @media (prefers-color-scheme: dark) {
