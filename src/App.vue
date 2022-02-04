@@ -10,8 +10,6 @@ import { defineComponent } from 'vue';
 import { loadingController, alertController } from '@ionic/vue';
 import { useStore } from "./store";
 import emitter from "@/event-bus"
-
-
 export default defineComponent({
   name: 'App',
   components: {

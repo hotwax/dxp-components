@@ -1,8 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
-import moment from 'moment'
-import "moment-timezone";
 
 
 import { IonicVue } from '@ionic/vue';
@@ -28,6 +26,7 @@ import './theme/variables.css';
 
 import i18n from './i18n'
 import store from './store'
+import { DateTime } from 'luxon';
 
 const app = createApp(App)
   .use(IonicVue, {
@@ -40,16 +39,17 @@ const app = createApp(App)
 // Filters are removed in Vue 3 and global filter introduced https://v3.vuejs.org/guide/migration/filters.html#global-filters
 app.config.globalProperties.$filters = {
   formatDate(value: any, inFormat?: string, outFormat?: string) {
-    // TODO Use Loxon instead
     // TODO Make default format configurable and from environment variables
-    return moment(value, inFormat).format(outFormat ? outFormat : 'MM-DD-YYYY');
+    if(inFormat){
+      return DateTime.fromFormat(value, inFormat).toFormat(outFormat ? outFormat : 'MM-DD-YYYY');
+    }
+    return DateTime.fromISO(value).toFormat(outFormat ? outFormat : 'MM-DD-YYYY');
   },
-  formatUtcDate(value: any, inFormat?: string, outFormat?: string) {
-    // TODO Use Loxon instead
+  formatUtcDate(value: any, inFormat?: any, outFormat?: string) {
     // TODO Make default format configurable and from environment variables
     const userProfile = store.getters['user/getUserProfile'];
     // TODO Fix this setDefault should set the default timezone instead of getting it everytiem and setting the tz
-    return moment.utc(value, inFormat).tz(userProfile.userTimeZone).format(outFormat ? outFormat : 'MM-DD-YYYY');
+    return DateTime.utc(value, inFormat).setZone(userProfile.userTimeZone).toFormat(outFormat ? outFormat : 'MM-DD-YYYY')
   },
   getFeature(featureHierarchy: any, featureKey: string) {
     let  featureValue = ''
