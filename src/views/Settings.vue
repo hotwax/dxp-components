@@ -8,18 +8,6 @@
     </ion-header>
     
     <ion-content :fullscreen="true">
-      <!-- Profile of user logged in -->
-      <ion-item>
-        <ion-icon :icon="personCircleOutline" slot="start" />
-        <ion-label>{{ userProfile !== null ? userProfile.partyName : '' }}</ion-label>
-        <ion-button slot="end" fill="outline" color="dark" @click="logout()">{{ $t("Logout") }}</ion-button>
-      </ion-item>
-      <!-- OMS information -->
-      <ion-item>
-        <ion-icon :icon="codeWorkingOutline" slot="start"/>
-        <ion-label>{{ $t("OMS") }}</ion-label>
-        <p slot="end">{{ instanceUrl }}</p>
-      </ion-item>
       <!-- Select store -->
       <ion-item>
         <ion-icon :icon="storefrontOutline" slot="start" />
@@ -28,9 +16,22 @@
           <ion-select-option v-for="facility in ( userProfile && userProfile.facilities ? userProfile.facilities : [] )" :key="facility.facilityId" :value="facility.facilityId" >{{ facility.facilityId }}</ion-select-option>
         </ion-select>
       </ion-item>
+      <!-- OMS information -->
+      <ion-item>
+        <ion-icon :icon="codeWorkingOutline" slot="start"/>
+        <ion-label>{{ $t("OMS") }}</ion-label>
+        <p slot="end">{{ instanceUrl }}</p>
+      </ion-item>
+      <!-- Time zone -->
       <ion-item>
         <ion-label> {{ userProfile && userProfile.userTimeZone ? userProfile.userTimeZone : '-' }} </ion-label>
         <ion-button @click="changeTimeZone()" slot="end" fill="outline" color="dark">{{ $t("Change") }}</ion-button>
+      </ion-item>
+      <!-- Profile of user logged in -->
+      <ion-item>
+        <ion-icon :icon="personCircleOutline" slot="start" />
+        <ion-label>{{ userProfile !== null ? userProfile.partyName : '' }}</ion-label>
+        <ion-button slot="end" fill="outline" color="dark" @click="logout()">{{ $t("Logout") }}</ion-button>
       </ion-item>
     </ion-content>
   </ion-page>
