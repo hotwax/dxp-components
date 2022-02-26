@@ -7,7 +7,7 @@
       </ion-toolbar>
     </ion-header>
     
-    <ion-content :fullscreen="true">
+    <ion-content>
       <!-- Select store -->
       <ion-item>
         <ion-icon :icon="storefrontOutline" slot="start" />
