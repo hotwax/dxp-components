@@ -24,6 +24,7 @@
       </ion-item>
       <!-- Time zone -->
       <ion-item>
+        <ion-icon :icon="timeOutline" slot="start"/>
         <ion-label> {{ userProfile && userProfile.userTimeZone ? userProfile.userTimeZone : '-' }} </ion-label>
         <ion-button @click="changeTimeZone()" slot="end" fill="outline" color="dark">{{ $t("Change") }}</ion-button>
       </ion-item>
@@ -40,7 +41,7 @@
 <script lang="ts">
 import { alertController, IonButton, IonBackButton , IonContent, IonHeader,IonIcon, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar, popoverController, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { codeWorkingOutline, ellipsisVertical, personCircleOutline, storefrontOutline} from 'ionicons/icons'
+import { codeWorkingOutline, ellipsisVertical, personCircleOutline, storefrontOutline, timeOutline} from 'ionicons/icons'
 import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import TimeZoneModal from '@/views/TimezoneModal.vue';
@@ -99,7 +100,8 @@ export default defineComponent({
       personCircleOutline,
       storefrontOutline,
       store,
-      router
+      router,
+      timeOutline
     }
   }
 });
