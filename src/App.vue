@@ -7,10 +7,9 @@
 <script lang="ts">
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { loadingController } from '@ionic/vue';
+import { loadingController, alertController } from '@ionic/vue';
+import { useStore } from "./store";
 import emitter from "@/event-bus"
-
-
 export default defineComponent({
   name: 'App',
   components: {
@@ -23,28 +22,67 @@ export default defineComponent({
     }
   },
   methods: {
+    async timeZoneDifferentAlert(payload: any) {
+      const alert = await alertController.create({
+        header: this.$t("Change time zone"),
+        message: this.$t('Would you like to update your time zone to . Your profile is currently set to . This setting can always be changed from the settings menu.', { localTimeZone: payload.localTimeZone, profileTimeZone: payload.profileTimeZone }),
+        buttons: [
+            {
+              text: this.$t("Dismiss"),
+              role: 'cancel',
+              cssClass: 'secondary'
+            },
+            {
+              text: this.$t("Update time zone"),
+              handler: () => {
+                this.store.dispatch("user/setUserTimeZone", {
+                    "tzId": payload.localTimeZone
+                });
+              },
+            },
+          ],
+      });
+      return alert.present();
+    },
     async presentLoader() {
-      this.loader = await loadingController
-        .create({
-          message: this.$t("Click the backdrop to dismiss."),
-          translucent: true,
-          backdropDismiss: true
-        });
-      await this.loader.present();
+      if (!this.loader) {
+        this.loader = await loadingController
+          .create({
+            message: this.$t("Click the backdrop to dismiss."),
+            translucent: true,
+            backdropDismiss: true
+          });
+      }
+      this.loader.present();
     },
     dismissLoader() {
       if (this.loader) {
         this.loader.dismiss();
+        this.loader = null as any;
       }
     }
   },
-  mounted() {
+  async mounted() {
+    this.loader = await loadingController
+      .create({
+        message: this.$t("Click the backdrop to dismiss."),
+        translucent: true,
+        backdropDismiss: true
+      });
+    emitter.on('timeZoneDifferent', this.timeZoneDifferentAlert);
     emitter.on('presentLoader', this.presentLoader);
     emitter.on('dismissLoader', this.dismissLoader);
   },
   unmounted() {
+    emitter.off('timeZoneDifferent', this.timeZoneDifferentAlert);
     emitter.off('presentLoader', this.presentLoader);
     emitter.off('dismissLoader', this.dismissLoader);
+  },
+  setup(){
+    const store = useStore();
+    return {
+      store,
+    }
   },
 });
 </script>

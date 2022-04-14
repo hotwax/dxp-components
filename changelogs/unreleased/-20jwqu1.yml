@@ -1,0 +1,6 @@
+---
+title: 'Removed: Login error when having spaces in the fields.'
+ticket_id: "#20jwqu1"
+merge_request: 44
+author: meet-aniket
+type: fixed

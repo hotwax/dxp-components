@@ -1,14 +1,18 @@
 <template>
-  <img :src="imageUrl"/>
+  <img :src="imageUrl" v-if="imageUrl" />
+  <ion-skeleton-text v-else animated />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { IonSkeletonText } from '@ionic/vue'
 
 export default defineComponent({
   name: "Image",
   props: ['src'],
-  components: {},
+  components: {
+    IonSkeletonText
+  },
   created() {
     if (
       process.env.VUE_APP_RESOURCE_URL
@@ -25,7 +29,7 @@ export default defineComponent({
   data() {
     return {
       resourceUrl: '',
-      imageUrl: require("@/assets/images/defaultImage.png")
+      imageUrl: ''
     }
   },
   methods: {
@@ -51,6 +55,7 @@ export default defineComponent({
           this.checkIfImageExists(this.src).then(() => {
             this.imageUrl = this.src;
           }).catch(() => {
+            this.imageUrl = require("@/assets/images/defaultImage.png") ;
             console.error("Image doesn't exist");
           })
         } else {
