@@ -1,26 +1,26 @@
 export interface Order {
-    orderId: String;
-    orderName: String;
+    orderId: string;
+    orderName: string;
     customer: any;
     /** An array containing the items purchased in this order */
     items?: Array<OrderItem>;
     /** An array containing the groups of items purchased in this order */
     itemGroup?: Array<OrderItemGroup>;
     total?: number;
-    statusId?: String;
+    statusId?: string;
     identifications?: Array<any>;
 }
 export interface OrderItem {
-    orderItemGroupId?: String;
-    orderItemId?: String;
-    productId?: String;
+    orderItemGroupId?: string;
+    orderItemId?: string;
+    productId?: string;
     quantity?: number;
     price?: number;
     amount?: number;
-    statusId?: String;
+    statusId?: string;
 }
 export interface OrderItemGroup {
-    orderItemGroupId?: String;
+    orderItemGroupId?: string;
     shippingAddress?: any;
     billingAddress?: any;
     shippingMethod?: any;

@@ -1,17 +1,17 @@
 export interface Product {
-    productId?: String;
-    productName?: String;
-    description?: String;
-    brand?: String;
+    productId?: string;
+    productName?: string;
+    description?: string;
+    brand?: string;
     price?: number;
-    sku?: String;
+    sku?: string;
     identifications?: Array<any>;
     specialPrice?: number;
     /** An array containing assets like images and videos */
     assets?: Array<any>;
-    mainImage?: String;
-    parentProductId?: String;
-    type?: String;
+    mainImage?: string;
+    parentProductId?: string;
+    type?: string;
     category?: Array<any>;
     feature?: Array<any>;
     variants?: Array<any>;
