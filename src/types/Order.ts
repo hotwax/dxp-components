@@ -1,6 +1,6 @@
 export interface Order {
-    orderId: string;
-    orderName: string;
+    id: string;
+    name: string;
     customer: any;
     /** An array containing the items purchased in this order */
     items?: Array<OrderItem>;
@@ -11,8 +11,8 @@ export interface Order {
     identifications?: Array<any>;
 }
 export interface OrderItem {
-    orderItemGroupId?: string;
-    orderItemId?: string;
+    groupId?: string;
+    id?: string;
     productId?: string;
     quantity?: number;
     price?: number;
@@ -20,7 +20,7 @@ export interface OrderItem {
     statusId?: string;
 }
 export interface OrderItemGroup {
-    orderItemGroupId?: string;
+    id?: string;
     shippingAddress?: any;
     billingAddress?: any;
     shippingMethod?: any;
