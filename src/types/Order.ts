@@ -11,7 +11,7 @@ export interface Order {
     identifications?: Array<any>;
 }
 export interface OrderItem {
-    groupId?: string;
+    orderItemGroupId?: string;
     id?: string;
     productId?: string;
     quantity?: number;
