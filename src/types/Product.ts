@@ -15,4 +15,6 @@ export interface Product {
     category?: Array<any>;
     feature?: Array<any>;
     variants?: Array<Product>;
+    isVirtual?: boolean;
+    isVariant?: boolean;
 }
