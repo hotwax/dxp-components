@@ -1,5 +1,5 @@
 export interface Product {
-    productId?: string;
+    productId: string;
     productName?: string;
     description?: string;
     brand?: string;
@@ -14,5 +14,5 @@ export interface Product {
     type?: string;
     category?: Array<any>;
     feature?: Array<any>;
-    variants?: Array<any>;
+    variants?: Array<Product>;
 }
