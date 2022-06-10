@@ -1,5 +1,5 @@
 export interface Enumeration {
-  enumId?: string,
+  enumId: string,
   enumTypeId?: string,
   parentEnumId?: string,
   enumCode?: string,

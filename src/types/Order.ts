@@ -31,15 +31,15 @@ export interface Order {
   salesChannel?: Enumeration,
   parts?: Array<OrderPart>,
   notes?: Array<{
-    orderId?: string,
-    noteDate?: string,
+    orderId: string,
+    noteDate: string,
     noteText?: string,
     internalNote?: string,
     userId?: string,
   }>,
   communicationEvents?: Array<{
-    orderId?: string,
-    communicationEventId?: string
+    orderId: string,
+    communicationEventId: string
   }>
 }
 
@@ -89,7 +89,7 @@ export interface OrderItem {
   taxAuthorityId?: string,
   itemType?: Enumeration,
   product?: {
-    productId?: string,
+    productId: string,
     pseudoId?: string,
     productTypeEnumId?: string,
     productClassEnumId?: string,
@@ -120,7 +120,7 @@ export interface OrderItem {
   },
   quantityUom?: Uom,
   reservations?: Array<{
-    assetReservationId?: string,
+    assetReservationId: string,
     assetId?: string,
     productId?: string,
     orderId?: string,
@@ -136,7 +136,7 @@ export interface OrderItem {
     sequenceNum?: number,
   }>,
   issuances?: Array<{
-    assetIssuanceId?: string,
+    assetIssuanceId: string,
     assetId?: string,
     assetReservationId?: string,
     orderId?: string,
@@ -158,7 +158,7 @@ export interface OrderItem {
     acctgTransResultEnumId?: string
   }>,
   receipts?: Array<{
-    assetReceiptId?: string,
+    assetReceiptId: string,
     assetId?: string,
     productId?: string,
     orderId?: string,
@@ -180,7 +180,7 @@ export interface OrderItem {
     acctgTransResultEnumId?: string
   }>,
   shipmentSources?: Array<{
-    shipmentItemSourceId?: string,
+    shipmentItemSourceId: string,
     shipmentId?: string,
     productId?: string,
     binLocationNumber?: number,
@@ -196,7 +196,7 @@ export interface OrderItem {
     invoiceItemSeqId?: string
   }>,
   billings?: Array<{
-    orderItemBillingId?: string,
+    orderItemBillingId: string,
     orderId?: string,
     orderItemSeqId?: string,
     invoiceId?: string,
@@ -250,23 +250,23 @@ export interface OrderPart {
   status?: Status,
   items?: Array<OrderItem>,
   parties?: Array<{
-    orderId?: string,
-    orderPartSeqId?: string,
-    partyId?: string,
-    roleTypeId?: string,
+    orderId: string,
+    orderPartSeqId: string,
+    partyId: string,
+    roleTypeId: string,
     sequenceNum?: number,
     party?: Party,
     roleType?: {
-      roleTypeId?: string,
+      roleTypeId: string,
       parentTypeId?: string,
       description?: string
     }
   }>,
   contactMechs?: Array<{
-    orderId?: string,
-    orderPartSeqId?: string,
-    contactMechPurposeId?: string,
-    contactMechId?: string,
+    orderId: string,
+    orderPartSeqId: string,
+    contactMechPurposeId: string,
+    contactMechId: string,
     contactMech?: ContactMech
   }>,
   vendor?: Party,
@@ -276,7 +276,7 @@ export interface OrderPart {
   postal?: ContactMech,
   telecom?: ContactMech,
   facility?: {
-    facilityId?: string,
+    facilityId: string,
     pseudoId?: string,
     facilityTypeEnumId?: string,
     parentFacilityId?: string,
@@ -300,7 +300,7 @@ export interface OrderPart {
     originId?: string,
   },
   payments?: Array<{
-    paymentId?: string,
+    paymentId: string,
     paymentTypeEnumId?: string,
     fromPartyId?: string,
     toPartyId?: string,
