@@ -11,14 +11,14 @@ export interface ContactMech {
   paymentFraudEvidenceId?: string,
   replacesContactMechId?: string,
   telecomNumber?: {
-    contactMechId?: string,
+    contactMechId: string,
     countryCode?: string,
     areaCode?: string,
     contactNumber?: string,
     askForName?: string,
   },
   postalAddress?: {
-    contactMechId?: string,
+    contactMechId: string,
     toName?: string,
     attnName?: string,
     address1?: string,
