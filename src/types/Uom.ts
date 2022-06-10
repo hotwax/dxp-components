@@ -1,5 +1,5 @@
 export interface Uom {
-  uomId?: string,
+  uomId: string,
   uomTypeEnumId?: string,
   abbreviation?: string,
   description?: string

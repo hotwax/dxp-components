@@ -1,5 +1,5 @@
 export interface Geo {
-  geoId?: string,
+  geoId: string,
   geoTypeEnumId?: string,
   geoName?: string,
   geoNameLocal?: string,

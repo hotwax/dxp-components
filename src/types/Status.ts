@@ -1,5 +1,5 @@
 export interface Status {
-  statusId?: string;
+  statusId: string;
   statusTypeId?: string;
   statusCode?: string;
   description?: string;
