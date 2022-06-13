@@ -48,8 +48,7 @@ export interface Product {
     defaultGrossWeight: number,
     capacityUomId: string,
     boxCapacity: number,
-    gatewayBoxId: string,
-    lastUpdatedStamp: string
+    gatewayBoxId: string
   },
   amountUom: Uom,
   assocs: Array<ProductAssoc>,
@@ -143,34 +142,18 @@ export interface Product {
     sequenceNum: number,
     quantity: number
   }>,
-  features: [
-    {
-      productId: string,
-      productFeatureId: string,
-      fromDate: string,
-      thruDate: string,
-      applTypeEnumId: string,
-      sequenceNum: number,
-      amount: number,
-      recurringAmount: number,
-      featureProductId: string,
-      feature: {
-        productFeatureId: string,
-        productFeatureTypeEnumId: string,
-        description: string,
-        numberSpecified: number,
-        numberUomId: string,
-        defaultAmount: number,
-        defaultSequenceNum: number,
-        abbrev: string,
-        idCode: string,
-        ownerPartyId: string,
-        numberPerPallet: number,
-        perPalletTier: number,
-        tiersPerPallet: number
-      }
-    }
-  ]
+  features: Array<{
+    productId: string,
+    productFeatureId: string,
+    fromDate: string,
+    thruDate: string,
+    applTypeEnumId: string,
+    sequenceNum: number,
+    amount: number,
+    recurringAmount: number,
+    featureProductId: string,
+    feature: ProductFeature
+  }>
 }
 
 export interface ProductAssoc {
@@ -215,4 +198,20 @@ export interface ProductAssoc {
     amountRequire: string,
     originGeoId: string
   }
+}
+
+export interface ProductFeature {
+  productFeatureId: string,
+  productFeatureTypeEnumId: string,
+  description: string,
+  numberSpecified: number,
+  numberUomId: string,
+  defaultAmount: number,
+  defaultSequenceNum: number,
+  abbrev: string,
+  idCode: string,
+  ownerPartyId: string,
+  numberPerPallet: number,
+  perPalletTier: number,
+  tiersPerPallet: number
 }
