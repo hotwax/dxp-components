@@ -30,13 +30,6 @@ export interface Order {
   currencyUom?: Uom,
   salesChannel?: Enumeration,
   parts?: Array<OrderPart>,
-  notes?: Array<{
-    orderId: string,
-    noteDate: string,
-    noteText?: string,
-    internalNote?: string,
-    userId?: string,
-  }>,
   communicationEvents?: Array<{
     orderId: string,
     communicationEventId: string

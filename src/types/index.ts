@@ -1,3 +1,4 @@
+import { CommunicationEvent } from "./CommunicationEvent";
 import { ContactMech } from "./ContactMech";
 import { Enumeration } from "./Enumeration";
 import { Geo } from "./Geo";
@@ -7,6 +8,7 @@ import { Status } from "./Status";
 import { Uom } from "./Uom";
 
 export {
+  CommunicationEvent,
   ContactMech,
   Enumeration,
   Geo,
