@@ -1,4 +1,4 @@
-import { ContactMech, Enumeration, Identification } from "./index"
+import { ContactMech, Enumeration } from "./index"
 
 export interface Party {
   partyId: string,
@@ -26,7 +26,7 @@ export interface Party {
     middleName?: string,
     lastName?: string,
   },
-  identifications?: Array<Identification>,
+  identifications?: Array<PartyIdentification>,
   contactMechs?: Array<{
     partyId: string,
     contactMechId: string,
@@ -48,4 +48,14 @@ export interface Party {
       description?: string
     }
   }>
+}
+
+export interface PartyIdentification {
+  partyId: string,
+  partyIdTypeEnumId: string,
+  idValue?: string,
+  issuedBy?: string,
+  issuedByPartyId?: string,
+  expireDate?: string,
+  type?: Enumeration
 }
