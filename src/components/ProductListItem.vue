@@ -1,12 +1,12 @@
 <template>
   <ion-item button @click="viewProduct()" detail="true" lines="none">
     <ion-thumbnail slot="start">
-      <img :src="product.mainImageUrl" />
+      <img :src="product.images?.mainImageUrl" />
     </ion-thumbnail>
     <ion-label>
       <p>{{ product.productName }}</p>
       <h3>{{ product.sku }}</h3>
-      <p>{{$filters.getFeature(product.featureHierarchy, '1/COLOR/')}} | {{$filters.getFeature(product.featureHierarchy, '1/SIZE/')}}</p>
+      <p>{{ getFeature(product.features, 'Color')}} | {{ getFeature(product.features, 'Size') }}</p>
     </ion-label>
   </ion-item>
 </template>
@@ -20,6 +20,7 @@ import {
 } from '@ionic/vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex';
+import { getFeature } from '@/utils';
 
 export default defineComponent({
   name: "ProductListItem",
@@ -41,6 +42,7 @@ export default defineComponent({
     const store = useStore();
     
     return {
+      getFeature,
       router,
       store
     }

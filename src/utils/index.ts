@@ -19,6 +19,15 @@ const showToast = async (message: string) => {
   return toast.present();
 }
 
+const getFeature = (features: any, key: string) => {
+  let featureValue = ''
+  if (features) {
+    featureValue = features.find((feature: any) => feature.desc === key)?.value
+  }
+  // returning 0th index as the featureValue is an array
+  return featureValue[0];
+}
+
 // Utility for parsing CSV file 
 // Package Used : PapaParse (Link to Documentation : https://www.papaparse.com/docs#config)
 
@@ -117,4 +126,4 @@ const jsonToCsv = (file: any, options: JsonToCsvOption = {}) => {
   return blob; 
 }
 
-export { showToast, hasError , parseCsv , jsonToCsv, JsonToCsvOption }
+export { showToast, hasError, getFeature, parseCsv , jsonToCsv, JsonToCsvOption }
