@@ -27,6 +27,7 @@ import './theme/variables.css';
 import i18n from './i18n'
 import store from './store'
 import { DateTime } from 'luxon';
+import { init } from '@hotwax/oms-api';
 
 const app = createApp(App)
   .use(IonicVue, {
@@ -62,6 +63,7 @@ app.config.globalProperties.$filters = {
   }
 }
 
+init(store.getters['user/getUserToken'], store.getters['user/getInstanceUrl'], 3000)
 
 router.isReady().then(() => {
   app.mount('#app');
