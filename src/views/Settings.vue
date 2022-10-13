@@ -45,6 +45,7 @@ import { codeWorkingOutline, ellipsisVertical, personCircleOutline, storefrontOu
 import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import TimeZoneModal from '@/views/TimezoneModal.vue';
+import log from 'loglevel';
 
 export default defineComponent({
   name: 'Settings',
@@ -75,6 +76,10 @@ export default defineComponent({
         if (fac.facilityId == facility['detail'].value) {
           this.store.dispatch('user/setFacility', {'facility': fac});
           console.log(fac);
+          log.info('this is an info log')
+          log.trace('this is a trace log')
+          log.warn('this is a warning log')
+          log.error('err! this is an error log')
         }
       })
     },
