@@ -45,8 +45,6 @@ import { codeWorkingOutline, ellipsisVertical, personCircleOutline, storefrontOu
 import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import TimeZoneModal from '@/views/TimezoneModal.vue';
-import log from 'loglevel';
-import remote from 'loglevel-plugin-remote'
 
 export default defineComponent({
   name: 'Settings',
@@ -77,11 +75,7 @@ export default defineComponent({
         if (fac.facilityId == facility['detail'].value) {
           this.store.dispatch('user/setFacility', {'facility': fac});
           console.log(fac);
-          remote.apply(log, {});
-          log.info('this is an info log')
-          log.trace('this is a trace log')
-          log.warn('this is a warning log')
-          log.error('err! this is an error log')
+          this.$log.error('Error log');
         }
       })
     },
