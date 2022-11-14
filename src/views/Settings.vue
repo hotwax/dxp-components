@@ -35,11 +35,17 @@
         <ion-button slot="end" fill="outline" color="dark" @click="logout()">{{ $t("Logout") }}</ion-button>
       </ion-item>
     </ion-content>
+
+    <ion-footer>
+      <ion-toolbar>
+        <ion-title slot="end">{{ "App Version: " + appVersion }}</ion-title>
+      </ion-toolbar>
+    </ion-footer>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { alertController, IonButton, IonBackButton , IonContent, IonHeader,IonIcon, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar, popoverController, modalController } from '@ionic/vue';
+import { alertController, IonButton, IonBackButton , IonContent, IonFooter, IonHeader,IonIcon, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar, popoverController, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { codeWorkingOutline, ellipsisVertical, personCircleOutline, storefrontOutline, timeOutline} from 'ionicons/icons'
 import { mapGetters, useStore } from 'vuex';
@@ -52,6 +58,7 @@ export default defineComponent({
     IonBackButton,
     IonButton, 
     IonContent, 
+    IonFooter,
     IonHeader, 
     IonIcon,
     IonItem, 
@@ -66,7 +73,8 @@ export default defineComponent({
     ...mapGetters({
       userProfile: 'user/getUserProfile',
       currentFacility: 'user/getCurrentFacility',
-      instanceUrl: 'user/getInstanceUrl'
+      instanceUrl: 'user/getInstanceUrl',
+      appVersion: 'util/appVersion'
     })
   },
   methods: {
