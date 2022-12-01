@@ -33,7 +33,7 @@ const store = createStore<RootState>({
     plugins: [ persistState ],
     modules: { 
         'user': userModule,
-        'product': productModule,
+        'product': productModule
     },
 })
 
