@@ -69,12 +69,16 @@ export default defineComponent({
     IonTitle, 
     IonToolbar
   },
+  data() {
+    return {
+      appVersion: process.env.PACKAGE_VERSION
+    };
+  },
   computed: {
     ...mapGetters({
       userProfile: 'user/getUserProfile',
       currentFacility: 'user/getCurrentFacility',
       instanceUrl: 'user/getInstanceUrl',
-      appVersion: 'util/appVersion'
     })
   },
   methods: {
