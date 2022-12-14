@@ -45,6 +45,8 @@ import { codeWorkingOutline, ellipsisVertical, personCircleOutline, storefrontOu
 import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import TimeZoneModal from '@/views/TimezoneModal.vue';
+import { showToast } from '@/utils'
+import { translate } from '@/i18n'
 
 export default defineComponent({
   name: 'Settings',
@@ -62,12 +64,23 @@ export default defineComponent({
     IonTitle, 
     IonToolbar
   },
+  data() {
+    return {
+      compatibleBrowser: false as boolean
+    }
+  },
   computed: {
     ...mapGetters({
       userProfile: 'user/getUserProfile',
       currentFacility: 'user/getCurrentFacility',
       instanceUrl: 'user/getInstanceUrl'
     })
+  },
+  mounted() {
+    this.compatibleBrowser = ('__defineSetter__' in Object.prototype);
+    if(!this.compatibleBrowser) {
+      showToast(translate("You are using an outdated browser. Please update."));
+    }
   },
   methods: {
     setFacility (facility: any) {
