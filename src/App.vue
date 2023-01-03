@@ -41,6 +41,7 @@ export default defineComponent({
     }
   },
   async mounted() {
+    console.log("process.env.VUE_APP_INFORMATION", process.env.VUE_APP_INFORMATION)
     this.loader = await loadingController
       .create({
         message: this.$t("Click the backdrop to dismiss."),

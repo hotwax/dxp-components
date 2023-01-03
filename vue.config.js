@@ -1,3 +1,10 @@
+require('./appInformation');
+
+// const AppVersionWebpackPlugin = function() {
+//   this.apply = function(compiler) {
+//     process.env.VUE_APP_INFORMATION = appInformation;
+//   };
+// };
 module.exports = {
   pluginOptions: {
     i18n: {
@@ -10,5 +17,10 @@ module.exports = {
       fullInstall: true,
       enableInSFC: true
     }
-  }
+  },
+  // configureWebpack: {
+  //   plugins: [
+  //     new AppVersionWebpackPlugin()
+  //   ]
+  // }
 }
