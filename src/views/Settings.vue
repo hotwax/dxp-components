@@ -38,7 +38,10 @@
 
     <ion-footer>
       <ion-toolbar>
-        <ion-title slot="end">{{ "App Version: " + appVersion }}</ion-title>
+        <ion-item slot="start">
+          <ion-note>{{ "Built: " + getDateTime(appVersionInfo.builtTime) }}</ion-note>
+        </ion-item>
+        <ion-item slot="end"><ion-note>{{ "Version: " + appVersion }}</ion-note></ion-item>
       </ion-toolbar>
     </ion-footer>
   </ion-page>
@@ -51,6 +54,7 @@ import { codeWorkingOutline, ellipsisVertical, personCircleOutline, storefrontOu
 import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import TimeZoneModal from '@/views/TimezoneModal.vue';
+import { DateTime } from 'luxon';
 
 export default defineComponent({
   name: 'Settings',
@@ -69,9 +73,14 @@ export default defineComponent({
     IonTitle, 
     IonToolbar
   },
+  mounted() {
+    console.log("this.appVersionInfo", this.appVersionInfo)
+    this.appVersion = this.appVersionInfo.branch ? (this.appVersionInfo.branch + "-" + this.appVersionInfo.revision) : this.appVersionInfo.tag;
+  },
   data() {
     return {
-      appVersion: process.env.PACKAGE_VERSION
+      appVersion: "",
+      appVersionInfo: (process.env.VUE_APP_VERSION_INFO ? JSON.parse(process.env.VUE_APP_VERSION_INFO) : {}) as any
     };
   },
   computed: {
@@ -82,6 +91,9 @@ export default defineComponent({
     })
   },
   methods: {
+    getDateTime(time: any) {
+      return DateTime.fromMillis(time).toISO()
+    },
     setFacility (facility: any) {
       this.userProfile.facilities.map((fac: any) => {
         if (fac.facilityId == facility['detail'].value) {
