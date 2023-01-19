@@ -75,6 +75,7 @@ export default defineComponent({
         if (fac.facilityId == facility['detail'].value) {
           this.store.dispatch('user/setFacility', {'facility': fac});
           console.log(fac);
+          this.$log.error('Error log');
         }
       })
     },

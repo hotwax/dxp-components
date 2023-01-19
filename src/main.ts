@@ -28,13 +28,18 @@ import i18n from './i18n'
 import store from './store'
 import { DateTime } from 'luxon';
 
+import logger from './logger';
+
 const app = createApp(App)
   .use(IonicVue, {
     mode: 'md'
   })
+  .use(logger, {
+    level: process.env.VUE_APP_DEFAULT_LOG_LEVEL
+  })
   .use(router)
   .use(i18n)
-  .use(store);
+  .use(store)
 
 // Filters are removed in Vue 3 and global filter introduced https://v3.vuejs.org/guide/migration/filters.html#global-filters
 app.config.globalProperties.$filters = {
