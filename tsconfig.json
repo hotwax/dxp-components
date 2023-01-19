@@ -26,11 +26,6 @@
       "dom.iterable",
       "scripthost"
     ],
-    "allowJs": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "dist",
-    "declarationMap": true
   },
   "include": [
     "src/**/*.ts",
