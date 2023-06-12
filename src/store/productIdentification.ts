@@ -17,20 +17,31 @@ export const useProductIdentificationStore = defineStore('productIdentification'
   },
   actions: {
     async setProductIdentificationPref(id: string, value: string, eComStoreId: string) {
-
       const productIdentificationPref = JSON.parse(JSON.stringify(this.getProductIdentificationPref))
 
-      try {
-        await setProductIdentificationPref(id, value, eComStoreId, productIdentificationPref)
+      // When eComStoreId is not available then make the values change to what selected previously
+      if(!eComStoreId) {
+        this.productIdentificationPref = productIdentificationPref
+        return;
+      }
 
-        const pref = productIdentificationPref as any
-        pref[id] = value
-        this.productIdentificationPref = pref
+      productIdentificationPref[id] = value
+
+      try {
+        this.productIdentificationPref = await setProductIdentificationPref(eComStoreId, productIdentificationPref)
       } catch(err) {
         console.log('error', err)
       }
     },
-    async getIdentificaionPref(eComStoreId: string) {
+    async getIdentificationPref(eComStoreId: string) {
+      // when selecting none as ecom store, not fetching the pref as it returns all the entries with the pref id
+      if(!eComStoreId) {
+        return this.productIdentificationPref = {
+          primaryId: 'productId',
+          secondaryId: ''
+        };
+      }
+
       this.productIdentificationPref = await getProductIdentificationPref(eComStoreId)
     }
   }
