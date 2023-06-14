@@ -10,7 +10,7 @@
   "scripts": {
     "watch": "babel --watch src --out-dir lib --extensions '.ts,.tsx'",
     "tsc": "tsc --noEmit false --emitDeclarationOnly",
-    "build": "babel src --out-dir lib --extensions '.js,.ts,.tsx,.jsx' && npm run tsc"
+    "build": "babel src --out-dir lib --extensions '.js,.ts,.tsx,.jsx,.vue' && npm run tsc"
   },
   "author": "HotWax Commerce",
   "license": "Apache-2.0",
@@ -22,9 +22,13 @@
   "devDependencies": {
     "@babel/cli": "^7.21.5",
     "@babel/core": "^7.22.1",
+    "@babel/plugin-syntax-jsx": "^7.22.5",
     "@babel/preset-env": "^7.22.4",
     "@babel/preset-typescript": "^7.21.5",
+    "@vue/babel-plugin-jsx": "^1.1.1",
+    "@vue/babel-plugin-transform-vue-jsx": "^1.4.0",
     "babel-plugin-module-resolver": "^4.1.0",
+    "babel-preset-vue": "^2.0.2",
     "eslint": "^8.16.0",
     "typescript": "^5.0.4"
   },
