@@ -1,6 +1,7 @@
-import { defineComponent, ref, h } from "vue"
+import { defineComponent, ref } from "vue"
 
 export default defineComponent({
+  template: `<div @click="sampleCalled()">{{ test }}</div>`,
   setup: function () {
     const test = ref('value')
 
@@ -9,10 +10,9 @@ export default defineComponent({
       console.log('inside sample called method', test)
     }
 
-    const render = () => {
-      return `<div @click="sampleCalled()">{{ test }}</div>`
+    return {  
+      sampleCalled,
+      test
     }
-
-    return (h: any) => render()
   }
 })

@@ -4,7 +4,7 @@ import { useProductIdentificationStore } from '../store/productIdentification';
 export default defineComponent({
   template: `<ion-card>
     <ion-card-header>
-      <ion-card-title>
+      <ion-card-title @click="setProductIdentificationPreference('groupId', 'primaryId')">
         {{ 'Product Identifier' }}
       </ion-card-title>
     </ion-card-header>
