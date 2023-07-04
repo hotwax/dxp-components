@@ -46,7 +46,7 @@ export default defineComponent({
   methods: {
     async handleUserFlow(token: string, oms: string) {
       // logout to clear current user state
-      logout()
+      await logout()
 
       // update the previously set values if the user opts ending the previous session
       this.authStore.$patch({
