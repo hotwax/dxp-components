@@ -11,14 +11,14 @@ export default defineComponent({
     }
   },
   props: ['src', 'size'],
-  async mounted() {
+  mounted() {
     this.setImageUrl();
   },
   updated() {
     this.setImageUrl();
   },
   methods: {
-    addSizeInImgUrl(src: string, size: string) {
+    prepareImgUrl(src: string, size?: string) {
       if (src) {
         // return original size if no size is given
         if (!size) return src
@@ -43,7 +43,7 @@ export default defineComponent({
       })
     },
     setImageUrl() {
-      const src = this.addSizeInImgUrl(this.src, this.size)
+      const src = this.prepareImgUrl(this.src, this.size)
       if (src) {
         if (src.indexOf('assets/') != -1) {
           // Assign directly in case of assets
