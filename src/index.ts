@@ -7,7 +7,6 @@ import { goToOms } from "./utils";
 // creating a pinia store for the plugin
 const pinia = createPinia();
 
-let resourceUrl: string
 let defaultImgUrl: string
 // executed on app initialization
 export let dxpComponents = {
@@ -15,14 +14,12 @@ export let dxpComponents = {
     // registering pinia in the app
     app.use(pinia);
     app.component('ShopifyCDNImage', ShopifyCDNImage)
-    resourceUrl = options.resourceUrl
     defaultImgUrl = options.defaultImgUrl
   }
 }
 
 export {
   useProductIdentificationStore,
-  resourceUrl,
   defaultImgUrl,
   ShopifyCDNImage,
   goToOms

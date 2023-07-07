@@ -1,5 +1,5 @@
 import { defineComponent } from "vue"
-import { resourceUrl, defaultImgUrl } from "../index";
+import { defaultImgUrl } from "../index";
 
 export default defineComponent({
   template: `
@@ -7,7 +7,7 @@ export default defineComponent({
             `,
   data() {
     return {
-      imageUrl: ''
+      imageUrl: defaultImgUrl
     }
   },
   props: ['src', 'size'],
@@ -52,20 +52,8 @@ export default defineComponent({
           // If starts with http, it is web url check for existence and assign
           this.checkIfImageExists(src).then(() => {
             this.imageUrl = src;
-          }).catch(() => {
-            this.imageUrl = defaultImgUrl
           })
-        } else {
-          // Image is from resource server, hence append to base resource url, check for existence and assign
-          const imageUrl = resourceUrl.concat(src)
-          this.checkIfImageExists(imageUrl).then(() => {
-            this.imageUrl = imageUrl;
-          }).catch(() => {
-            this.imageUrl = defaultImgUrl
-          })
-        } 
-      } else {
-        this.imageUrl = defaultImgUrl
+        }
       }
     }
   }
