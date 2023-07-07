@@ -1,5 +1,6 @@
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
+import { useEComStoreAndConfigStore } from "./store/eComtStoreAndConfig";
 
 // TODO: handle cases when the store from app or pinia store are not available
 // creating a pinia store for the plugin
@@ -14,5 +15,6 @@ export let dxpComponents = {
 }
 
 export {
-  useProductIdentificationStore
+  useProductIdentificationStore,
+  useEComStoreAndConfigStore
 }
