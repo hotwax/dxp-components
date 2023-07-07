@@ -1,6 +1,6 @@
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
-import ShopifyCDNImage from "./components/ShopifyCDNImage";
+import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
 
 // TODO: handle cases when the store from app or pinia store are not available
@@ -13,7 +13,7 @@ export let dxpComponents = {
   install(app: any, options: any) {
     // registering pinia in the app
     app.use(pinia);
-    app.component('ShopifyCDNImage', ShopifyCDNImage)
+    app.component('ShopifyImg', ShopifyImg)
     defaultImgUrl = options.defaultImgUrl
   }
 }
@@ -21,6 +21,6 @@ export let dxpComponents = {
 export {
   useProductIdentificationStore,
   defaultImgUrl,
-  ShopifyCDNImage,
+  ShopifyImg,
   goToOms
 }
