@@ -1,6 +1,7 @@
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import ShopifyCDNImage from "./components/ShopifyCDNImage";
+import { goToOms } from "./utils";
 
 // TODO: handle cases when the store from app or pinia store are not available
 // creating a pinia store for the plugin
@@ -23,5 +24,6 @@ export {
   useProductIdentificationStore,
   resourceUrl,
   defaultImgUrl,
-  ShopifyCDNImage
+  ShopifyCDNImage,
+  goToOms
 }
