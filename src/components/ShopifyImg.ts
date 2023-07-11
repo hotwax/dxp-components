@@ -19,16 +19,14 @@ export default defineComponent({
   },
   methods: {
     prepareImgUrl(src: string, size?: string) {
-      if (src) {
-        // return original size if no size is given
-        if (!size) return src
-        return src
-        // remove any current image size then add the new image size
-        .replace(/_(pico|icon|thumb|small|compact|medium|large|grande|original|1024x1024|2048x2048|master)+\./g, '.')
-        .replace(/\.jpg|\.png|\.gif|\.jpeg/g, function (match) {
-          return '_' + size + match;
-        })
-      }
+      // return original size if no size is given
+      if (!size) return src
+      // remove any current image size then add the new image size
+      return src
+      .replace(/_(pico|icon|thumb|small|compact|medium|large|grande|original|1024x1024|2048x2048|master)+\./g, '.')
+      .replace(/\.jpg|\.png|\.gif|\.jpeg/g, function (match) {
+        return '_' + size + match;
+      })
     },
     checkIfImageExists(src: string) {
       return new Promise((resolve, reject) => {
@@ -43,8 +41,8 @@ export default defineComponent({
       })
     },
     setImageUrl() {
-      const src = this.prepareImgUrl(this.src, this.size)
-      if (src) {
+      if (this.src) {
+        const src: string = this.prepareImgUrl(this.src, this.size)
         if (src.indexOf('assets/') != -1) {
           // Assign directly in case of assets
           this.imageUrl = src;
