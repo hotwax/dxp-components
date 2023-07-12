@@ -28,29 +28,31 @@ export default defineComponent({
       return
     }
     
-    const { token, oms } = this.route.query
-    const { appToken, appOms } = await getUserTokenAndOms()
+    const { token, oms, expirationTime } = this.route.query
+    const { appToken, appOms, appExpirationTime } = await getUserTokenAndOms()
 
     // show alert if token/oms are different from the app's
     if ((appToken && appToken) && (appToken != token || appOms != oms)) {
       // pinia follows direct state manipulation anywhere
       this.authStore.$patch({
-        token: { value: appToken, expiry: null },
+        token: { value: appToken, expiration: appExpirationTime },
         oms: appOms
       })
-      await confirmSessionEnd(appOms, this.handleUserFlow, oms, token)
-      return
+      await confirmSessionEnd('dev-oms').then((isConfirmed: boolean) => {
+        isConfirmed
+          ? this.handleUserFlow(token, oms, expirationTime)
+          : this.router.push('/')
+      })
     }
-    this.handleUserFlow(token, oms)
   },
   methods: {
-    async handleUserFlow(token: string, oms: string) {
+    async handleUserFlow(token: string, oms: string, expirationTime: string) {
       // logout to clear current user state
       await logout()
 
       // update the previously set values if the user opts ending the previous session
       this.authStore.$patch({
-        token: { value: token, expiry: null },
+        token: { value: token, expiration: expirationTime },
         oms
       })
 

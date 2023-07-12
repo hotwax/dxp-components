@@ -4,10 +4,12 @@ import { useAuthStore } from "./store/auth";
 import Login from "./components/Login";
 import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 // TODO: handle cases when the store from app or pinia store are not available
 // creating a pinia store for the plugin
 const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate)
 
 let getAndSetUserDetails: Function
 let loader: any
