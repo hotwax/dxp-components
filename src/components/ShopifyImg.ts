@@ -43,15 +43,9 @@ export default defineComponent({
     setImageUrl() {
       if (this.src) {
         const src: string = this.prepareImgUrl(this.src, this.size)
-        if (src.indexOf('assets/') != -1) {
-          // Assign directly in case of assets
+        this.checkIfImageExists(src).then(() => {
           this.imageUrl = src;
-        } else if (src.startsWith('http')) {
-          // If starts with http, it is web url check for existence and assign
-          this.checkIfImageExists(src).then(() => {
-            this.imageUrl = src;
-          })
-        }
+        })
       }
     }
   }
