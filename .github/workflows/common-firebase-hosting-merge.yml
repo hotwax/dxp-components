@@ -7,6 +7,8 @@ on:
       secrets:
         envPAT:
           required: true
+        HOTWAX_PUBLIC_SECRET:
+          required: true
 jobs:
     build_and_deploy:
         runs-on: ubuntu-latest
