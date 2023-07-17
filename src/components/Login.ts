@@ -56,9 +56,9 @@ export default defineComponent({
         oms
       })
 
-      context.loader.present()
+      context.loader.present('Logging in')
       try {
-        await context.getAndSetUserDetails({ token, oms })
+        await context.login({ token, oms })
         this.router.replace({ path: '/' })
       } catch (error) {
         console.error(error)
