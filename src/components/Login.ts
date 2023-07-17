@@ -1,5 +1,5 @@
 import { defineComponent, getCurrentInstance } from "vue"
-import { getAndSetUserDetails, useAuthStore, getUserTokenAndOms, confirmSessionEnd, loader, logout } from "../index"
+import { loginContext as context, useAuthStore } from "../index"
 
 export default defineComponent({
   template: `
@@ -29,16 +29,16 @@ export default defineComponent({
     }
     
     const { token, oms, expirationTime } = this.route.query
-    const { appToken, appOms, appExpirationTime } = await getUserTokenAndOms()
+    const { appToken, appOms, appExpirationTime } = await context.getUserTokenAndOms()
 
     // show alert if token/oms are different from the app's
-    if ((appToken && appToken) && (appToken != token || appOms != oms)) {
+    if ((appToken && token) && (appToken != token || appOms != oms)) {
       // pinia follows direct state manipulation anywhere
       this.authStore.$patch({
         token: { value: appToken, expiration: appExpirationTime },
         oms: appOms
       })
-      await confirmSessionEnd('dev-oms').then((isConfirmed: boolean) => {
+      await context.confirmSessionEnd('dev-oms').then((isConfirmed: boolean) => {
         isConfirmed
           ? this.handleUserFlow(token, oms, expirationTime)
           : this.router.push('/')
@@ -48,7 +48,7 @@ export default defineComponent({
   methods: {
     async handleUserFlow(token: string, oms: string, expirationTime: string) {
       // logout to clear current user state
-      await logout()
+      await context.logout()
 
       // update the previously set values if the user opts ending the previous session
       this.authStore.$patch({
@@ -56,15 +56,15 @@ export default defineComponent({
         oms
       })
 
-      loader.present()
+      context.loader.present()
       try {
-        await getAndSetUserDetails({ token, oms })
+        await context.getAndSetUserDetails({ token, oms })
         this.router.replace({ path: '/' })
       } catch (error) {
         console.error(error)
         this.errorMsg = 'Unable to login. Please contact the administrator'
       } finally {
-        loader.dismiss()
+        context.loader.dismiss()
       }
     }
   }

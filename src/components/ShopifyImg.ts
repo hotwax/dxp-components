@@ -1,5 +1,5 @@
 import { defineComponent } from "vue"
-import { defaultImgUrl } from "../index";
+import { shopifyImgContext as context } from "../index";
 
 export default defineComponent({
   template: `
@@ -7,7 +7,7 @@ export default defineComponent({
             `,
   data() {
     return {
-      imageUrl: defaultImgUrl
+      imageUrl: context.defaultImgUrl
     }
   },
   props: ['src', 'size'],

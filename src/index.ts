@@ -11,26 +11,25 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate)
 
-let getAndSetUserDetails: Function
-let loader: any
-let getUserTokenAndOms: any
-let confirmSessionEnd: Function
-let logout: Function
-let defaultImgUrl: string
+let loginContext = {} as any
+let shopifyImgContext = {} as any
 
 // executed on app initialization
 export let dxpComponents = {
   install(app: any, options: any) {
     // registering pinia in the app
     app.use(pinia);
+
     app.component('Login', Login)
     app.component('ShopifyImg', ShopifyImg)
-    getAndSetUserDetails = options.getAndSetUserDetails
-    getUserTokenAndOms = options.getUserTokenAndOms
-    confirmSessionEnd = options.confirmSessionEnd
-    logout = options.logout
-    loader = options.loader
-    defaultImgUrl = options.defaultImgUrl
+
+    loginContext.getAndSetUserDetails = options.getAndSetUserDetails
+    loginContext.getUserTokenAndOms = options.getUserTokenAndOms
+    loginContext.confirmSessionEnd = options.confirmSessionEnd
+    loginContext.logout = options.logout
+    loginContext.loader = options.loader
+
+    shopifyImgContext.defaultImgUrl = options.defaultImgUrl
   }
 }
 
@@ -38,12 +37,8 @@ export {
   useProductIdentificationStore,
   useAuthStore,
   Login,
-  getAndSetUserDetails,
-  getUserTokenAndOms,
-  confirmSessionEnd,
-  logout,
-  loader,
-  defaultImgUrl,
+  loginContext,
+  shopifyImgContext,
   ShopifyImg,
   goToOms
 }
