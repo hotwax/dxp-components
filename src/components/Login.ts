@@ -27,9 +27,11 @@ export default defineComponent({
       this.errorMsg = 'Unable to login. Could not authenticate the user'
       return
     }
-    
+
     const { token, oms, expirationTime } = this.route.query
-    const { appToken, appOms, appExpirationTime } = await context.getUserTokenAndOms()
+    const appToken = this.authStore.token.value
+    const appOms = this.authStore.oms
+    const appExpirationTime = this.authStore.token.expiration
 
     // show alert if token/oms are different from the app's
     if ((appToken && token) && (appToken != token || appOms != oms)) {
