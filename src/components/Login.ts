@@ -33,7 +33,7 @@ export default defineComponent({
 
     // show alert if token/oms are different from the app's
     if ((appToken && token) && (appToken != token || appOms != oms)) {
-      // pinia follows direct state manipulation anywhere
+      // for backward compatibility
       this.authStore.$patch({
         token: { value: appToken, expiration: appExpirationTime },
         oms: appOms
