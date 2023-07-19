@@ -1,11 +1,11 @@
-import { getProductIdentificationPref, setProductIdentificationPref } from "@hotwax/oms-api";
+import { omsApiContext } from "../index";
 import { defineStore } from "pinia";
 
 export const useProductIdentificationStore = defineStore('productIdentification', {
   state: () => {
     return {
       productIdentificationPref: {
-        primaryId: 'productId',
+        primaryId: '',
         secondaryId: ''
       },
       productIdentificationOptions: ["productId", "groupId", "groupName", "internalName", "parentProductName", "primaryProductCategoryName", "productId", "sku", "title", "SHOPIFY_PROD_SKU"]
@@ -28,7 +28,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
       productIdentificationPref[id] = value
 
       try {
-        this.productIdentificationPref = await setProductIdentificationPref(eComStoreId, productIdentificationPref)
+        this.productIdentificationPref = await omsApiContext.setProductIdentificationPref(eComStoreId, productIdentificationPref)
       } catch(err) {
         console.log('error', err)
       }
@@ -42,7 +42,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
         };
       }
 
-      this.productIdentificationPref = await getProductIdentificationPref(eComStoreId)
+      this.productIdentificationPref = await omsApiContext.getProductIdentificationPref(eComStoreId)
     }
   }
 })
