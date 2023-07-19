@@ -23,7 +23,7 @@ export default defineComponent({
     this.route = appContext.config.globalProperties.$route
 
     if (!Object.keys(this.route.query).length) {
-      window.location.href = appContext.appLoginUrl
+      window.location.href = context.appLoginUrl
       return
     }
 
