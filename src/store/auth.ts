@@ -33,5 +33,6 @@ export const useAuthStore = defineStore('userAuth', {
       //   console.log(error)
       // }
     }
-  }
+  },
+  persist: true
 })
