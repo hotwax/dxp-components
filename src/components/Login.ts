@@ -23,7 +23,7 @@ export default defineComponent({
     this.route = appContext.config.globalProperties.$route
 
     if (!Object.keys(this.route.query).length) {
-      this.errorMsg = 'Unable to login. Could not authenticate the user'
+      window.location.href = 'http://launchpad.hotwax.io/login'
       return
     }
 
