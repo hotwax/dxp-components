@@ -1,4 +1,4 @@
-import { defineComponent, getCurrentInstance, onMounted } from "vue"
+import { defineComponent } from "vue"
 import { loginContext as context, useAuthStore, appContext } from "../index"
 
 export default defineComponent({
