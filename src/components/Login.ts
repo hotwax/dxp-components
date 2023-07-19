@@ -1,5 +1,5 @@
-import { defineComponent, getCurrentInstance } from "vue"
-import { loginContext as context, useAuthStore } from "../index"
+import { defineComponent } from "vue"
+import { loginContext as context, useAuthStore, appContext } from "../index"
 
 export default defineComponent({
   template: `
@@ -12,17 +12,16 @@ export default defineComponent({
   data() {
     return {
       errorMsg: '',
+      authStore: {} as any,
       router: {} as any,
       route: {} as any,
-      authStore: {} as any
     }
   },
   async mounted() {
-    // exporting the same from index.ts through globalProperties does not work as expected
-    const instance = getCurrentInstance() as any
-    this.route = instance.appContext.config.globalProperties.$route
-    this.router = instance.appContext.config.globalProperties.$router
     this.authStore = useAuthStore()
+    this.router = appContext.config.globalProperties.$router
+    this.route = appContext.config.globalProperties.$route
+
     if (!Object.keys(this.route.query).length) {
       this.errorMsg = 'Unable to login. Could not authenticate the user'
       return
@@ -32,19 +31,21 @@ export default defineComponent({
     const appToken = this.authStore.token.value
     const appOms = this.authStore.oms
     const appExpirationTime = this.authStore.token.expiration
-
-    // show alert if token/oms are different from the app's
+    
+    // show alert if token/oms exist and are different from the app's
     if ((appToken && token) && (appToken != token || appOms != oms)) {
       // for backward compatibility
       this.authStore.$patch({
         token: { value: appToken, expiration: appExpirationTime },
         oms: appOms
       })
-      await context.confirmSessionEnd('dev-oms').then((isConfirmed: boolean) => {
+      context.confirmSessionEnd('dev-oms').then((isConfirmed: boolean) => {
         isConfirmed
           ? this.handleUserFlow(token, oms, expirationTime)
           : this.router.push('/')
       })
+    } else {
+      this.handleUserFlow(token, oms, expirationTime)
     }
   },
   methods: {
@@ -61,7 +62,7 @@ export default defineComponent({
       context.loader.present('Logging in')
       try {
         await context.login({ token, oms })
-        this.router.replace({ path: '/' })
+        this.router.push('/')
       } catch (error) {
         console.error(error)
         this.errorMsg = 'Unable to login. Please contact the administrator'

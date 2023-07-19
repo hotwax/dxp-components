@@ -13,10 +13,12 @@ pinia.use(piniaPluginPersistedstate)
 
 let loginContext = {} as any
 let shopifyImgContext = {} as any
-
+let appContext = {} as any
 // executed on app initialization
 export let dxpComponents = {
   install(app: any, options: any) {
+    appContext = app
+
     // registering pinia in the app
     app.use(pinia);
 
@@ -39,5 +41,6 @@ export {
   loginContext,
   shopifyImgContext,
   ShopifyImg,
-  goToOms
+  goToOms,
+  appContext
 }
