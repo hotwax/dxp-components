@@ -1,5 +1,5 @@
-import { defineComponent, getCurrentInstance } from "vue"
-import { loginContext as context, useAuthStore } from "../index"
+import { defineComponent, getCurrentInstance, onMounted } from "vue"
+import { loginContext as context, useAuthStore, appContext } from "../index"
 
 export default defineComponent({
   template: `
@@ -12,19 +12,22 @@ export default defineComponent({
   data() {
     return {
       errorMsg: '',
-      authStore: {} as any
+      authStore: {} as any,
+      router: {} as any,
+      route: {} as any,
     }
   },
   async mounted() {
     this.authStore = useAuthStore()
-    const queryParams = new URLSearchParams(window.location.search);
-    const queryParamsObj = Object.fromEntries(queryParams.entries());
-    if (!Object.keys(queryParamsObj).length) {
+    this.router = appContext.config.globalProperties.$router
+    this.route = appContext.config.globalProperties.$route
+
+    if (!Object.keys(this.route.query).length) {
       this.errorMsg = 'Unable to login. Could not authenticate the user'
       return
     }
 
-    const { token, oms, expirationTime } = queryParamsObj
+    const { token, oms, expirationTime } = this.route.query
     const appToken = this.authStore.token.value
     const appOms = this.authStore.oms
     const appExpirationTime = this.authStore.token.expiration
@@ -36,10 +39,10 @@ export default defineComponent({
         token: { value: appToken, expiration: appExpirationTime },
         oms: appOms
       })
-      await context.confirmSessionEnd('dev-oms').then((isConfirmed: boolean) => {
+      context.confirmSessionEnd('dev-oms').then((isConfirmed: boolean) => {
         isConfirmed
           ? this.handleUserFlow(token, oms, expirationTime)
-          : window.location.href = window.location.origin
+          : this.router.push('/')
       })
     } else {
       this.handleUserFlow(token, oms, expirationTime)
@@ -59,7 +62,7 @@ export default defineComponent({
       context.loader.present('Logging in')
       try {
         await context.login({ token, oms })
-        window.location.href = window.location.origin
+        this.router.push('/')
       } catch (error) {
         console.error(error)
         this.errorMsg = 'Unable to login. Please contact the administrator'
