@@ -1,4 +1,4 @@
-import { omsApiContext } from "../index";
+import { productIdentificationContext } from "../index";
 import { defineStore } from "pinia";
 
 export const useProductIdentificationStore = defineStore('productIdentification', {
@@ -28,7 +28,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
       productIdentificationPref[id] = value
 
       try {
-        this.productIdentificationPref = await omsApiContext.setProductIdentificationPref(eComStoreId, productIdentificationPref)
+        this.productIdentificationPref = await productIdentificationContext.setProductIdentificationPref(eComStoreId, productIdentificationPref)
       } catch(err) {
         console.log('error', err)
       }
@@ -42,7 +42,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
         };
       }
 
-      this.productIdentificationPref = await omsApiContext.getProductIdentificationPref(eComStoreId)
+      this.productIdentificationPref = await productIdentificationContext.getProductIdentificationPref(eComStoreId)
     }
   }
 })
