@@ -14,6 +14,8 @@ pinia.use(piniaPluginPersistedstate)
 let loginContext = {} as any
 let shopifyImgContext = {} as any
 let appContext = {} as any
+let productIdentificationContext = {} as any
+
 // executed on app initialization
 export let dxpComponents = {
   install(app: any, options: any) {
@@ -31,6 +33,8 @@ export let dxpComponents = {
     loginContext.loader = options.loader
 
     shopifyImgContext.defaultImgUrl = options.defaultImgUrl
+    productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
+    productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
   }
 }
 
@@ -42,5 +46,6 @@ export {
   shopifyImgContext,
   ShopifyImg,
   goToOms,
-  appContext
+  appContext,
+  productIdentificationContext
 }
