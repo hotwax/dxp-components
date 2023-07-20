@@ -39,7 +39,7 @@ export default defineComponent({
         token: { value: appToken, expiration: appExpirationTime },
         oms: appOms
       })
-      context.confirmSessionEnd('dev-oms').then((isConfirmed: boolean) => {
+      context.confirmSessionEnd(appOms).then((isConfirmed: boolean) => {
         isConfirmed
           ? this.handleUserFlow(token, oms, expirationTime)
           : this.router.push('/')
