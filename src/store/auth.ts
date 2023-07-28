@@ -23,16 +23,5 @@ export const useAuthStore = defineStore('userAuth', {
       return state.token.value && !isTokenExpired
     }
   },
-  actions: {
-    // TODO will be done once backend support is there
-		async authenticate() {
-      // try {
-      //   // authenticate through cookies
-      //   return this.token
-      // } catch (error) {
-      //   console.log(error)
-      // }
-    }
-  },
   persist: true
 })
