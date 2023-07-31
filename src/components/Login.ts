@@ -28,25 +28,7 @@ export default defineComponent({
     }
 
     const { token, oms, expirationTime } = this.route.query
-    const appToken = this.authStore.token.value
-    const appOms = this.authStore.oms
-    const appExpirationTime = this.authStore.token.expiration
-    
-    // show alert if token/oms exist and are different from the app's
-    if ((appToken && token) && (appToken != token || appOms != oms)) {
-      // for backward compatibility
-      this.authStore.$patch({
-        token: { value: appToken, expiration: appExpirationTime },
-        oms: appOms
-      })
-      context.confirmSessionEnd(appOms).then((isConfirmed: boolean) => {
-        isConfirmed
-          ? this.handleUserFlow(token, oms, expirationTime)
-          : this.router.push('/')
-      })
-    } else {
-      this.handleUserFlow(token, oms, expirationTime)
-    }
+    this.handleUserFlow(token, oms, expirationTime)
   },
   methods: {
     async handleUserFlow(token: string, oms: string, expirationTime: string) {

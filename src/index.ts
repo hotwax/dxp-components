@@ -28,7 +28,6 @@ export let dxpComponents = {
     app.component('ShopifyImg', ShopifyImg)
 
     loginContext.login = options.login
-    loginContext.confirmSessionEnd = options.confirmSessionEnd
     loginContext.logout = options.logout
     loginContext.loader = options.loader
     loginContext.appLoginUrl = options.appLoginUrl
