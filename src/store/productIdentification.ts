@@ -29,8 +29,9 @@ export const useProductIdentificationStore = defineStore('productIdentification'
 
       try {
         this.productIdentificationPref = await productIdentificationContext.setProductIdentificationPref(eComStoreId, productIdentificationPref)
+        Promise.resolve(this.productIdentificationPref);
       } catch(err) {
-        console.log('error', err)
+        Promise.reject(err);
       }
     },
     async getIdentificationPref(eComStoreId: string) {
