@@ -22,7 +22,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
       // When eComStoreId is not available then make the values change to what selected previously
       if(!eComStoreId) {
         this.productIdentificationPref = productIdentificationPref
-        return Promise.resolve(this.productIdentificationPref);
+        return Promise.reject(this.productIdentificationPref);
       }
 
       productIdentificationPref[id] = value
