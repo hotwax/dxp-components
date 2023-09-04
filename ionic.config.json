@@ -1,0 +1,7 @@
+{
+  "name": "dxp-components",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
