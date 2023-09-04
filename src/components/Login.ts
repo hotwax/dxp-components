@@ -1,5 +1,6 @@
 import { defineComponent } from "vue"
 import { loginContext as context, useAuthStore, appContext } from "../index"
+import { DateTime } from "luxon"
 
 export default defineComponent({
   template: `
@@ -34,6 +35,15 @@ export default defineComponent({
     async handleUserFlow(token: string, oms: string, expirationTime: string) {
       // logout to clear current user state
       await context.logout()
+
+      // checking if token from launchpad has expired and redirecting there only
+      if (+expirationTime < DateTime.now().toMillis()) {
+        console.error('User token has expired, redirecting to launchpad.')
+        this.errorMsg = 'User token has expired, redirecting to launchpad.'
+        const redirectUrl = window.location.origin + '/login' // current app URL
+        window.location.href = `${context.appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`
+        return
+      }
 
       // update the previously set values if the user opts ending the previous session
       this.authStore.$patch({
