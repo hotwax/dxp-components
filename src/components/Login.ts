@@ -1,5 +1,6 @@
 import { defineComponent } from "vue"
 import { loginContext as context, useAuthStore, appContext } from "../index"
+import { initialiseFirebaseApp } from "../firebase-utils"
 
 export default defineComponent({
   template: `
@@ -27,6 +28,9 @@ export default defineComponent({
       return
     }
 
+    // initialising and connecting firebase app for notification support
+    await initialiseFirebaseApp()
+
     const { token, oms, expirationTime } = this.route.query
     this.handleUserFlow(token, oms, expirationTime)
   },
@@ -35,7 +39,6 @@ export default defineComponent({
       // logout to clear current user state
       await context.logout()
 
-      // update the previously set values if the user opts ending the previous session
       this.authStore.$patch({
         token: { value: token, expiration: expirationTime },
         oms

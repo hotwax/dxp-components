@@ -1,9 +1,11 @@
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
+import { useNotificationStore } from "./store/notification";
 import Login from "./components/Login";
 import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
+import { initialiseFirebaseApp } from "./firebase-utils"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 // TODO: handle cases when the store from app or pinia store are not available
@@ -15,6 +17,7 @@ let loginContext = {} as any
 let shopifyImgContext = {} as any
 let appContext = {} as any
 let productIdentificationContext = {} as any
+let noitificationContext = {} as any
 
 // executed on app initialization
 export let dxpComponents = {
@@ -35,17 +38,26 @@ export let dxpComponents = {
     shopifyImgContext.defaultImgUrl = options.defaultImgUrl
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
+
+    noitificationContext.getNotificationPreferences = options.getNotificationPreferences
+    noitificationContext.removeClientRegistrationToken = options.removeClientRegistrationToken
+    noitificationContext.storeClientRegistrationToken = options.storeClientRegistrationToken
+    noitificationContext.subscribeTopic = options.subscribeTopic
+    noitificationContext.unsubscribeTopic = options.unsubscribeTopic
   }
 }
 
 export {
-  useProductIdentificationStore,
-  useAuthStore,
+  appContext,
+  goToOms,
+  initialiseFirebaseApp,
   Login,
   loginContext,
-  shopifyImgContext,
+  productIdentificationContext,
+  noitificationContext,
   ShopifyImg,
-  goToOms,
-  appContext,
-  productIdentificationContext
+  shopifyImgContext,
+  useProductIdentificationStore,
+  useAuthStore,
+  useNotificationStore
 }
