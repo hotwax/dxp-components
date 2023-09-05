@@ -25,8 +25,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@hotwax/oms-api": "^1.8.1",
-    "@ionic/core": "^7.3.2",
-    "@ionic/vue": "^7.3.2",
+    "@ionic/core": "^6.7.5",
+    "@ionic/vue": "^6.7.5",
     "luxon": "^3.3.0",
     "pinia": "2.0.36",
     "pinia-plugin-persistedstate": "^3.1.0",

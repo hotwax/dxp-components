@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "allowJs": true
   },
   "include": [
     "src/**/*.ts",
