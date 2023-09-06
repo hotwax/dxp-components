@@ -1,7 +1,9 @@
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
+import { useUserStore } from "./store/user";
 import Login from "./components/Login";
+import { MenuFooterNavigation } from "./components";
 import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
@@ -25,6 +27,7 @@ export let dxpComponents = {
     app.use(pinia);
 
     app.component('Login', Login)
+    app.component('MenuFooterNavigation', MenuFooterNavigation)
     app.component('ShopifyImg', ShopifyImg)
 
     loginContext.login = options.login
@@ -39,13 +42,15 @@ export let dxpComponents = {
 }
 
 export {
-  useProductIdentificationStore,
-  useAuthStore,
-  Login,
-  loginContext,
-  shopifyImgContext,
-  ShopifyImg,
-  goToOms,
   appContext,
-  productIdentificationContext
+  goToOms,
+  loginContext,
+  Login,
+  MenuFooterNavigation,
+  productIdentificationContext,
+  useAuthStore,
+  useProductIdentificationStore,
+  useUserStore,
+  ShopifyImg,
+  shopifyImgContext,
 }
