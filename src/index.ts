@@ -1,7 +1,6 @@
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { useUserStore } from "./store/user";
 import Login from "./components/Login";
 import { MenuFooterNavigation } from "./components";
 import ShopifyImg from "./components/ShopifyImg";
@@ -50,7 +49,6 @@ export {
   productIdentificationContext,
   useAuthStore,
   useProductIdentificationStore,
-  useUserStore,
   ShopifyImg,
   shopifyImgContext,
 }
