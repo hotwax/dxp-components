@@ -1,4 +1,3 @@
-
 <template>
   <ion-footer>
     <ion-toolbar>
@@ -10,6 +9,7 @@
       </ion-item>
       <!-- showing product stores only when there are multiple options to choose from. -->
       <ion-item v-if="appUserState.userProfile?.stores?.length > 2" lines="none">
+        <!-- WHY EVENTS ($emit) IS USED WITH ION CHANGE: https://michaelnthiessen.com/pass-function-as-prop/ -->
         <ion-select interface="popover" :value="appUserState.currentEComStore.productStoreId" @ionChange="$emit('changeEcomStore', $event)">
           <ion-select-option v-for="store in (appUserState.userProfile?.stores ? appUserState.userProfile.stores : [])" :key="store.productStoreId" :value="store.productStoreId">{{ store.storeName }}</ion-select-option>
         </ion-select>
