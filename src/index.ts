@@ -37,10 +37,10 @@ export let dxpComponents = {
     // registering pinia in the app
     app.use(pinia);
     app.use(i18n);
-    
+
     app.component('Login', Login)
     app.component('ShopifyImg', ShopifyImg)
-    
+
     loginContext.login = options.login
     loginContext.logout = options.logout
     loginContext.loader = options.loader
