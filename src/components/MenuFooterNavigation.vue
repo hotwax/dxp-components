@@ -10,7 +10,7 @@
       <!-- showing product stores only when there are multiple options to choose from. -->
       <ion-item v-if="appUserState.userProfile?.stores?.length > 2" lines="none">
         <!-- WHY EVENTS ($emit) IS USED WITH ION CHANGE: https://michaelnthiessen.com/pass-function-as-prop/ -->
-        <ion-select interface="popover" :value="appUserState.currentEComStore.productStoreId" @ionChange="$emit('changeEcomStore', $event)">
+        <ion-select interface="popover" :value="appUserState.currentEComStore.productStoreId" @ionChange="$emit('updateEcomStore', $event)">
           <ion-select-option v-for="store in (appUserState.userProfile?.stores ? appUserState.userProfile.stores : [])" :key="store.productStoreId" :value="store.productStoreId">{{ store.storeName }}</ion-select-option>
         </ion-select>
       </ion-item>
@@ -23,7 +23,7 @@
       but if both product store and config have multiple options, then only option to choose
       product store will be visible -->
       <ion-item v-if="appUserState.shopifyConfigs?.length > 1 && appUserState.userProfile?.stores?.length < 3" lines="none">
-        <ion-select interface="popover" :value="appUserState.currentShopifyConfig?.shopifyConfigId" @ionChange="$emit('changeShopifyConfig', $event)">
+        <ion-select interface="popover" :value="appUserState.currentShopifyConfig?.shopifyConfigId" @ionChange="$emit('updateShopifyConfig', $event)">
           <ion-select-option v-for="shopifyConfig in appUserState.shopifyConfigs" :key="shopifyConfig.shopifyConfigId" :value="shopifyConfig.shopifyConfigId">{{ shopifyConfig.name ? shopifyConfig.name : shopifyConfig.shopifyConfigName }}</ion-select-option>
         </ion-select>
       </ion-item>
