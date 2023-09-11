@@ -16,5 +16,4 @@ declare var process: any;
 const appInfo = (process.env.VUE_APP_VERSION_INFO ? JSON.parse(process.env.VUE_APP_VERSION_INFO) : {}) as any;
 const appVersion = appInfo.branch ? (appInfo.branch + "-" + appInfo.revision) : appInfo.tag;
 const getDateTime = (time: any) => DateTime.fromMillis(time).toLocaleString(DateTime.DATETIME_MED);
-
 </script>
