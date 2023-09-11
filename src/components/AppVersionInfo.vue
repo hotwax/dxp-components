@@ -1,0 +1,20 @@
+<template>
+  <div class="section-header">
+    <h1>
+      <!-- TODO: translate 'App' when usage of i18n implemented in dxp -->
+      {{ 'App' }}
+      <p class="overline">{{ "Version: " + appVersion }}</p>
+    </h1>
+    <p class="overline">{{ "Built: " + getDateTime(appInfo.builtTime) }}</p>
+  </div>
+</template>
+  
+<script setup lang="ts">
+import { DateTime } from 'luxon';
+declare var process: any;
+
+const appInfo = (process.env.VUE_APP_VERSION_INFO ? JSON.parse(process.env.VUE_APP_VERSION_INFO) : {}) as any;
+const appVersion = appInfo.branch ? (appInfo.branch + "-" + appInfo.revision) : appInfo.tag;
+const getDateTime = (time: any) => DateTime.fromMillis(time).toLocaleString(DateTime.DATETIME_MED);
+
+</script>

@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import { AppVersionInfo } from "./components";
 
 // TODO: handle cases when the store from app or pinia store are not available
 // creating a pinia store for the plugin
@@ -26,6 +27,7 @@ export let dxpComponents = {
 
     app.component('Login', Login)
     app.component('ShopifyImg', ShopifyImg)
+    app.component('AppVersionInfo', AppVersionInfo)
 
     loginContext.login = options.login
     loginContext.logout = options.logout
