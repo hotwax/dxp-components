@@ -40,7 +40,7 @@ export default defineComponent({
       // logout to clear current user state, don't mark the user as logout as we just want to clear the user data
       await context.logout({ isUserUnauthorised: true })
 
-      // reset the config that we got from the oms-api, as on logout we clear the config of oms-api but in this case we want the config
+      // reset the config that we got from the oms-api, as on logout we clear the config of oms-api
       await context.initialise(appConfig)
 
       // checking if token from launchpad has expired and redirecting there only
