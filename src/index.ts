@@ -35,6 +35,8 @@ export let dxpComponents = {
     shopifyImgContext.defaultImgUrl = options.defaultImgUrl
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
+    loginContext.getConfig = options.getConfig
+    loginContext.initialise = options.initialise
   }
 }
 
