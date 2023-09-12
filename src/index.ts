@@ -5,7 +5,7 @@ import { useNotificationStore } from "./store/notification";
 import Login from "./components/Login";
 import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
-import { initialiseFirebaseApp } from "./firebase-utils"
+import { initialiseFirebaseApp, generateTopicName } from "./firebase-utils"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 // TODO: handle cases when the store from app or pinia store are not available
@@ -39,7 +39,10 @@ export let dxpComponents = {
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
 
-    noitificationContext.getNotificationPreferences = options.getNotificationPreferences
+    noitificationContext.notificationApplicationId = options.notificationApplicationId
+    noitificationContext.notificationEnumTypeId = options.notificationEnumTypeId
+    noitificationContext.getNotificationEnumIds = options.getNotificationEnumIds
+    noitificationContext.getNotificationUserPrefTypeIds = options.getNotificationUserPrefTypeIds
     noitificationContext.removeClientRegistrationToken = options.removeClientRegistrationToken
     noitificationContext.storeClientRegistrationToken = options.storeClientRegistrationToken
     noitificationContext.subscribeTopic = options.subscribeTopic
@@ -49,6 +52,7 @@ export let dxpComponents = {
 
 export {
   appContext,
+  generateTopicName,
   goToOms,
   initialiseFirebaseApp,
   Login,

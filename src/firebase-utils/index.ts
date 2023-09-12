@@ -24,23 +24,19 @@ const initialiseFirebaseApp = async () => {
         "BOUIEOumNzijvdsEaG2x3fCmQIupqlvq0tJS4QQSF7C1xrCYC6fYJ-VQWkKKPCZN4GG1jVIVMtdiUVjvbeOXO6w"
     });
     const notificationStore = useNotificationStore()
-    console.log(notificationStore.getNotifications)
 
     // TODO handle case - if (!token) 
-    console.log("Token Gen", token);
     notificationStore.deviceId = generateDeviceId()
-    notificationStore.storeClientRegistrationToken(token, 'BOPIS')
+    await notificationStore.storeClientRegistrationToken(token)
 
     // handle foreground message
     onMessage(messaging, (payload: any) => {
-      console.log('Message received. ', payload);
       notificationStore.addNotification(payload);
     });
 
     // handle background message (service worker)
     const broadcast = new BroadcastChannel('FB_BG_MESSAGES');
     broadcast.onmessage = (event) => {
-      console.log("=======In app background message Broadcast Channel======", event.data);
       notificationStore.addNotification(event.data);
     };
   } else if (permission === "denied") {
@@ -53,9 +49,9 @@ const generateDeviceId = () => {
   return (DateTime.now().toFormat('ddMMyy') + String(DateTime.now().toMillis()).slice(-6))
 }
 
-const generateTopicName = (oms: string, facilityId: string, enumCode: string) => {
-  // topic name: oms-facilityId-enumCode(enumId)
-  return `${oms}-${facilityId}-${enumCode}`
+const generateTopicName = (oms: string, productStoreId: string, enumId: string) => {
+  // topic name: oms-productStoreId-enumId(enumCode)
+  return `${oms}-${productStoreId}-${enumId}`
 }
 
 export {

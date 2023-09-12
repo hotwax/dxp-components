@@ -28,9 +28,6 @@ export default defineComponent({
       return
     }
 
-    // initialising and connecting firebase app for notification support
-    await initialiseFirebaseApp()
-
     const { token, oms, expirationTime } = this.route.query
     this.handleUserFlow(token, oms, expirationTime)
   },
@@ -47,6 +44,10 @@ export default defineComponent({
       context.loader.present('Logging in')
       try {
         await context.login({ token, oms })
+
+        // initialising and connecting firebase app for notification support
+        await initialiseFirebaseApp()
+
         this.router.push('/')
       } catch (error) {
         console.error(error)
