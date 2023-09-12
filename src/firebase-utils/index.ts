@@ -5,13 +5,13 @@ import { DateTime } from 'luxon'
 
 const initialiseFirebaseApp = async () => {
   const firebaseConfig = {
-    apiKey: "AIzaSyAq-jeG6dy8y2O6p_RYKk_MpkfTZ97GF_Q",
-    authDomain: "hotwax-digital-commerce.firebaseapp.com",
-    databaseURL: "https://hotwax-digital-commerce.firebaseio.com",
-    projectId: "hotwax-digital-commerce",
-    storageBucket: "hotwax-digital-commerce.appspot.com",
-    messagingSenderId: "211268342110",
-    appId: "1:211268342110:web:6fa33f0d16129925c27fcf"
+    apiKey: "",
+    authDomain: "",
+    databaseURL: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: ""
   };
 
   const app = initializeApp(firebaseConfig);
