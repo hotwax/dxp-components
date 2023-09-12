@@ -1,17 +1,9 @@
 module.exports = {
-  "env": {
-    "node": true
-  },
+  "root": true,
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
-  },
-  "plugins": [
-    "@typescript-eslint"
+    "plugin:@typescript-eslint/recommended",
+    "@vue/eslint-config-typescript/recommended",
+    "@vue/eslint-config-prettier"
   ]
 }

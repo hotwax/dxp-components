@@ -1,6 +1,7 @@
 import { defineComponent } from "vue"
-import { loginContext as context, useAuthStore, appContext } from "../index"
 import { initialiseFirebaseApp } from "../firebase-utils"
+import { loginContext as context, useAuthStore, appContext, loginContext } from "../index"
+import { DateTime } from "luxon"
 
 export default defineComponent({
   template: `
@@ -33,8 +34,24 @@ export default defineComponent({
   },
   methods: {
     async handleUserFlow(token: string, oms: string, expirationTime: string) {
-      // logout to clear current user state
-      await context.logout()
+
+      // fetch the current config for the user
+      const appConfig = loginContext.getConfig()
+
+      // logout to clear current user state, don't mark the user as logout as we just want to clear the user data
+      await context.logout({ isUserUnauthorised: true })
+
+      // reset the config that we got from the oms-api, as on logout we clear the config of oms-api
+      await context.initialise(appConfig)
+
+      // checking if token from launchpad has expired and redirecting there only
+      if (+expirationTime < DateTime.now().toMillis()) {
+        console.error('User token has expired, redirecting to launchpad.')
+        this.errorMsg = 'User token has expired, redirecting to launchpad.'
+        const redirectUrl = window.location.origin + '/login' // current app URL
+        window.location.href = `${context.appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`
+        return
+      }
 
       this.authStore.$patch({
         token: { value: token, expiration: expirationTime },

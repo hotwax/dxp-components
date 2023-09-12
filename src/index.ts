@@ -47,6 +47,9 @@ export let dxpComponents = {
     noitificationContext.storeClientRegistrationToken = options.storeClientRegistrationToken
     noitificationContext.subscribeTopic = options.subscribeTopic
     noitificationContext.unsubscribeTopic = options.unsubscribeTopic
+
+    loginContext.getConfig = options.getConfig
+    loginContext.initialise = options.initialise
   }
 }
 
