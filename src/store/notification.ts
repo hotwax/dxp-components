@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { noitificationContext } from "../index";
-import { generateTopicName } from "../firebase-utils"
+import { generateTopicName } from "../utils/firebase"
+import { DateTime } from "luxon"
 
 export const useNotificationStore = defineStore('notification', {
   state: () => {
@@ -10,21 +11,24 @@ export const useNotificationStore = defineStore('notification', {
     }
   },
   getters: {
-    getNotifications: (state) => state.notifications,
+    // sorting notifications by descending time
+    getNotifications: (state) => state.notifications.sort((a: any, b: any) => b.time - a.time),
     getDeviceId: (state) => state.deviceId
   },
   actions: {
     addNotification(notification: any) {
-      this.notifications.push(notification)
+      this.notifications.push({ ...notification, time: DateTime.now().toMillis() })
+      // toast when new notifications are added
+      noitificationContext.showNewNotificationToast()
     },
-    async fetchNotificationPreferences(oms: string, productStoreId: string) {
+    async fetchNotificationPreferences(oms: string, facilityId: string) {
       try {
         const enumerationResp = await noitificationContext.getNotificationEnumIds(noitificationContext.notificationEnumTypeId)
         const userPrefResp = await noitificationContext.getNotificationUserPrefTypeIds(noitificationContext.notificationApplicationId)
         const userPrefIds = userPrefResp?.map((userPref: any) => userPref.userPrefTypeId)
 
         const notificationPreferences = enumerationResp.reduce((notifactionPref: any, pref: any) => {
-          const userPrefTypeIdToSearch = generateTopicName(oms, productStoreId, pref.enumId)
+          const userPrefTypeIdToSearch = generateTopicName(oms, facilityId, pref.enumId)
           notifactionPref.push({ ...pref, isEnabled: userPrefIds.includes(userPrefTypeIdToSearch) })
           return notifactionPref
         }, [])
@@ -34,10 +38,10 @@ export const useNotificationStore = defineStore('notification', {
         console.error(error)
       }
     },
-    async handleTopicSubscription(notificationPrefToUpate: any, oms: string, productStoreId: string) {
+    async handleTopicSubscription(notificationPrefToUpate: any, oms: string, facilityId: string) {
       const subscribeRequests = [] as any
       notificationPrefToUpate.subscribe.map((enumId: string) => {
-        const topicName = generateTopicName(oms, productStoreId, enumId)
+        const topicName = generateTopicName(oms, facilityId, enumId)
         subscribeRequests.push(noitificationContext.subscribeTopic(topicName, noitificationContext.notificationApplicationId).catch((err: any) => {
           return err;
         }))
@@ -45,7 +49,7 @@ export const useNotificationStore = defineStore('notification', {
 
       const unsubscribeRequests = [] as any
       notificationPrefToUpate.unsubscribe.map((enumId: string) => {
-        const topicName = generateTopicName(oms, productStoreId, enumId)
+        const topicName = generateTopicName(oms, facilityId, enumId)
         unsubscribeRequests.push(noitificationContext.unsubscribeTopic(topicName, noitificationContext.notificationApplicationId).catch((err: any) => {
           return err;
         }))
@@ -77,6 +81,5 @@ export const useNotificationStore = defineStore('notification', {
         console.error(error)
       }
     }
-  },
-  persist: true
+  }
 })

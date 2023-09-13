@@ -3,7 +3,7 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { useNotificationStore } from "../store/notification";
 import { DateTime } from 'luxon'
 
-const initialiseFirebaseApp = async (appFirebaseConfig: any) => {
+const initialiseFirebaseApp = async (appFirebaseConfig: any, appFirebaseVapidKey: string) => {
   const firebaseConfig = appFirebaseConfig
 
   const app = initializeApp(firebaseConfig);
@@ -12,8 +12,7 @@ const initialiseFirebaseApp = async (appFirebaseConfig: any) => {
 
   if (permission === "granted") {
     const token = await getToken(messaging, {
-      vapidKey:
-        "BOUIEOumNzijvdsEaG2x3fCmQIupqlvq0tJS4QQSF7C1xrCYC6fYJ-VQWkKKPCZN4GG1jVIVMtdiUVjvbeOXO6w"
+      vapidKey: appFirebaseVapidKey
     });
     const notificationStore = useNotificationStore()
 
