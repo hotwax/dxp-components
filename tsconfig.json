@@ -1,7 +1,14 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "strictNullChecks": false
+    "target": "ESNext",
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "./lib",
+    "strict": true,
+    "esModuleInterop": true,
+    "emitDeclarationOnly": true,
+    "typeRoots": ["types"],
+    "baseUrl": "."
   },
   "include": [
     "src/**/*.ts",
@@ -10,11 +17,5 @@
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],
-  "exclude": ["node_modules", "**/__tests__/*", "lib"],
-  "extends": "@vue/tsconfig/tsconfig.web.json",
-  "references": [
-    {
-      "path": "./tsconfig.vite-config.json"
-    }
-  ]
+  "exclude": ["node_modules", "**/__tests__/*", "lib"]
 }
