@@ -81,5 +81,6 @@ export const useNotificationStore = defineStore('notification', {
         console.error(error)
       }
     }
-  }
+  },
+  persist: true
 })
