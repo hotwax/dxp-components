@@ -22,16 +22,16 @@
 </template>
 
 <script setup lang="ts">
-import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonButton, IonIcon } from '@ionic/vue';
-import { appContext, goToOms } from "../index";
-import { computed } from 'vue';
-import { openOutline } from 'ionicons/icons'
+  import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonButton, IonIcon } from '@ionic/vue';
+  import { appContext, goToOms } from "../index";
+  import { computed } from 'vue';
+  import { openOutline } from 'ionicons/icons'
 
-const store = appContext.config.globalProperties.$store;
-const appUserState = computed(() => {
-  return {
-    instanceUrl: store.getters['user/getInstanceUrl'],
-    userToken: store.getters['user/getUserToken']
-  }
-});
+  const store = appContext.config.globalProperties.$store;
+  const appUserState = computed(() => {
+    return {
+      instanceUrl: store.getters['user/getInstanceUrl'],
+      userToken: store.getters['user/getUserToken']
+    }
+  });
 </script>
