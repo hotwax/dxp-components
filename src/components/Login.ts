@@ -27,7 +27,7 @@ export default defineComponent({
       window.location.href = context.appLoginUrl
       return
     }
-
+    
     const { token, oms, expirationTime } = this.route.query
     this.handleUserFlow(token, oms, expirationTime)
   },
