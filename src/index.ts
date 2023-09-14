@@ -8,6 +8,7 @@ import { goToOms } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import { ProductIdentifier } from "./components";
 
 // TODO: handle cases when the store from app or pinia store are not available
 // creating a pinia store for the plugin
@@ -30,6 +31,7 @@ export let dxpComponents = {
 
     app.component('Login', Login)
     app.component('ShopifyImg', ShopifyImg)
+    app.component('ProductIdentifier', ProductIdentifier)
 
     loginContext.login = options.login
     loginContext.logout = options.logout
@@ -62,4 +64,5 @@ export {
   shopifyImgContext,
   useProductIdentificationStore,
   useAuthStore,
+  ProductIdentifier
 }
