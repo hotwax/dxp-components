@@ -30,17 +30,16 @@
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel, IonSelect, IonSelectOption } from '@ionic/vue';
 import { appContext } from 'src';
 import { useProductIdentificationStore } from 'src/store/productIdentification';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 
 const productIdentificationStore = useProductIdentificationStore();
 
 const appState = appContext.config.globalProperties.$store
-
-console.log('appState', appState)
-
 const eComStore = computed(() => appState.getters['user/getCurrentEComStore'])
 
-console.log(eComStore)
+onMounted(() => {
+  productIdentificationStore.getIdentificationPref(eComStore.value.eComStore);
+})
 
 const productIdentificationOptions = productIdentificationStore.getProductIdentificationOptions;
 
