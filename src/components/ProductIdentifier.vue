@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: implement support for i18n -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>
@@ -9,8 +10,6 @@
     <ion-card-content>
       {{ 'Choosing a product identifier allows you to view products with your preferred identifiers.' }}
     </ion-card-content>
-
-    {{ productIdentificationPref }}
 
     <ion-item>
       <ion-label>{{ "Primary Product Identifier" }}</ion-label>
@@ -38,15 +37,15 @@ const productIdentificationStore = useProductIdentificationStore();
 
 const appState = appContext.config.globalProperties.$store
 const eComStore = computed(() => appState.getters['user/getCurrentEComStore'])
-const productIdentificationOptions = productIdentificationStore.getProductIdentificationOptions;
 const productIdentificationPref = computed(() => productIdentificationStore.getProductIdentificationPref);
+const productIdentificationOptions = productIdentificationStore.getProductIdentificationOptions;
 
 onMounted(() => {
   productIdentificationStore.getIdentificationPref(eComStore.value.productStoreId);
 })
 
 function setProductIdentificationPref(value: string | any, id: string) {
-  console.log('value, id', value, id)
+  productIdentificationStore.setProductIdentificationPref(id, value, eComStore.value.productStoreId)
 }
 
 </script>
