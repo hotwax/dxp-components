@@ -20,7 +20,7 @@ export default defineConfig({
     }),
   ],
   build: {
-    cssCodeSplit: false,
+    // cssCodeSplit: false,
     lib: {
       entry: "./src/index.ts",
       formats: ["es", "cjs"],
