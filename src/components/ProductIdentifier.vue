@@ -10,6 +10,8 @@
       {{ 'Choosing a product identifier allows you to view products with your preferred identifiers.' }}
     </ion-card-content>
 
+    {{ productIdentificationPref }}
+
     <ion-item>
       <ion-label>{{ "Primary Product Identifier" }}</ion-label>
       <ion-select interface="popover" :placeholder="'primary identifier'" :value="productIdentificationPref.primaryId" @ionChange="setProductIdentificationPref($event.detail.value, 'primaryId')">
@@ -36,14 +38,12 @@ const productIdentificationStore = useProductIdentificationStore();
 
 const appState = appContext.config.globalProperties.$store
 const eComStore = computed(() => appState.getters['user/getCurrentEComStore'])
+const productIdentificationOptions = productIdentificationStore.getProductIdentificationOptions;
+const productIdentificationPref = computed(() => productIdentificationStore.getProductIdentificationPref);
 
 onMounted(() => {
-  productIdentificationStore.getIdentificationPref(eComStore.value.eComStore);
+  productIdentificationStore.getIdentificationPref(eComStore.value.productStoreId);
 })
-
-const productIdentificationOptions = productIdentificationStore.getProductIdentificationOptions;
-
-const productIdentificationPref = productIdentificationStore.getProductIdentificationPref;
 
 function setProductIdentificationPref(value: string | any, id: string) {
   console.log('value, id', value, id)

@@ -37,7 +37,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
       }
     },
     async getIdentificationPref(eComStoreId: string) {
-      console.log('fetching identification pref')
+      console.log('fetching identification pref', eComStoreId)
       // when selecting none as ecom store, not fetching the pref as it returns all the entries with the pref id
       if(!eComStoreId) {
         return this.productIdentificationPref = {
@@ -47,6 +47,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
       }
 
       this.productIdentificationPref = await productIdentificationContext.getProductIdentificationPref(eComStoreId)
+      console.log(this.productIdentificationPref, eComStoreId)
     }
   }
 })
