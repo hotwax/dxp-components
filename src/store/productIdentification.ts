@@ -17,6 +17,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
   },
   actions: {
     async setProductIdentificationPref(id: string, value: string, eComStoreId: string) {
+      console.log('inside pinia action', this.getProductIdentificationPref)
       const productIdentificationPref = JSON.parse(JSON.stringify(this.getProductIdentificationPref))
 
       // When eComStoreId is not available then make the values change to what selected previously
@@ -27,6 +28,8 @@ export const useProductIdentificationStore = defineStore('productIdentification'
 
       productIdentificationPref[id] = value
 
+      console.log('set product identification pref')
+
       try {
         this.productIdentificationPref = await productIdentificationContext.setProductIdentificationPref(eComStoreId, productIdentificationPref)
       } catch(err) {
@@ -34,6 +37,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
       }
     },
     async getIdentificationPref(eComStoreId: string) {
+      console.log('fetching identification pref')
       // when selecting none as ecom store, not fetching the pref as it returns all the entries with the pref id
       if(!eComStoreId) {
         return this.productIdentificationPref = {
