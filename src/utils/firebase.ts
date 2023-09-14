@@ -21,13 +21,13 @@ const initialiseFirebaseApp = async (
 
     // handle foreground message
     onMessage(messaging, (payload: any) => {
-      addNotification(payload);
+      addNotification({ notification: payload, isForeground: true });
     });
 
     // handle background message (service worker)
     const broadcast = new BroadcastChannel('FB_BG_MESSAGES');
     broadcast.onmessage = (event) => {
-      addNotification(event.data);
+      addNotification({ notification: event.data, isForeground: false });
     };
   } else if (permission === "denied") {
     alert("You denied notifications.");
