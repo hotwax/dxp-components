@@ -3,6 +3,7 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
+import { LanguageSwitcher } from "./components";
 import Login from "./components/Login";
 import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
@@ -38,6 +39,7 @@ export let dxpComponents = {
     app.use(pinia);
     app.use(i18n);
 
+    app.component('LanguageSwitcher', LanguageSwitcher)
     app.component('Login', Login)
     app.component('ShopifyImg', ShopifyImg)
 
@@ -57,6 +59,7 @@ export let dxpComponents = {
 export {
   appContext,
   goToOms,
+  i18n,
   Login,
   loginContext,
   productIdentificationContext,
