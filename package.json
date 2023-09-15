@@ -30,7 +30,8 @@
     "luxon": "^3.3.0",
     "pinia": "2.0.36",
     "pinia-plugin-persistedstate": "^3.1.0",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue-i18n": "^9.2.2"
   },
   "devDependencies": {
     "@babel/types": "^7.22.11",
