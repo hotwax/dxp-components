@@ -29,7 +29,7 @@ const initialiseFirebaseApp = async (
     broadcast.onmessage = (event) => {
       addNotification({ notification: event.data, isForeground: false });
     };
-  } else if (permission === "denied") {
+  } else {
     alert("You denied notifications.");
   }
 };
