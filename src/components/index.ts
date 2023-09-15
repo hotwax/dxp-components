@@ -15,5 +15,7 @@ import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
 import AppVersionInfo from './AppVersionInfo.vue';
+import ProductIdentifier from "./ProductIdentifier.vue";
 
-export { AppVersionInfo };
+export { AppVersionInfo, ProductIdentifier };
+
