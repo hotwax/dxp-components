@@ -1,11 +1,14 @@
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
+
 import Login from "./components/Login";
-import { FacilitySwitcher } from "./components";
 import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
+import { initialiseFirebaseApp } from "./utils/firebase"
+
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import { FacilitySwitcher, ProductIdentifier } from "./components";
 
 // TODO: handle cases when the store from app or pinia store are not available
 // creating a pinia store for the plugin
@@ -16,6 +19,7 @@ let loginContext = {} as any
 let shopifyImgContext = {} as any
 let appContext = {} as any
 let productIdentificationContext = {} as any
+let noitificationContext = {} as any
 
 // executed on app initialization
 export let dxpComponents = {
@@ -28,6 +32,7 @@ export let dxpComponents = {
     app.component('Login', Login)
     app.component('FacilitySwitcher', FacilitySwitcher)
     app.component('ShopifyImg', ShopifyImg)
+    app.component('ProductIdentifier', ProductIdentifier)
 
     loginContext.login = options.login
     loginContext.logout = options.logout
@@ -37,6 +42,14 @@ export let dxpComponents = {
     shopifyImgContext.defaultImgUrl = options.defaultImgUrl
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
+    
+    noitificationContext.addNotification = options.addNotification
+    noitificationContext.appFirebaseConfig = options.appFirebaseConfig
+    noitificationContext.appFirebaseVapidKey = options.appFirebaseVapidKey
+    noitificationContext.storeClientRegistrationToken = options.storeClientRegistrationToken
+
+    loginContext.getConfig = options.getConfig
+    loginContext.initialise = options.initialise
   }
 }
 
@@ -44,11 +57,14 @@ export {
   appContext,
   FacilitySwitcher,
   goToOms,
+  initialiseFirebaseApp,
   Login,
   loginContext,
   productIdentificationContext,
-  shopifyImgContext,
+  noitificationContext,
   ShopifyImg,
+  shopifyImgContext,
   useProductIdentificationStore,
   useAuthStore,
+  ProductIdentifier
 }

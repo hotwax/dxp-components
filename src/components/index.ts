@@ -14,4 +14,7 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
-export { default as FacilitySwitcher } from './FacilitySwitcher.vue';
+import FacilitySwitcher from './FacilitySwitcher.vue';
+import ProductIdentifier from './ProductIdentifier.vue';
+
+export { FacilitySwitcher, ProductIdentifier };
