@@ -6,13 +6,13 @@
         {{ "OMS instance" }}
       </ion-card-subtitle>
       <ion-card-title>
-        {{ appUserState.instanceUrl }}
+        {{ store.getOms }}
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       {{ 'This is the name of the OMS you are connected to right now. Make sure that you are connected to the right instance before proceeding.' }}
     </ion-card-content>
-    <ion-button @click="goToOms(appUserState.userToken, appUserState.instanceUrl)" fill="clear">
+    <ion-button @click="goToOms(store.getToken.value, store.getOms)" fill="clear">
       {{ 'Go to OMS' }}
       <ion-icon slot="end" :icon="openOutline" />
     </ion-button>
@@ -21,15 +21,9 @@
 
 <script setup lang="ts">
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonButton, IonIcon } from '@ionic/vue';
-import { appContext, goToOms } from "../index";
-import { computed } from 'vue';
+import { goToOms } from '../utils';
 import { openOutline } from 'ionicons/icons'
+import { useAuthStore } from "../store/auth";
 
-const store = appContext.config.globalProperties.$store;
-const appUserState = computed(() => {
-  return {
-    instanceUrl: store.getters['user/getInstanceUrl'],
-    userToken: store.getters['user/getUserToken']
-  }
-});
+const store = useAuthStore()
 </script>
