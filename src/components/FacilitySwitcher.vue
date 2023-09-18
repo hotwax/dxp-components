@@ -18,32 +18,35 @@
 </template>
 
 <script setup lang="ts">
-  import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel, IonSelect, IonSelectOption } from '@ionic/vue'
-  import { appContext } from '../index';
-  import { computed } from 'vue';
+import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel, IonSelect, IonSelectOption } from '@ionic/vue'
+import { appContext } from '../index';
+import { computed } from 'vue';
 
-  const emit = defineEmits(['facility-change-alert', 'get-facility-details' ,'update-facility-id'])
-  const store = appContext.config.globalProperties.$store;
-  const appUserState = computed(() => {
+// Here 'facility-change-alert' and 'update-facility-id' are the events for inventory-count app.
+// and 'get-facility-details' is the event for fulfillment-pwa app.
+const emit = defineEmits(['facility-change-alert', 'get-facility-details' ,'update-facility-id'])
+const store = appContext.config.globalProperties.$store;
+const appUserState = computed(() => {
   return {
     currentFacility: store.getters['user/getCurrentFacility'],
     userProfile: store.getters['user/getUserProfile'],
     uploadProducts: store.getters['product/getUploadProducts']
-    }
-  });
+  }
+});
 
-  const setFacility = async (facility: any) => {
-    const currentAppUserState = appUserState.value
-    const selectedFacility = facility['detail'].value
-    if ( currentAppUserState.currentFacility.facilityId && currentAppUserState.currentFacility.facilityId != selectedFacility && currentAppUserState.userProfile?.facilities) {
-      if (store.uploadProducts && Object.keys(store.uploadProducts).length > 0 ) {
-        emit('facility-change-alert', selectedFacility)
-      } else {        
-        await store.dispatch('user/setFacility', {
-          'facility': currentAppUserState.userProfile.facilities.find((fac: any) => fac.facilityId == selectedFacility)
-        });
-        Promise.all([emit('update-facility-id', currentAppUserState.currentFacility.facilityId), emit('get-facility-details')])
-      }
+const setFacility = async (event: any) => {
+  const currentAppUserState = appUserState.value
+  const selectedFacility = event['detail'].value
+  if (currentAppUserState.currentFacility.facilityId && currentAppUserState.currentFacility.facilityId != selectedFacility && currentAppUserState.userProfile?.facilities) {
+    // Below check is a handle case for the inventory-count app.
+    if (store.uploadProducts && Object.keys(store.uploadProducts).length > 0 ) {
+      emit('facility-change-alert', selectedFacility)
+    } else {
+      await store.dispatch('user/setFacility', {
+        'facility': currentAppUserState.userProfile.facilities.find((fac: any) => fac.facilityId == selectedFacility)
+      });
+      Promise.all([emit('update-facility-id', currentAppUserState.currentFacility.facilityId), emit('get-facility-details')])
     }
   }
+}
 </script>
