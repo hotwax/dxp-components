@@ -3,7 +3,7 @@
     <ion-toolbar>
       <ion-item lines="none">
         <ion-label class="ion-text-wrap">
-          <p class="overline">{{ appUserState.instanceUrl }}</p>
+          <p class="overline">{{ instanceUrl }}</p>
         </ion-label>
         <ion-note slot="end">{{ appUserState.userProfile?.userTimeZone }}</ion-note>
       </ion-item>
@@ -38,17 +38,18 @@
 
 <script setup lang="ts">
 import { IonFooter, IonItem, IonLabel, IonNote, IonSelect, IonSelectOption, IonToolbar } from '@ionic/vue';
-import { appContext } from "../index";
+import { appContext, useAuthStore } from "../index";
 import { computed } from 'vue';
 
-const store = appContext.config.globalProperties.$store;
+const authStore = useAuthStore();
+const appState = appContext.config.globalProperties.$store;
+const instanceUrl = authStore.getOms;
 const appUserState = computed(() => {
   return {
-    instanceUrl: store.getters['user/getInstanceUrl'],
-    userProfile: store.getters['user/getUserProfile'],
-    currentEComStore: store.getters['user/getCurrentEComStore'],
-    shopifyConfigs: store.getters['user/getShopifyConfigs'],
-    currentShopifyConfig: store.getters['user/getCurrentShopifyConfig']
+    userProfile: appState.getters['user/getUserProfile'],
+    currentEComStore: appState.getters['user/getCurrentEComStore'],
+    shopifyConfigs: appState.getters['user/getShopifyConfigs'],
+    currentShopifyConfig: appState.getters['user/getCurrentShopifyConfig']
   }
 });
 
