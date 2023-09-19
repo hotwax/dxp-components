@@ -27,7 +27,8 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonIcon } from '@ionic/vue';
+  IonIcon
+} from '@ionic/vue';
 import { goToOms } from '../utils';
 import { openOutline } from 'ionicons/icons'
 import { useAuthStore } from "../store/auth";
