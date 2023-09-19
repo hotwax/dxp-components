@@ -9,6 +9,7 @@ import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
+import { useUserStore } from "./store/user";
 
 // TODO: handle cases when the store from app or pinia store are not available
 // creating a pinia store for the plugin
@@ -29,11 +30,11 @@ export let dxpComponents = {
 
     // Creating an instance of the i18n and translate function for translating text
     i18n = createI18n({
+      legacy: false,
       locale: process.env.VUE_APP_I18N_LOCALE || 'en',
       fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
       messages: options.localeMessages
     })
-    translate = (key: string) => key ? i18n.global.t(key) : '';
 
     // registering pinia in the app
     app.use(pinia);
@@ -53,6 +54,10 @@ export let dxpComponents = {
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
     loginContext.getConfig = options.getConfig
     loginContext.initialise = options.initialise
+
+    // set a default locale in the state
+    useUserStore().setLocale(i18n.global.locale);
+    translate = i18n.global.t
   }
 }
 
@@ -64,6 +69,7 @@ export {
   loginContext,
   productIdentificationContext,
   useProductIdentificationStore,
+  useUserStore,
   useAuthStore,
   shopifyImgContext,
   ShopifyImg,
