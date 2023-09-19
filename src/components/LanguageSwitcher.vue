@@ -26,7 +26,7 @@ declare var process: any;
 const appState = appContext.config.globalProperties.$store
 const locales = process.env.VUE_APP_LOCALES ? JSON.parse(process.env.VUE_APP_LOCALES) : { "en": "English" };
 const locale = computed(() => appState.getters['user/getLocale']);
-const setLocale = async (locale: string) => {
-  await appState.dispatch('user/setLocale', locale);
+const setLocale = (locale: string) => {
+  appState.dispatch('user/setLocale', locale);
 }
 </script>
