@@ -3,7 +3,7 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { LanguageSwitcher } from "./components";
+import { LanguageSwitcher, ProductIdentifier } from "./components";
 import Login from "./components/Login";
 import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
@@ -11,7 +11,6 @@ import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
 import { useUserStore } from "./store/user";
-import { ProductIdentifier } from "./components";
 
 // TODO: handle cases when the store from app or pinia store are not available
 // creating a pinia store for the plugin
