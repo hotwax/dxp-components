@@ -33,6 +33,7 @@ export default defineConfig({
         globals: {
           vue: "Vue",
         },
+        intro: 'import "./style.css";' // Added to prepend/append the styles to the bundle, as with lib mode the styles are not working
       },
     },
     outDir: "./lib"
