@@ -15,6 +15,7 @@ import { AppVersionInfo, ProductIdentifier } from "./components";
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate)
 
+let translate: any;
 let loginContext = {} as any
 let shopifyImgContext = {} as any
 let appContext = {} as any
@@ -33,6 +34,8 @@ export let dxpComponents = {
     app.component('Login', Login)
     app.component('ShopifyImg', ShopifyImg)
     app.component('ProductIdentifier', ProductIdentifier)
+
+    translate = options.translate;
 
     loginContext.login = options.login
     loginContext.logout = options.logout
@@ -63,6 +66,7 @@ export {
   noitificationContext,
   ShopifyImg,
   shopifyImgContext,
+  translate,
   useProductIdentificationStore,
   useAuthStore,
   ProductIdentifier
