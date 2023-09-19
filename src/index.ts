@@ -62,16 +62,16 @@ export let dxpComponents = {
 }
 
 export {
+  Login,
+  ShopifyImg,
   appContext,
   goToOms,
   i18n,
-  Login,
   loginContext,
   productIdentificationContext,
-  useProductIdentificationStore,
-  useUserStore,
-  useAuthStore,
   shopifyImgContext,
-  ShopifyImg,
-  translate
+  translate,
+  useAuthStore,
+  useProductIdentificationStore,
+  useUserStore
 }
