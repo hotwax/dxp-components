@@ -1,9 +1,12 @@
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
+
 import Login from "./components/Login";
 import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
+import { initialiseFirebaseApp } from "./utils/firebase"
+
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { AppVersionInfo, ProductIdentifier } from "./components";
 
@@ -16,6 +19,7 @@ let loginContext = {} as any
 let shopifyImgContext = {} as any
 let appContext = {} as any
 let productIdentificationContext = {} as any
+let noitificationContext = {} as any
 
 // executed on app initialization
 export let dxpComponents = {
@@ -38,20 +42,28 @@ export let dxpComponents = {
     shopifyImgContext.defaultImgUrl = options.defaultImgUrl
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
+    
+    noitificationContext.addNotification = options.addNotification
+    noitificationContext.appFirebaseConfig = options.appFirebaseConfig
+    noitificationContext.appFirebaseVapidKey = options.appFirebaseVapidKey
+    noitificationContext.storeClientRegistrationToken = options.storeClientRegistrationToken
+
     loginContext.getConfig = options.getConfig
     loginContext.initialise = options.initialise
   }
 }
 
 export {
-  useProductIdentificationStore,
-  useAuthStore,
+  appContext,
+  goToOms,
+  initialiseFirebaseApp,
   Login,
   loginContext,
-  shopifyImgContext,
-  ShopifyImg,
-  goToOms,
-  appContext,
   productIdentificationContext,
+  noitificationContext,
+  ShopifyImg,
+  shopifyImgContext,
+  useProductIdentificationStore,
+  useAuthStore,
   ProductIdentifier
 }

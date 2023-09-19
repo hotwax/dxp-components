@@ -1,5 +1,6 @@
 import { defineComponent } from "vue"
-import { loginContext as context, useAuthStore, appContext, loginContext } from "../index"
+import { initialiseFirebaseApp } from "../utils/firebase"
+import { loginContext as context, useAuthStore, appContext, loginContext, noitificationContext } from "../index"
 import { DateTime } from "luxon"
 
 export default defineComponent({
@@ -61,6 +62,15 @@ export default defineComponent({
       context.loader.present('Logging in')
       try {
         await context.login({ token, oms })
+
+        // initialising and connecting firebase app for notification support
+        await initialiseFirebaseApp(
+          noitificationContext.appFirebaseConfig,
+          noitificationContext.appFirebaseVapidKey,
+          noitificationContext.storeClientRegistrationToken,
+          noitificationContext.addNotification,
+        )
+
         this.router.push('/')
       } catch (error) {
         console.error(error)
