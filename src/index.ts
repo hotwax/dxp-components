@@ -26,7 +26,7 @@ let noitificationContext = {} as any
 export let dxpComponents = {
   install(app: any, options: any) {
     appContext = app
-    
+
     // registering pinia in the app
     app.use(pinia);
 
