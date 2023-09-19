@@ -3,12 +3,11 @@ import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
 
 import Login from "./components/Login";
-import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-import { MenuFooterNavigation, ProductIdentifier } from "./components";
+import { MenuFooterNavigation, ProductIdentifier, ShopifyImg } from "./components";
 
 // TODO: handle cases when the store from app or pinia store are not available
 // creating a pinia store for the plugin

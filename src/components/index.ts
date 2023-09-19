@@ -16,6 +16,7 @@ import '@ionic/vue/css/display.css';
 
 import MenuFooterNavigation from './MenuFooterNavigation.vue';
 import ProductIdentifier from './ProductIdentifier.vue';
+import ShopifyImg from './ShopifyImg.vue';
 
-export { MenuFooterNavigation, ProductIdentifier };
+export { MenuFooterNavigation, ProductIdentifier, ShopifyImg };
 
