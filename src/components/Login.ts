@@ -1,5 +1,6 @@
 import { defineComponent } from "vue"
-import { loginContext as context, useAuthStore, appContext } from "../index"
+import { initialiseFirebaseApp } from "../utils/firebase"
+import { loginContext as context, useAuthStore, appContext, loginContext, noitificationContext } from "../index"
 import { DateTime } from "luxon"
 
 export default defineComponent({
@@ -33,8 +34,15 @@ export default defineComponent({
   },
   methods: {
     async handleUserFlow(token: string, oms: string, expirationTime: string) {
-      // logout to clear current user state
-      await context.logout()
+
+      // fetch the current config for the user
+      const appConfig = loginContext.getConfig()
+
+      // logout to clear current user state, don't mark the user as logout as we just want to clear the user data
+      await context.logout({ isUserUnauthorised: true })
+
+      // reset the config that we got from the oms-api, as on logout we clear the config of oms-api
+      await context.initialise(appConfig)
 
       // checking if token from launchpad has expired and redirecting there only
       if (+expirationTime < DateTime.now().toMillis()) {
@@ -54,6 +62,15 @@ export default defineComponent({
       context.loader.present('Logging in')
       try {
         await context.login({ token, oms })
+
+        // initialising and connecting firebase app for notification support
+        await initialiseFirebaseApp(
+          noitificationContext.appFirebaseConfig,
+          noitificationContext.appFirebaseVapidKey,
+          noitificationContext.storeClientRegistrationToken,
+          noitificationContext.addNotification,
+        )
+
         this.router.push('/')
       } catch (error) {
         console.error(error)

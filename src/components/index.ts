@@ -14,4 +14,8 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
-export { default as MenuFooterNavigation } from "./MenuFooterNavigation.vue";
+import MenuFooterNavigation from './MenuFooterNavigation.vue';
+import ProductIdentifier from './ProductIdentifier.vue';
+
+export { MenuFooterNavigation, ProductIdentifier };
+

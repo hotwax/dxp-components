@@ -30,6 +30,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
       try {
         this.productIdentificationPref = await productIdentificationContext.setProductIdentificationPref(eComStoreId, productIdentificationPref)
       } catch(err) {
+        // TODO: display a toast message in failed scenario
         console.log('error', err)
       }
     },
