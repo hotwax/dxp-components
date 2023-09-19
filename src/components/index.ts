@@ -14,7 +14,7 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
-import OmsInstanceNavigation from './OmsInstanceNavigation.vue';
+import OmsInstanceNavigator from './OmsInstanceNavigator.vue';
 import ProductIdentifier from './ProductIdentifier.vue';
 
-export { OmsInstanceNavigation, ProductIdentifier };
+export { OmsInstanceNavigator, ProductIdentifier };
