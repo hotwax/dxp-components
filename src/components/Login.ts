@@ -63,7 +63,7 @@ export default defineComponent({
       try {
         await context.login({ token, oms })
 
-        // check if firebase if configurations are there
+        // check if firebase configurations are there
         if (noitificationContext.appFirebaseConfig) {
           // initialising and connecting firebase app for notification support
           await initialiseFirebaseApp(
