@@ -14,7 +14,6 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
-import OmsInstanceNavigator from './OmsInstanceNavigator.vue';
-import ProductIdentifier from './ProductIdentifier.vue';
-
-export { OmsInstanceNavigator, ProductIdentifier };
+export { default as ProductIdentifier } from "./ProductIdentifier.vue";
+export { default as LanguageSwitcher } from './LanguageSwitcher.vue';
+export { default as OmsInstanceNavigator } from './OmsInstanceNavigator.vue'
