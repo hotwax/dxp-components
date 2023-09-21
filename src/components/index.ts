@@ -15,4 +15,4 @@ import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
 export { default as ProductIdentifier } from "./ProductIdentifier.vue";
-
+export { default as LanguageSwitcher } from './LanguageSwitcher.vue';
