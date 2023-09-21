@@ -1,20 +1,24 @@
+declare var process: any;
+
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-
+import { FacilitySwitcher, LanguageSwitcher, ProductIdentifier } from "./components";
 import Login from "./components/Login";
 import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
-
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-import { FacilitySwitcher, ProductIdentifier } from "./components";
+import { createI18n } from 'vue-i18n'
+import { useUserStore } from "./store/user";
 
 // TODO: handle cases when the store from app or pinia store are not available
 // creating a pinia store for the plugin
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate)
 
+let i18n: any
+let translate: any;
 let loginContext = {} as any
 let shopifyImgContext = {} as any
 let appContext = {} as any
@@ -26,11 +30,21 @@ export let dxpComponents = {
   install(app: any, options: any) {
     appContext = app
 
+    // Creating an instance of the i18n and translate function for translating text
+    i18n = createI18n({
+      legacy: false,
+      locale: process.env.VUE_APP_I18N_LOCALE || 'en',
+      fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+      messages: options.localeMessages
+    })
+
     // registering pinia in the app
     app.use(pinia);
+    app.use(i18n);
 
-    app.component('Login', Login)
     app.component('FacilitySwitcher', FacilitySwitcher)
+    app.component('LanguageSwitcher', LanguageSwitcher)
+    app.component('Login', Login)
     app.component('ShopifyImg', ShopifyImg)
     app.component('ProductIdentifier', ProductIdentifier)
 
@@ -50,21 +64,28 @@ export let dxpComponents = {
 
     loginContext.getConfig = options.getConfig
     loginContext.initialise = options.initialise
+
+    // set a default locale in the state
+    useUserStore().setLocale(i18n.global.locale);
+    translate = i18n.global.t
   }
 }
 
 export {
+  Login,
+  ShopifyImg,
   appContext,
   FacilitySwitcher,
   goToOms,
-  initialiseFirebaseApp,
-  Login,
+  i18n,
   loginContext,
   productIdentificationContext,
-  noitificationContext,
-  ShopifyImg,
   shopifyImgContext,
-  useProductIdentificationStore,
+  translate,
   useAuthStore,
+  useProductIdentificationStore,
+  useUserStore,
+  initialiseFirebaseApp,
+  noitificationContext,
   ProductIdentifier
 }
