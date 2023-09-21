@@ -14,8 +14,6 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
-import ProductIdentifier from './ProductIdentifier.vue';
-import ShopifyImg from './ShopifyImg.vue';
-
-export { ProductIdentifier, ShopifyImg };
-
+export { default as ProductIdentifier } from "./ProductIdentifier.vue";
+export { default as LanguageSwitcher } from './LanguageSwitcher.vue';
+export { default as ShopifyImg } from './ShopifyImg.vue';
