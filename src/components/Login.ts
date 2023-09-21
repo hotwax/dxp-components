@@ -64,12 +64,12 @@ export default defineComponent({
         await context.login({ token, oms })
 
         // initialising and connecting firebase app for notification support
-        await initialiseFirebaseApp(
-          noitificationContext.appFirebaseConfig,
-          noitificationContext.appFirebaseVapidKey,
-          noitificationContext.storeClientRegistrationToken,
-          noitificationContext.addNotification,
-        )
+        // await initialiseFirebaseApp(
+        //   noitificationContext.appFirebaseConfig,
+        //   noitificationContext.appFirebaseVapidKey,
+        //   noitificationContext.storeClientRegistrationToken,
+        //   noitificationContext.addNotification,
+        // )
 
         this.router.push('/')
       } catch (error) {
