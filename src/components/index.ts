@@ -14,8 +14,6 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
-import AppVersionInfo from './AppVersionInfo.vue';
-import ProductIdentifier from "./ProductIdentifier.vue";
-
-export { AppVersionInfo, ProductIdentifier };
-
+export { default as ProductIdentifier } from "./ProductIdentifier.vue";
+export { default as LanguageSwitcher } from './LanguageSwitcher.vue';
+export { default as AppVersionInfo } from './AppVersionInfo.vue';

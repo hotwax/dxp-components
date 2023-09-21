@@ -1,7 +1,7 @@
 <template>
   <div class="section-header">
     <h1>
-      {{ translate('App') }}
+      {{ $t('App') }}
       <p class="overline">{{ "Version: " + appVersion }}</p>
     </h1>
     <p class="overline">{{ "Built: " + getDateTime(appInfo.builtTime) }}</p>
@@ -10,7 +10,7 @@
   
 <script setup lang="ts">
 import { DateTime } from 'luxon';
-import { translate } from '../index';
+
 declare var process: any;
 
 const appInfo = (process.env.VUE_APP_VERSION_INFO ? JSON.parse(process.env.VUE_APP_VERSION_INFO) : {}) as any;
