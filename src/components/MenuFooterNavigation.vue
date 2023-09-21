@@ -43,7 +43,7 @@ import { computed } from 'vue';
 
 const authStore = useAuthStore();
 const appState = appContext.config.globalProperties.$store;
-const instanceUrl = authStore.getOms;
+const instanceUrl = computed(() => authStore.getOms); 
 const appUserState = computed(() => {
   return {
     userProfile: appState.getters['user/getUserProfile'],
@@ -52,5 +52,4 @@ const appUserState = computed(() => {
     currentShopifyConfig: appState.getters['user/getCurrentShopifyConfig']
   }
 });
-
 </script>
