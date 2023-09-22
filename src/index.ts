@@ -3,9 +3,8 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { AppVersionInfo, LanguageSwitcher, ProductIdentifier } from "./components";
+import { AppVersionInfo, LanguageSwitcher, OmsInstanceNavigator, ProductIdentifier, ShopifyImg } from "./components";
 import Login from "./components/Login";
-import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
@@ -45,8 +44,9 @@ export let dxpComponents = {
     app.component('AppVersionInfo', AppVersionInfo)
     app.component('LanguageSwitcher', LanguageSwitcher)
     app.component('Login', Login)
-    app.component('ShopifyImg', ShopifyImg)
+    app.component('OmsInstanceNavigator', OmsInstanceNavigator)
     app.component('ProductIdentifier', ProductIdentifier)
+    app.component('ShopifyImg', ShopifyImg)
 
     translate = options.translate;
 
@@ -74,19 +74,20 @@ export let dxpComponents = {
 }
 
 export {
-  Login,
-  ShopifyImg,
   appContext,
   goToOms,
   i18n,
+  initialiseFirebaseApp,
+  Login,
   loginContext,
+  noitificationContext,
+  OmsInstanceNavigator,
+  ProductIdentifier,
   productIdentificationContext,
+  ShopifyImg,
   shopifyImgContext,
   translate,
   useAuthStore,
   useProductIdentificationStore,
-  useUserStore,
-  initialiseFirebaseApp,
-  noitificationContext,
-  ProductIdentifier
+  useUserStore
 }
