@@ -3,9 +3,8 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { LanguageSwitcher, OmsInstanceNavigator, ProductIdentifier } from "./components";
+import { LanguageSwitcher, OmsInstanceNavigator, ProductIdentifier, ShopifyImg } from "./components";
 import Login from "./components/Login";
-import ShopifyImg from "./components/ShopifyImg";
 import { goToOms } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
