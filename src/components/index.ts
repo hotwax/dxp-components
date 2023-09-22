@@ -16,4 +16,5 @@ import '@ionic/vue/css/display.css';
 
 export { default as ProductIdentifier } from "./ProductIdentifier.vue";
 export { default as LanguageSwitcher } from './LanguageSwitcher.vue';
+export { default as OmsInstanceNavigator } from './OmsInstanceNavigator.vue'
 export { default as ShopifyImg } from './ShopifyImg.vue';
