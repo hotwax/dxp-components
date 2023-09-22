@@ -1,9 +1,9 @@
 <template>
   <div class="section-header">
-    <h1>
-      {{ $t('App') }}
+    <div>
+      <h1>{{ $t('App') }}</h1>
       <p class="overline">{{ "Version: " + appVersion }}</p>
-    </h1>
+    </div>
     <p class="overline">{{ "Built: " + getDateTime(appInfo.builtTime) }}</p>
   </div>
 </template>
