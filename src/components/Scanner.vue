@@ -1,5 +1,6 @@
 <template>
   <ion-toolbar>
+    <ion-title v-if="props.title">{{ $t(props.title) }}</ion-title>
     <ion-buttons slot="end" @click="closeScanner()">
       <ion-button>
         <ion-icon :icon="closeOutline" />
@@ -14,9 +15,13 @@
 </template>
 
 <script setup lang="ts">
-import { IonButton, IonButtons, IonIcon, IonToolbar, modalController } from '@ionic/vue';
+import { IonTitle, IonButton, IonButtons, IonIcon, IonToolbar, modalController } from '@ionic/vue';
 import { closeOutline } from 'ionicons/icons'
 import { StreamBarcodeReader } from "vue-barcode-reader";
+
+const props = defineProps({
+  title: String
+})
 
 function onDecode(result: any) {
   modalController.dismiss({dismissed: true, value: result});
