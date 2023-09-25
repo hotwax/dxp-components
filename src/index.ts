@@ -3,11 +3,10 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { LanguageSwitcher, ProductIdentifier, Scanner } from "./components";
-import ShopifyImg from "./components/ShopifyImg";
+import { LanguageSwitcher, OmsInstanceNavigator, ProductIdentifier, Scanner, ShopifyImg } from "./components";
+import Login from "./components/Login";
 import { goToOms } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
-import Login from "./components/Login";
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
 import { useUserStore } from "./store/user";
@@ -44,9 +43,10 @@ export let dxpComponents = {
 
     app.component('LanguageSwitcher', LanguageSwitcher)
     app.component('Login', Login)
-    app.component('ShopifyImg', ShopifyImg)
+    app.component('OmsInstanceNavigator', OmsInstanceNavigator)
     app.component('ProductIdentifier', ProductIdentifier)
     app.component('Scanner', Scanner)
+    app.component('ShopifyImg', ShopifyImg)
 
     loginContext.login = options.login
     loginContext.logout = options.logout
@@ -72,20 +72,21 @@ export let dxpComponents = {
 }
 
 export {
-  Login,
-  ShopifyImg,
   appContext,
   goToOms,
   i18n,
+  initialiseFirebaseApp,
+  Login,
   loginContext,
+  noitificationContext,
+  OmsInstanceNavigator,
+  ProductIdentifier,
   productIdentificationContext,
+  ShopifyImg,
   shopifyImgContext,
   translate,
   useAuthStore,
   useProductIdentificationStore,
-  useUserStore,
-  initialiseFirebaseApp,
-  noitificationContext,
-  ProductIdentifier,
-  Scanner
+  Scanner,
+  useUserStore
 }
