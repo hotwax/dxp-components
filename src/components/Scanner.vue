@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonTitle, IonButton, IonButtons, IonIcon, IonToolbar, modalController } from '@ionic/vue';
+import { IonButton, IonButtons, IonIcon, IonTitle, IonToolbar, modalController } from '@ionic/vue';
 import { closeOutline } from 'ionicons/icons'
 import { StreamBarcodeReader } from "vue-barcode-reader";
 
