@@ -18,7 +18,16 @@
 </template>
 
 <script setup lang="ts">
-import { IonCard, IonCardContent, IonCardHeader, IonItem, IonLabel, IonSelect, IonSelectOption, IonCardTitle } from '@ionic/vue';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonItem,
+  IonLabel,
+  IonSelect,
+  IonSelectOption,
+  IonCardTitle
+} from '@ionic/vue';
 import { computed } from "vue";
 import { useUserStore } from '../store/user'
 
