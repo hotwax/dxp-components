@@ -28,18 +28,13 @@ jobs:
           - name: Set Firebase and VAPID Config
             run: |
               if [[ -n "$VUE_APP_FIREBASE_CONFIG" ]]; then
-                sed -i "s|VUE_APP_FIREBASE_CONFIG=.*|VUE_APP_FIREBASE_CONFIG='$VUE_APP_FIREBASE_CONFIG';|g" .env
+                sed -i "s|VUE_APP_FIREBASE_CONFIG=.*|VUE_APP_FIREBASE_CONFIG=$VUE_APP_FIREBASE_CONFIG;|g" .env
                 sed -i "s|VUE_APP_FIREBASE_VAPID_KEY=.*|VUE_APP_FIREBASE_VAPID_KEY='$VUE_APP_FIREBASE_VAPID_KEY';|g" .env
+                sed -i "s|const firebaseConfig =.*|const firebaseConfig = $VUE_APP_FIREBASE_CONFIG;|g" public/firebase-messaging-sw.js
               fi
             env:
               VUE_APP_FIREBASE_CONFIG: ${{ secrets.VUE_APP_FIREBASE_CONFIG }}
               VUE_APP_FIREBASE_VAPID_KEY: ${{ secrets.VUE_APP_FIREBASE_VAPID_KEY }}
-          
-          - name: Replace firebaseConfig in firebase-messaging-sw.js
-            run: |
-              sed -i "s|const firebaseConfig =.*|const firebaseConfig = $VUE_APP_FIREBASE_CONFIG;|g" public/firebase-messaging-sw.js
-            env:
-              VUE_APP_FIREBASE_CONFIG: ${{ secrets.VUE_APP_FIREBASE_CONFIG }}
           - name: Build
             run: npm run build
           - name: Install Firebase
