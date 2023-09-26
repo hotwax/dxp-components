@@ -44,12 +44,10 @@ import { computed } from 'vue';
 const authStore = useAuthStore();
 const appState = appContext.config.globalProperties.$store;
 const instanceUrl = computed(() => authStore.getOms); 
-const userAppState = computed(() => {
-  return {
-    userProfile: appState.getters['user/getUserProfile'],
-    currentEComStore: appState.getters['user/getCurrentEComStore'],
-    shopifyConfigs: appState.getters['user/getShopifyConfigs'],
-    currentShopifyConfig: appState.getters['user/getCurrentShopifyConfig']
-  }
-});
+const userAppState = computed(() => ({ 
+  userProfile: appState.getters['user/getUserProfile'],
+  currentEComStore: appState.getters['user/getCurrentEComStore'],
+  shopifyConfigs: appState.getters['user/getShopifyConfigs'],
+  currentShopifyConfig: appState.getters['user/getCurrentShopifyConfig']
+}));
 </script>
