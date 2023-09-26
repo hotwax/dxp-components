@@ -24,6 +24,11 @@ jobs:
             run: npm install
           - name: Generate .env file
             run: cp .env.example .env
+          - name: Set Firebase and VAPID Config
+            run: if [[ -n "${{ secrets.VUE_APP_FIREBASE_CONFIG }}" ]]; then
+                   echo "VUE_APP_FIREBASE_CONFIG='${{ secrets.VUE_APP_FIREBASE_CONFIG }}'" >> .env
+                   echo "VUE_APP_FIREBASE_VAPID_KEY='${{ secrets.VUE_APP_FIREBASE_VAPID_KEY }}'" >> .env
+                 fi
           - name: Build
             run: npm run build
           - name: Install Firebase
