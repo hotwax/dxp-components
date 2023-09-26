@@ -54,9 +54,10 @@ const setFacility = async (event: any) => {
       emit('facility-change-alert', selectedFacility)
     } else {
       await appState.dispatch('user/setFacility', {
-        'facility': currentUserAppState.userProfile.facilities.find((fac: any) => fac.facilityId == selectedFacility)
+        'facility': currentUserAppState.userProfile.facilities.find((facility: any) => facility.facilityId == selectedFacility)
       });
-      Promise.all([emit('update-facility-id', currentUserAppState.currentFacility.facilityId), emit('get-facility-details')])
+      emit('update-facility-id', currentUserAppState.currentFacility.facilityId)
+      emit('get-facility-details')
     }
   }
 }
