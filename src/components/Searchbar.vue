@@ -1,7 +1,8 @@
 <template>
+  <!-- default values - placeholder - 'Search', showClearButton - 'always' -->
   <ion-searchbar 
     :placeholder='placeholder'
-    :showClearButton="showClearButton ? showClearButton : 'always'"
+    :showClearButton="showClearButton"
     @keyup.enter="search($event.target.value)"
     @ionClear="emit('on-clear')"
     @ionFocus="emit('on-focus', $event)"
