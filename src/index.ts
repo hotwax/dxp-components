@@ -48,8 +48,6 @@ export let dxpComponents = {
     app.component('ProductIdentifier', ProductIdentifier)
     app.component('ShopifyImg', ShopifyImg)
 
-    translate = options.translate;
-
     loginContext.login = options.login
     loginContext.logout = options.logout
     loginContext.loader = options.loader
