@@ -13,7 +13,6 @@
 import { IonSearchbar } from '@ionic/vue';
 
 defineProps(['placeholder', 'showClearButton'])
-// ionClear event is used in the Job Manager app on the Pipeline page hence the on-clear emit
 const emit = defineEmits(['update-query-string', 'on-search', 'on-clear', 'on-focus'])
 
 function search(queryString: string) {
