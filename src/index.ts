@@ -65,7 +65,8 @@ export let dxpComponents = {
     loginContext.initialise = options.initialise
 
     // set a default locale in the state
-    useUserStore().setLocale(i18n.global.locale);
+    i18n.global.locale.value = useUserStore().getLocale
+
     translate = i18n.global.t
   }
 }
