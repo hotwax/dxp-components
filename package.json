@@ -1,6 +1,6 @@
 {
   "name": "@hotwax/dxp-components",
-  "version": "1.7.0",
+  "version": "1.7.5",
   "description": "",
   "type": "module",
   "main": "lib/index.cjs",
@@ -25,13 +25,15 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@hotwax/oms-api": "^1.8.1",
-    "firebase": "^10.3.1",
     "@ionic/core": "^6.7.5",
     "@ionic/vue": "^6.7.5",
+    "@types/vue-barcode-reader": "^0.0.0",
+    "firebase": "^10.3.1",
     "luxon": "^3.3.0",
     "pinia": "2.0.36",
     "pinia-plugin-persistedstate": "^3.1.0",
     "vue": "^3.3.4",
+    "vue-barcode-reader": "^1.0.3",
     "vue-i18n": "^9.2.2"
   },
   "devDependencies": {

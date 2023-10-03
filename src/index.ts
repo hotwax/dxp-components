@@ -3,9 +3,9 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { FacilitySwitcher, LanguageSwitcher, OmsInstanceNavigator, ProductIdentifier, ShopifyImg } from "./components";
+import { AppVersionInfo, FacilitySwitcher, LanguageSwitcher, OmsInstanceNavigator, ProductIdentifier, Scanner, ShopifyImg } from "./components";
 import Login from "./components/Login";
-import { goToOms } from "./utils";
+import { goToOms, getProductIdentificationValue } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
@@ -41,11 +41,13 @@ export let dxpComponents = {
     app.use(pinia);
     app.use(i18n);
 
+    app.component('AppVersionInfo', AppVersionInfo)
     app.component('FacilitySwitcher', FacilitySwitcher)
     app.component('LanguageSwitcher', LanguageSwitcher)
     app.component('Login', Login)
     app.component('OmsInstanceNavigator', OmsInstanceNavigator)
     app.component('ProductIdentifier', ProductIdentifier)
+    app.component('Scanner', Scanner)
     app.component('ShopifyImg', ShopifyImg)
 
     loginContext.login = options.login
@@ -66,7 +68,8 @@ export let dxpComponents = {
     loginContext.initialise = options.initialise
 
     // set a default locale in the state
-    useUserStore().setLocale(i18n.global.locale);
+    i18n.global.locale.value = useUserStore().getLocale
+
     translate = i18n.global.t
   }
 }
@@ -74,6 +77,7 @@ export let dxpComponents = {
 export {
   appContext,
   FacilitySwitcher,
+  getProductIdentificationValue,
   goToOms,
   i18n,
   initialiseFirebaseApp,
@@ -88,5 +92,6 @@ export {
   translate,
   useAuthStore,
   useProductIdentificationStore,
+  Scanner,
   useUserStore
 }
