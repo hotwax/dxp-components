@@ -31,9 +31,7 @@ import {
 import { appContext } from '../index';
 import { computed } from 'vue';
 
-// Here 'facility-change-alert' and 'update-facility-id' are the events for inventory-count app.
-// and 'get-facility-details' is the event for fulfillment-pwa app.
-const emit = defineEmits(['facility-change-alert', 'get-facility-details' ,'update-facility-id'])
+const emit = defineEmits(['check-facility', 'update-facility'])
 const appState = appContext.config.globalProperties.$store;
 
 const userAppState = computed(() => {
@@ -49,15 +47,19 @@ const setFacility = async (event: any) => {
   const selectedFacility = event['detail'].value
 
   if(currentUserAppState.currentFacility.facilityId && currentUserAppState.currentFacility.facilityId != selectedFacility && currentUserAppState.userProfile?.facilities) {
-    // Below check is a handle case for the inventory-count app.
-    if(appState.uploadProducts && Object.keys(appState.uploadProducts).length > 0 ) {
-      emit('facility-change-alert', selectedFacility)
-    } else {
+    try {
+      // check-facility is emitted before setFacility action.
+      emit('check-facility', selectedFacility)
+    } catch(err) {
+      console.error(err);
+      return;
+    } finally {
       await appState.dispatch('user/setFacility', {
         'facility': currentUserAppState.userProfile.facilities.find((facility: any) => facility.facilityId == selectedFacility)
       });
-      emit('update-facility-id', currentUserAppState.currentFacility.facilityId)
-      emit('get-facility-details')
+
+      // update-facility is emitted after setFacility action.
+      emit('update-facility', selectedFacility)
     }
   }
 }
