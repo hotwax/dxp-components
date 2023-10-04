@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
-import { i18n } from "../../src";
-import { userContext } from "../../src";
+import { i18n, userContext } from "../../src";
 
 declare let process: any;
 
