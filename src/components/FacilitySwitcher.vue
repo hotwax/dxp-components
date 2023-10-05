@@ -53,14 +53,13 @@ const setFacility = async (event: any) => {
     } catch(err) {
       console.error(err);
       return;
-    } finally {
-      await appState.dispatch('user/setFacility', {
-        'facility': currentUserAppState.userProfile.facilities.find((facility: any) => facility.facilityId == selectedFacility)
-      });
-
-      // update-facility is emitted after setFacility action.
-      emit('update-facility', selectedFacility)
     }
+
+    await appState.dispatch('user/setFacility', {
+      'facility': currentUserAppState.userProfile.facilities.find((facility: any) => facility.facilityId == selectedFacility)
+    });
+    // update-facility is emitted after setFacility action.
+    emit('update-facility', selectedFacility)
   }
 }
 </script>
