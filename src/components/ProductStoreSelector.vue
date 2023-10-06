@@ -15,8 +15,7 @@
 
     <ion-item lines="none">
       <ion-label> {{ $t("Select store") }} </ion-label>
-      <ion-select interface="popover" :placeholder="$t('store name')" :value="currentEComStore?.productStoreId"
-        @ionChange="setEComStore($event)">
+      <ion-select interface="popover" :placeholder="$t('store name')" :value="currentEComStore?.productStoreId" @ionChange="setEComStore($event)">
         <ion-select-option v-for="store in (productStores ? productStores : [])" :key="store.productStoreId" :value="store.productStoreId">{{ store.storeName }}</ion-select-option>
       </ion-select>
     </ion-item>

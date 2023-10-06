@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { appContext, i18n, useAuthStore } from "../../src";
+import { i18n, useAuthStore } from "../../src";
 import { api, client, hasError } from '@hotwax/oms-api'
 
 declare let process: any;
@@ -22,8 +22,8 @@ export const useUserStore = defineStore('user', {
   actions: {
     async getEComStores(facilityId: string) {
       const authStore = useAuthStore();
-      
-      // If the facilities is not provided, it may be case of user not associated with any facility
+
+      // If the facilityId is undefined, it may be case of user not associated with any facility
       if (!facilityId) {
         this.current.stores = [];
       }
@@ -63,7 +63,7 @@ export const useUserStore = defineStore('user', {
       let preferredStore = {} as any;
 
       // Handling case if stores are not present, it may be case of user not associated with any facility
-      if(this.current.stores.length){
+      if (this.current.stores.length) {
         preferredStore = this.current.stores[0];
         let preferredStoreId = '';
 
