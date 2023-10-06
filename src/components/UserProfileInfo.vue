@@ -34,7 +34,7 @@ import {
   IonIcon,
   IonItem
 } from '@ionic/vue';
-// import Image from '@/components/Image.vue';
+import Image from './Image.vue';
 import { openOutline } from 'ionicons/icons';
 import { computed } from 'vue';
 import { appContext } from '../index';
@@ -43,15 +43,15 @@ import { useUserStore } from '../store/user'
 const userStore = useUserStore();
 const appState = appContext.config.globalProperties.$store;
 
+const emit = defineEmits(['reset-state-before-logout'])
 const userProfile = computed(() => appState.getters['user/getUserProfile']);
 const appLoginUrl = computed(() => userStore.getAppLoginUrl).value;
 
 const logout = () => {
+  // Emit to handle actions and resets performed by apps before logout.
+  emit('reset-state-before-logout')
+  
   appState.dispatch('user/logout').then(() => {
-    appState.dispatch('shipment/clearShipments');
-    appState.dispatch('return/clearReturns');
-    appState.dispatch("party/resetReceiversDetails");
-    console.log(window.location.origin);
     const redirectUrl = window.location.origin + '/login'
     window.location.href = `${appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`
   })

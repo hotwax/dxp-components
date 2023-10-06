@@ -17,6 +17,7 @@ const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate)
 
 let i18n: any
+let imageContext = {} as any
 let translate: any;
 let loginContext = {} as any
 let shopifyImgContext = {} as any
@@ -53,6 +54,7 @@ export let dxpComponents = {
     loginContext.loader = options.loader
     loginContext.appLoginUrl = options.appLoginUrl
 
+    imageContext.defaultImgUrl = options.defaultImgUrl
     shopifyImgContext.defaultImgUrl = options.defaultImgUrl
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
@@ -75,6 +77,7 @@ export {
   appContext,
   goToOms,
   i18n,
+  imageContext,
   initialiseFirebaseApp,
   Login,
   loginContext,

@@ -6,6 +6,8 @@
 import { onMounted, onUpdated, ref } from "vue";
 import { shopifyImgContext as context } from "../index";
 
+console.log("sd");
+
 const props = defineProps(['src', 'size']);
 const imageUrl = ref(context.defaultImgUrl);
 
