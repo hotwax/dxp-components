@@ -1,6 +1,6 @@
 import { defineComponent } from "vue"
 import { initialiseFirebaseApp } from "../utils/firebase"
-import { loginContext as context, useAuthStore, appContext, loginContext, noitificationContext } from "../index"
+import { loginContext as context, useAuthStore, useUserStore, appContext, loginContext, noitificationContext } from "../index"
 import { DateTime } from "luxon"
 
 export default defineComponent({
@@ -15,12 +15,14 @@ export default defineComponent({
     return {
       errorMsg: '',
       authStore: {} as any,
+      userStore: {} as any,
       router: {} as any,
       route: {} as any,
     }
   },
   async mounted() {
     this.authStore = useAuthStore()
+    this.userStore = useUserStore()
     this.router = appContext.config.globalProperties.$router
     this.route = appContext.config.globalProperties.$route
 

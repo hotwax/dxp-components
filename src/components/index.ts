@@ -18,5 +18,6 @@ export { default as AppVersionInfo } from './AppVersionInfo.vue';
 export { default as LanguageSwitcher } from './LanguageSwitcher.vue';
 export { default as OmsInstanceNavigator } from './OmsInstanceNavigator.vue'
 export { default as ProductIdentifier } from "./ProductIdentifier.vue";
+export { default as ProductStoreSelector } from "./ProductStoreSelector.vue";
 export { default as Scanner } from './Scanner.vue';
 export { default as ShopifyImg } from './ShopifyImg.vue';
