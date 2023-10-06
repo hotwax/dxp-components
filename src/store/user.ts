@@ -30,7 +30,11 @@ export const useUserStore = defineStore('user', {
       })
     },
     async getPreference(token: any, baseURL: string) {
-      this.preference = await userContext.getUserPreference(token, baseURL, 'LOCALE_PREFERENCE')
+      try {
+        this.preference = await userContext.getUserPreference(token, baseURL, 'LOCALE_PREFERENCE')
+      } catch (error) {
+        console.error(error)
+      }
     }
   },
   persist: true
