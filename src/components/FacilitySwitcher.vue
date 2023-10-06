@@ -47,17 +47,13 @@ const setFacility = async (event: any) => {
   const selectedFacility = event['detail'].value
 
   if(currentUserAppState.currentFacility.facilityId && currentUserAppState.currentFacility.facilityId != selectedFacility && currentUserAppState.userProfile?.facilities) {
-    try {
-      // check-facility is emitted before setFacility action.
-      emit('check-facility', selectedFacility)
-    } catch(err) {
-      console.error(err);
-      return;
-    }
+    // check-facility is emitted before setFacility action.
+    emit('check-facility', selectedFacility)
 
     await appState.dispatch('user/setFacility', {
       'facility': currentUserAppState.userProfile.facilities.find((facility: any) => facility.facilityId == selectedFacility)
     });
+
     // update-facility is emitted after setFacility action.
     emit('update-facility', selectedFacility)
   }
