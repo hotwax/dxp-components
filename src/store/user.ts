@@ -7,13 +7,11 @@ export const useUserStore = defineStore('user', {
   state: () => {
     return {
       localeOptions: process.env.VUE_APP_LOCALES ? JSON.parse(process.env.VUE_APP_LOCALES) : { "en": "English" },
-      preference: {
-        locale: 'en'
-      } as any
+      locale: 'en'
     }
   },
   getters: {
-    getLocale: (state) => state.preference.locale,
+    getLocale: (state) => state.locale,
     getLocaleOptions: (state) => state.localeOptions
   },
   actions: {
@@ -23,18 +21,10 @@ export const useUserStore = defineStore('user', {
       this.setPreference({ locale: payload })
     },
     async setPreference(payload: any) {
-      this.preference = { ...this.preference, ...payload }
-      await userContext.setUserPreference({
-        'userPrefTypeId': 'LOCALE_PREFERENCE',
-        'userPrefValue': JSON.stringify(this.preference)
+      this.locale = payload
+      await userContext.setUserLocale({
+        "newLocale": payload
       })
-    },
-    async getPreference(token: any, baseURL: string) {
-      try {
-        this.preference = await userContext.getUserPreference(token, baseURL, 'LOCALE_PREFERENCE')
-      } catch (error) {
-        console.error(error)
-      }
     }
   },
   persist: true

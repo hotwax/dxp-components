@@ -57,8 +57,7 @@ export let dxpComponents = {
 
     shopifyImgContext.defaultImgUrl = options.defaultImgUrl
 
-    userContext.getUserPreference = options.getUserPreference
-    userContext.setUserPreference = options.setUserPreference
+    userContext.setUserLocale = options.setUserLocale
 
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
