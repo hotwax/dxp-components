@@ -14,8 +14,10 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
-export { default as ProductIdentifier } from "./ProductIdentifier.vue";
+export { default as AppVersionInfo } from './AppVersionInfo.vue';
 export { default as LanguageSwitcher } from './LanguageSwitcher.vue';
 export { default as OmsInstanceNavigator } from './OmsInstanceNavigator.vue'
+export { default as ProductIdentifier } from "./ProductIdentifier.vue";
+export { default as Scanner } from './Scanner.vue';
 export { default as ShopifyImg } from './ShopifyImg.vue';
 export { default as UserProfileInfo } from './UserProfileInfo.vue'

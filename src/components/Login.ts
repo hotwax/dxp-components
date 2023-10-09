@@ -1,7 +1,8 @@
 import { defineComponent } from "vue"
 import { initialiseFirebaseApp } from "../utils/firebase"
-import { loginContext as context, useAuthStore, appContext, loginContext, noitificationContext } from "../index"
+import { loginContext as context, useAuthStore, appContext, loginContext, notificationContext, useUserStore } from "../index"
 import { DateTime } from "luxon"
+declare var process: any;
 
 export default defineComponent({
   template: `
@@ -63,14 +64,19 @@ export default defineComponent({
       try {
         await context.login({ token, oms })
 
+        const userStore = useUserStore()
+        // to access baseUrl as we store only OMS in DXP
+        const appState = appContext.config.globalProperties.$store
+        await userStore.getPreference(token, appState.getters['user/getBaseUrl'])
+
         // check if firebase configurations are there
-        if (noitificationContext.appFirebaseConfig) {
+        if (notificationContext.appFirebaseConfig) {
           // initialising and connecting firebase app for notification support
           await initialiseFirebaseApp(
-            noitificationContext.appFirebaseConfig,
-            noitificationContext.appFirebaseVapidKey,
-            noitificationContext.storeClientRegistrationToken,
-            noitificationContext.addNotification,
+            notificationContext.appFirebaseConfig,
+            notificationContext.appFirebaseVapidKey,
+            notificationContext.storeClientRegistrationToken,
+            notificationContext.addNotification,
           )
         }
 
