@@ -22,7 +22,8 @@ let loginContext = {} as any
 let shopifyImgContext = {} as any
 let appContext = {} as any
 let productIdentificationContext = {} as any
-let noitificationContext = {} as any
+let notificationContext = {} as any
+let userContext = {} as any
 
 // executed on app initialization
 export let dxpComponents = {
@@ -55,13 +56,17 @@ export let dxpComponents = {
     loginContext.appLoginUrl = options.appLoginUrl
 
     shopifyImgContext.defaultImgUrl = options.defaultImgUrl
+
+    userContext.getUserPreference = options.getUserPreference
+    userContext.setUserPreference = options.setUserPreference
+
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
     
-    noitificationContext.addNotification = options.addNotification
-    noitificationContext.appFirebaseConfig = options.appFirebaseConfig
-    noitificationContext.appFirebaseVapidKey = options.appFirebaseVapidKey
-    noitificationContext.storeClientRegistrationToken = options.storeClientRegistrationToken
+    notificationContext.addNotification = options.addNotification
+    notificationContext.appFirebaseConfig = options.appFirebaseConfig
+    notificationContext.appFirebaseVapidKey = options.appFirebaseVapidKey
+    notificationContext.storeClientRegistrationToken = options.storeClientRegistrationToken
 
     loginContext.getConfig = options.getConfig
     loginContext.initialise = options.initialise
@@ -81,7 +86,7 @@ export {
   initialiseFirebaseApp,
   Login,
   loginContext,
-  noitificationContext,
+  notificationContext,
   OmsInstanceNavigator,
   ProductIdentifier,
   productIdentificationContext,
@@ -91,5 +96,6 @@ export {
   useAuthStore,
   useProductIdentificationStore,
   Scanner,
-  useUserStore
+  useUserStore,
+  userContext
 }
