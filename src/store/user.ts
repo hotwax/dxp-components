@@ -18,9 +18,9 @@ export const useUserStore = defineStore('user', {
     setLocale(payload: string) {
       // update locale in state and globally
       i18n.global.locale.value = payload
-      this.setPreference({ locale: payload })
+      this.setPreference(payload)
     },
-    async setPreference(payload: any) {
+    async setPreference(payload: string) {
       this.locale = payload
       await userContext.setUserLocale({
         "newLocale": payload
