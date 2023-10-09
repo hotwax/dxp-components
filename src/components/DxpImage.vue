@@ -3,15 +3,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUpdated, ref } from 'vue';
+import { onMounted, onUpdated, ref } from 'vue';
 import { imageContext as context } from "../index";
-import { useUserStore } from '../store/user'
 
-const userStore = useUserStore();
+declare let process: any;
 
 const props = defineProps(['src']);
 let imageUrl = ref(context.defaultImgUrl);
-const resourceUrl = computed(() => userStore.getAppResourceUrl).value || "";
+let resourceUrl = process.env.VUE_APP_RESOURCE_URL || "";
 
 const setImageUrl = () => {
   if (props.src) {

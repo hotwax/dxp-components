@@ -6,8 +6,6 @@ declare let process: any;
 export const useUserStore = defineStore('user', {
   state: () => {
     return {
-      appLoginUrl: process.env.VUE_APP_LOGIN_URL,
-      appResourceUrl: process.env.VUE_APP_RESOURCE_URL,
       localeOptions: process.env.VUE_APP_LOCALES ? JSON.parse(process.env.VUE_APP_LOCALES) : { "en": "English" },
       preference: {
         locale: 'en'
@@ -15,8 +13,6 @@ export const useUserStore = defineStore('user', {
     }
   },
   getters: {
-    getAppLoginUrl: (state) => state.appLoginUrl,
-    getAppResourceUrl: (state) => state.appResourceUrl,
     getLocale: (state) => state.preference.locale,
     getLocaleOptions: (state) => state.localeOptions
   },

@@ -36,20 +36,19 @@ import {
 } from '@ionic/vue';
 import { DxpImage } from './index';
 import { openOutline } from 'ionicons/icons';
-import { computed } from 'vue';
 import { appContext } from '../index';
-import { useUserStore } from '../store/user'
 
-const userStore = useUserStore();
+declare let process: any;
+
 const appState = appContext.config.globalProperties.$store;
 
-defineProps(['userProfile', 'profileButtonsText'])
-const emit = defineEmits(['reset-state-before-logout'])
-const appLoginUrl = computed(() => userStore.getAppLoginUrl).value;
+defineProps(['userProfile', 'profileButtonsText']);
+const emit = defineEmits(['before-logout']);
+const appLoginUrl = process.env.VUE_APP_LOGIN_URL;
 
 const logout = () => {
   // Emit to handle actions and resets performed by apps before logout.
-  emit('reset-state-before-logout')
+  emit('before-logout')
   
   appState.dispatch('user/logout').then(() => {
     const redirectUrl = window.location.origin + '/login'
