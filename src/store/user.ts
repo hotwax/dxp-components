@@ -8,7 +8,6 @@ export const useUserStore = defineStore('user', {
     return {
       appLoginUrl: process.env.VUE_APP_LOGIN_URL,
       appResourceUrl: process.env.VUE_APP_RESOURCE_URL,
-      locale: '',
       localeOptions: process.env.VUE_APP_LOCALES ? JSON.parse(process.env.VUE_APP_LOCALES) : { "en": "English" },
       preference: {
         locale: 'en'
