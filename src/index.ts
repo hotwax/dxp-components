@@ -3,7 +3,7 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { AppVersionInfo, FacilitySwitcher, LanguageSwitcher, OmsInstanceNavigator, ProductIdentifier, Scanner, ShopifyImg } from "./components";
+import { AppVersionInfo, DxpFacilitySwitcher, LanguageSwitcher, OmsInstanceNavigator, ProductIdentifier, Scanner, ShopifyImg } from "./components";
 import Login from "./components/Login";
 import { goToOms, getProductIdentificationValue } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
@@ -42,7 +42,7 @@ export let dxpComponents = {
     app.use(i18n);
 
     app.component('AppVersionInfo', AppVersionInfo)
-    app.component('FacilitySwitcher', FacilitySwitcher)
+    app.component('DxpFacilitySwitcher', DxpFacilitySwitcher)
     app.component('LanguageSwitcher', LanguageSwitcher)
     app.component('Login', Login)
     app.component('OmsInstanceNavigator', OmsInstanceNavigator)
@@ -76,7 +76,7 @@ export let dxpComponents = {
 
 export {
   appContext,
-  FacilitySwitcher,
+  DxpFacilitySwitcher,
   getProductIdentificationValue,
   goToOms,
   i18n,

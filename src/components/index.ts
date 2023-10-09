@@ -15,7 +15,7 @@ import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
 export { default as AppVersionInfo } from './AppVersionInfo.vue';
-export { default as FacilitySwitcher } from './FacilitySwitcher.vue';
+export { default as DxpFacilitySwitcher } from './DxpFacilitySwitcher.vue';
 export { default as LanguageSwitcher } from './LanguageSwitcher.vue';
 export { default as OmsInstanceNavigator } from './OmsInstanceNavigator.vue'
 export { default as ProductIdentifier } from "./ProductIdentifier.vue";
