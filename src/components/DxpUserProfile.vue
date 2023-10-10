@@ -13,9 +13,9 @@
           <ion-card-title>{{ userProfile.partyName }}</ion-card-title>
         </ion-card-header>
       </ion-item>
-      <ion-button color="danger" @click="logout()">{{ profileButtonsText.logoutText }}</ion-button>
+      <ion-button color="danger" @click="logout()">{{ logoutLabel }}</ion-button>
       <ion-button fill="outline" @click="goToLaunchpad()">
-        {{ profileButtonsText.launchpadText }}
+        {{ goToLabel }}
         <ion-icon slot="end" :icon="openOutline" />
       </ion-button>
       <!-- Commenting this code as we currently do not have reset password functionality -->
@@ -42,7 +42,7 @@ declare let process: any;
 
 const appState = appContext.config.globalProperties.$store;
 
-defineProps(['userProfile', 'profileButtonsText']);
+defineProps(['userProfile', 'logoutLabel', 'goToLabel']);
 const emit = defineEmits(['before-logout']);
 const appLoginUrl = process.env.VUE_APP_LOGIN_URL;
 
@@ -60,3 +60,10 @@ const goToLaunchpad = () => {
   window.location.href = appLoginUrl;
 }
 </script>
+
+<style scoped>
+.user-profile {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+</style>
