@@ -31,6 +31,5 @@ const setLocale = (locale: string) => {
   if (locale !== currentLocale.value) {
     userStore.setLocale(locale)
   }
-
 }
 </script>
