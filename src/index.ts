@@ -3,9 +3,9 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { LanguageSwitcher, MenuFooterNavigation, OmsInstanceNavigator, ProductIdentifier, ShopifyImg } from "./components";
+import { AppVersionInfo, DxpImage, DxpUserProfile, LanguageSwitcher, MenuFooterNavigation, OmsInstanceNavigator, ProductIdentifier, Scanner, ShopifyImg } from "./components";
 import Login from "./components/Login";
-import { goToOms } from "./utils";
+import { goToOms, getProductIdentificationValue } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
@@ -17,12 +17,14 @@ const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate)
 
 let i18n: any
+let imageContext = {} as any
 let translate: any;
 let loginContext = {} as any
 let shopifyImgContext = {} as any
 let appContext = {} as any
 let productIdentificationContext = {} as any
-let noitificationContext = {} as any
+let notificationContext = {} as any
+let userContext = {} as any
 
 // executed on app initialization
 export let dxpComponents = {
@@ -41,11 +43,15 @@ export let dxpComponents = {
     app.use(pinia);
     app.use(i18n);
 
+    app.component('AppVersionInfo', AppVersionInfo)
+    app.component('DxpImage', DxpImage)
+    app.component('DxpUserProfile', DxpUserProfile)
     app.component('LanguageSwitcher', LanguageSwitcher)
     app.component('Login', Login)
     app.component('MenuFooterNavigation', MenuFooterNavigation)
     app.component('OmsInstanceNavigator', OmsInstanceNavigator)
     app.component('ProductIdentifier', ProductIdentifier)
+    app.component('Scanner', Scanner)
     app.component('ShopifyImg', ShopifyImg)
 
     loginContext.login = options.login
@@ -53,32 +59,42 @@ export let dxpComponents = {
     loginContext.loader = options.loader
     loginContext.appLoginUrl = options.appLoginUrl
 
+    imageContext.defaultImgUrl = options.defaultImgUrl
     shopifyImgContext.defaultImgUrl = options.defaultImgUrl
+
+    userContext.getUserPreference = options.getUserPreference
+    userContext.setUserPreference = options.setUserPreference
+
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
     
-    noitificationContext.addNotification = options.addNotification
-    noitificationContext.appFirebaseConfig = options.appFirebaseConfig
-    noitificationContext.appFirebaseVapidKey = options.appFirebaseVapidKey
-    noitificationContext.storeClientRegistrationToken = options.storeClientRegistrationToken
+    notificationContext.addNotification = options.addNotification
+    notificationContext.appFirebaseConfig = options.appFirebaseConfig
+    notificationContext.appFirebaseVapidKey = options.appFirebaseVapidKey
+    notificationContext.storeClientRegistrationToken = options.storeClientRegistrationToken
 
     loginContext.getConfig = options.getConfig
     loginContext.initialise = options.initialise
 
     // set a default locale in the state
-    useUserStore().setLocale(i18n.global.locale);
+    i18n.global.locale.value = useUserStore().getLocale
+
     translate = i18n.global.t
   }
 }
 
 export {
   appContext,
+  DxpImage,
+  DxpUserProfile,
+  getProductIdentificationValue,
   goToOms,
   i18n,
+  imageContext,
   initialiseFirebaseApp,
   Login,
   loginContext,
-  noitificationContext,
+  notificationContext,
   OmsInstanceNavigator,
   ProductIdentifier,
   productIdentificationContext,
@@ -87,5 +103,7 @@ export {
   translate,
   useAuthStore,
   useProductIdentificationStore,
-  useUserStore
+  Scanner,
+  useUserStore,
+  userContext
 }
