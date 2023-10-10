@@ -16,10 +16,14 @@ export const useUserStore = defineStore('user', {
   },
   actions: {
     async setLocale(newLocale: string) {
-      // update locale in state and globally
-      i18n.global.locale.value = newLocale
-      this.locale = newLocale
-      await userContext.setUserLocale({ newLocale })
+      try {
+        // update locale in state and globally
+        i18n.global.locale.value = newLocale
+        this.locale = newLocale
+        await userContext.setUserLocale({ newLocale })
+      } catch (error) {
+        console.error(error)
+      }
     }
   },
   persist: true
