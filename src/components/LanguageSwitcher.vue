@@ -28,8 +28,6 @@ const locales = computed(() => userStore.getLocaleOptions);
 const currentLocale = computed(() => userStore.getLocale);
 
 const setLocale = (locale: string) => {
-  if (locale !== currentLocale.value) {
-    userStore.setLocale(locale)
-  }
+  userStore.setLocale(locale)
 }
 </script>
