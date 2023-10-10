@@ -3,7 +3,7 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { AppVersionInfo, LanguageSwitcher, OmsInstanceNavigator, ProductIdentifier, Scanner, ShopifyImg } from "./components";
+import { AppVersionInfo, DxpImage, DxpUserProfile, LanguageSwitcher, OmsInstanceNavigator, ProductIdentifier, Scanner, ShopifyImg } from "./components";
 import Login from "./components/Login";
 import { goToOms, getProductIdentificationValue } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
@@ -17,6 +17,7 @@ const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate)
 
 let i18n: any
+let imageContext = {} as any
 let translate: any;
 let loginContext = {} as any
 let shopifyImgContext = {} as any
@@ -43,6 +44,8 @@ export let dxpComponents = {
     app.use(i18n);
 
     app.component('AppVersionInfo', AppVersionInfo)
+    app.component('DxpImage', DxpImage)
+    app.component('DxpUserProfile', DxpUserProfile)
     app.component('LanguageSwitcher', LanguageSwitcher)
     app.component('Login', Login)
     app.component('OmsInstanceNavigator', OmsInstanceNavigator)
@@ -55,6 +58,7 @@ export let dxpComponents = {
     loginContext.loader = options.loader
     loginContext.appLoginUrl = options.appLoginUrl
 
+    imageContext.defaultImgUrl = options.defaultImgUrl
     shopifyImgContext.defaultImgUrl = options.defaultImgUrl
 
     userContext.getUserPreference = options.getUserPreference
@@ -80,9 +84,12 @@ export let dxpComponents = {
 
 export {
   appContext,
+  DxpImage,
+  DxpUserProfile,
   getProductIdentificationValue,
   goToOms,
   i18n,
+  imageContext,
   initialiseFirebaseApp,
   Login,
   loginContext,
