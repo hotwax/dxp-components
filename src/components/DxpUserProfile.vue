@@ -42,7 +42,20 @@ declare let process: any;
 
 const appState = appContext.config.globalProperties.$store;
 
-defineProps(['userProfile', 'logoutLabel', 'goToLabel']);
+defineProps({
+  userProfile: {
+    type: Object,
+    required: true
+  },
+  logoutLabel: {
+    type: String,
+    default: 'Logout'
+  },
+  goToLabel: {
+    type: String,
+    default: 'Go To Launchpad'
+  }
+})
 const emit = defineEmits(['before-logout']);
 const appLoginUrl = process.env.VUE_APP_LOGIN_URL;
 
