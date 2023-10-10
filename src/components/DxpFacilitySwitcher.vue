@@ -31,7 +31,7 @@ import {
 import { appContext } from '../index';
 import { computed } from 'vue';
 
-const emit = defineEmits(['check-facility', 'update-facility'])
+const emit = defineEmits(['before-set-facility', 'after-set-facility']);
 const appState = appContext.config.globalProperties.$store;
 
 const userAppState = computed(() => {
@@ -42,20 +42,20 @@ const userAppState = computed(() => {
   }
 });
 
-const setFacility = async (event: any) => {
+const setFacility = async (event: CustomEvent) => {
   const currentUserAppState = JSON.parse(JSON.stringify(userAppState.value))
-  const selectedFacility = event['detail'].value
+  const selectedFacility = event.detail.value
 
-  if(currentUserAppState.currentFacility.facilityId && currentUserAppState.currentFacility.facilityId != selectedFacility && currentUserAppState.userProfile?.facilities) {
-    // check-facility is emitted before setFacility action.
-    emit('check-facility', selectedFacility)
+  if(currentUserAppState.currentFacility.facilityId !== selectedFacility && currentUserAppState.userProfile?.facilities) {
+    // before-set-facility is emitted before setFacility action.
+    emit('before-set-facility', selectedFacility)
 
     await appState.dispatch('user/setFacility', {
-      'facility': currentUserAppState.userProfile.facilities.find((facility: any) => facility.facilityId == selectedFacility)
+      'facility': currentUserAppState.userProfile.facilities.find((facility: any) => facility.facilityId === selectedFacility)
     });
 
-    // update-facility is emitted after setFacility action.
-    emit('update-facility', selectedFacility)
+    // after-set-facility is emitted after setFacility action.
+    emit('after-set-facility', selectedFacility)
   }
 }
 </script>
