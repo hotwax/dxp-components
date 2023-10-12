@@ -15,11 +15,11 @@ export const useUserStore = defineStore('user', {
     getLocaleOptions: (state) => state.localeOptions
   },
   actions: {
-    async setLocale(newLocale: string) {
-      let matchingLocale = Object.keys(this.localeOptions).find((locale: string) => locale === newLocale)
+    async setLocale(locale: string) {
+      let matchingLocale = Object.keys(this.localeOptions).find((option: string) => option === locale)
       // If exact locale is not found, try to match the first two characters i.e primary code
-      matchingLocale = matchingLocale || Object.keys(this.localeOptions).find((locale: string) => locale.slice(0, 2) === newLocale.slice(0, 2))
-      newLocale = matchingLocale || this.locale
+      matchingLocale = matchingLocale || Object.keys(this.localeOptions).find((option: string) => option.slice(0, 2) === locale.slice(0, 2))
+      const newLocale = matchingLocale || this.locale
 
       try {
         // update locale in state and globally
