@@ -9,6 +9,10 @@ on:
           required: true
         HOTWAX_PUBLIC_SECRET:
           required: true
+        VUE_APP_FIREBASE_CONFIG:
+          required: false
+        VUE_APP_FIREBASE_VAPID_KEY:
+          required: false
 jobs:
     build_and_deploy:
         runs-on: ubuntu-latest
