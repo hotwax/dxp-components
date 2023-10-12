@@ -3,7 +3,7 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { AppVersionInfo, DxpFacilitySwitcher, LanguageSwitcher, OmsInstanceNavigator, ProductIdentifier, Scanner, ShopifyImg } from "./components";
+import { AppVersionInfo, DxpFacilitySwitcher, DxpImage, DxpUserProfile, LanguageSwitcher, MenuFooterNavigation, OmsInstanceNavigator, ProductIdentifier, Scanner, ShopifyImg } from "./components";
 import Login from "./components/Login";
 import { goToOms, getProductIdentificationValue } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
@@ -17,12 +17,14 @@ const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate)
 
 let i18n: any
+let imageContext = {} as any
 let translate: any;
 let loginContext = {} as any
 let shopifyImgContext = {} as any
 let appContext = {} as any
 let productIdentificationContext = {} as any
-let noitificationContext = {} as any
+let notificationContext = {} as any
+let userContext = {} as any
 
 // executed on app initialization
 export let dxpComponents = {
@@ -43,8 +45,11 @@ export let dxpComponents = {
 
     app.component('AppVersionInfo', AppVersionInfo)
     app.component('DxpFacilitySwitcher', DxpFacilitySwitcher)
+    app.component('DxpImage', DxpImage)
+    app.component('DxpUserProfile', DxpUserProfile)
     app.component('LanguageSwitcher', LanguageSwitcher)
     app.component('Login', Login)
+    app.component('MenuFooterNavigation', MenuFooterNavigation)
     app.component('OmsInstanceNavigator', OmsInstanceNavigator)
     app.component('ProductIdentifier', ProductIdentifier)
     app.component('Scanner', Scanner)
@@ -55,14 +60,19 @@ export let dxpComponents = {
     loginContext.loader = options.loader
     loginContext.appLoginUrl = options.appLoginUrl
 
+    imageContext.defaultImgUrl = options.defaultImgUrl
     shopifyImgContext.defaultImgUrl = options.defaultImgUrl
+
+    userContext.getUserPreference = options.getUserPreference
+    userContext.setUserPreference = options.setUserPreference
+
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
     
-    noitificationContext.addNotification = options.addNotification
-    noitificationContext.appFirebaseConfig = options.appFirebaseConfig
-    noitificationContext.appFirebaseVapidKey = options.appFirebaseVapidKey
-    noitificationContext.storeClientRegistrationToken = options.storeClientRegistrationToken
+    notificationContext.addNotification = options.addNotification
+    notificationContext.appFirebaseConfig = options.appFirebaseConfig
+    notificationContext.appFirebaseVapidKey = options.appFirebaseVapidKey
+    notificationContext.storeClientRegistrationToken = options.storeClientRegistrationToken
 
     loginContext.getConfig = options.getConfig
     loginContext.initialise = options.initialise
@@ -77,13 +87,16 @@ export let dxpComponents = {
 export {
   appContext,
   DxpFacilitySwitcher,
+  DxpImage,
+  DxpUserProfile,
   getProductIdentificationValue,
   goToOms,
   i18n,
+  imageContext,
   initialiseFirebaseApp,
   Login,
   loginContext,
-  noitificationContext,
+  notificationContext,
   OmsInstanceNavigator,
   ProductIdentifier,
   productIdentificationContext,
@@ -93,5 +106,6 @@ export {
   useAuthStore,
   useProductIdentificationStore,
   Scanner,
-  useUserStore
+  useUserStore,
+  userContext
 }
