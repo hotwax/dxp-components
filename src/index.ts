@@ -33,8 +33,8 @@ export let dxpComponents = {
     // Creating an instance of the i18n and translate function for translating text
     i18n = createI18n({
       legacy: false,
-      locale: process.env.VUE_APP_I18N_LOCALE || 'en',
-      fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+      locale: process.env.VUE_APP_I18N_LOCALE || 'en-US',
+      fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en-US',
       messages: options.localeMessages
     })
 
