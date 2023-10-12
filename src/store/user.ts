@@ -6,32 +6,26 @@ declare let process: any;
 export const useUserStore = defineStore('user', {
   state: () => {
     return {
-      localeOptions: process.env.VUE_APP_LOCALES ? JSON.parse(process.env.VUE_APP_LOCALES) : { "en": "English" },
-      preference: {
-        locale: 'en'
-      } as any
+      localeOptions: process.env.VUE_APP_LOCALES ? JSON.parse(process.env.VUE_APP_LOCALES) : { "en-US": "English" },
+      locale: 'en-US'
     }
   },
   getters: {
-    getLocale: (state) => state.preference.locale,
+    getLocale: (state) => state.locale,
     getLocaleOptions: (state) => state.localeOptions
   },
   actions: {
-    setLocale(payload: string) {
-      // update locale in state and globally
-      i18n.global.locale.value = payload
-      this.setPreference({ locale: payload })
-    },
-    async setPreference(payload: any) {
-      this.preference = { ...this.preference, ...payload }
-      await userContext.setUserPreference({
-        'userPrefTypeId': 'LOCALE_PREFERENCE',
-        'userPrefValue': JSON.stringify(this.preference)
-      })
-    },
-    async getPreference(token: any, baseURL: string) {
+    async setLocale(locale: string) {
+      let matchingLocale = Object.keys(this.localeOptions).find((option: string) => option === locale)
+      // If exact locale is not found, try to match the first two characters i.e primary code
+      matchingLocale = matchingLocale || Object.keys(this.localeOptions).find((option: string) => option.slice(0, 2) === locale.slice(0, 2))
+      const newLocale = matchingLocale || this.locale
+
       try {
-        this.preference = await userContext.getUserPreference(token, baseURL, 'LOCALE_PREFERENCE')
+        // update locale in state and globally
+        i18n.global.locale.value = newLocale
+        this.locale = newLocale
+        await userContext.setUserLocale({ newLocale })
       } catch (error) {
         console.error(error)
       }

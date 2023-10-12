@@ -67,7 +67,7 @@ export default defineComponent({
         const userStore = useUserStore()
         // to access baseUrl as we store only OMS in DXP
         const appState = appContext.config.globalProperties.$store
-        await userStore.getPreference(token, appState.getters['user/getBaseUrl'])
+        await userStore.setLocale(appState.getters['user/getUserProfile'].userLocale)
 
         // check if firebase configurations are there
         if (notificationContext.appFirebaseConfig) {
