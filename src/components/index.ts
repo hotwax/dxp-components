@@ -17,6 +17,7 @@ import '@ionic/vue/css/display.css';
 export { default as DxpImage } from './DxpImage.vue';
 export { default as DxpUserProfile } from './DxpUserProfile.vue'
 export { default as AppVersionInfo } from './AppVersionInfo.vue';
+export { default as DxpFacilitySwitcher } from './DxpFacilitySwitcher.vue';
 export { default as LanguageSwitcher } from './LanguageSwitcher.vue';
 export { default as MenuFooterNavigation } from './MenuFooterNavigation.vue';
 export { default as OmsInstanceNavigator } from './OmsInstanceNavigator.vue'
