@@ -26,7 +26,7 @@ export const useUserStore = defineStore('user', {
           matchingLocale = matchingLocale || Object.keys(this.localeOptions).find((option: string) => option.slice(0, 2) === locale.slice(0, 2))
           newLocale = matchingLocale || this.locale
           // update locale in state and globally
-          await userContext.setUserLocale({ newLocale })
+          if(userContext.setUserLocale) await userContext.setUserLocale({ newLocale })
         }
       } catch (error) {
         console.error(error)
