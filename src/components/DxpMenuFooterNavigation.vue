@@ -5,7 +5,7 @@
         <ion-label class="ion-text-wrap">
           <p class="overline">{{ instanceUrl }}</p>
         </ion-label>
-        <ion-note slot="end">{{ userAppState.userProfile?.userTimeZone }}</ion-note>
+        <ion-note :color="browserTimeZone === userAppState.userProfile?.userTimeZone ? '' : 'danger'" slot="end">{{ userAppState.userProfile?.userTimeZone }}</ion-note>
       </ion-item>
       <!-- showing product stores only when there are multiple options to choose from. -->
       <ion-item v-if="userAppState.userProfile?.stores?.length > 2" lines="none">
@@ -50,4 +50,7 @@ const userAppState = computed(() => ({
   shopifyConfigs: appState.getters['user/getShopifyConfigs'],
   currentShopifyConfig: appState.getters['user/getCurrentShopifyConfig']
 }));
+
+// Accessing browser timeZone to check for timeZone diff of the app and browser
+const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 </script>
