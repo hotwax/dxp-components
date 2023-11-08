@@ -11,7 +11,7 @@
       <p v-if='error.message.length'>
         {{ $t(error.message) }}
       </p>
-      <ion-button class="ion-margin-top" @click="goToLaunchpad()">
+      <ion-button v-if='error.message.length' class="ion-margin-top" @click="goToLaunchpad()">
         <ion-icon slot="start" :icon="arrowBackOutline" />
         {{ $t("Back to Launchpad") }}
       </ion-button>
