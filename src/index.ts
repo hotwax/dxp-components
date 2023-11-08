@@ -3,8 +3,7 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { AppVersionInfo, DxpImage, DxpUserProfile, LanguageSwitcher, DxpMenuFooterNavigation, OmsInstanceNavigator, ProductIdentifier, Scanner, ShopifyImg } from "./components";
-import Login from "./components/Login";
+import { AppVersionInfo, DxpImage, DxpLogin, DxpUserProfile, LanguageSwitcher, DxpMenuFooterNavigation, OmsInstanceNavigator, ProductIdentifier, Scanner, ShopifyImg } from "./components";
 import { goToOms, getProductIdentificationValue } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
@@ -47,8 +46,8 @@ export let dxpComponents = {
     app.component('DxpImage', DxpImage)
     app.component('DxpUserProfile', DxpUserProfile)
     app.component('LanguageSwitcher', LanguageSwitcher)
-    app.component('Login', Login)
     app.component('DxpMenuFooterNavigation', DxpMenuFooterNavigation)
+    app.component('DxpLogin', DxpLogin)
     app.component('OmsInstanceNavigator', OmsInstanceNavigator)
     app.component('ProductIdentifier', ProductIdentifier)
     app.component('Scanner', Scanner)
@@ -92,7 +91,7 @@ export {
   i18n,
   imageContext,
   initialiseFirebaseApp,
-  Login,
+  DxpLogin,
   loginContext,
   notificationContext,
   OmsInstanceNavigator,
