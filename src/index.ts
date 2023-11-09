@@ -27,6 +27,7 @@ let appContext = {} as any
 let productIdentificationContext = {} as any
 let notificationContext = {} as any
 let userContext = {} as any
+let showToast = {} as any
 
 let refreshing = false;
 
@@ -34,7 +35,7 @@ const updateAvailable = ($event: any) => {
   const registration = $event.detail;
   const updateExists = true;
   appContext.config.globalProperties.$store.dispatch('user/updatePwaState', { registration, updateExists });
-  // showToast(translate("New version available, please update the app."));
+  showToast(translate("New version available, please update the app."));
 }
 
 document.addEventListener('swUpdated', updateAvailable, { once: true })
@@ -71,6 +72,8 @@ export let dxpComponents = {
     app.component('ProductIdentifier', ProductIdentifier)
     app.component('Scanner', Scanner)
     app.component('ShopifyImg', ShopifyImg)
+
+    showToast = options.showToast
 
     loginContext.login = options.login
     loginContext.logout = options.logout
