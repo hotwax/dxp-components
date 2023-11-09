@@ -4,8 +4,10 @@
       <h1>{{ $t('App') }}</h1>
       <p class="overline">{{ "Version: " + appVersion }}</p>
     </div>
-    <p class="overline">{{ "Built: " + getDateTime(appInfo.builtTime) }}</p>
-    <ion-button v-if="pwaState.updateExists" @click="refreshApp()" fill="outline" color="dark" size="small">{{ $t("Update") }}</ion-button>
+    <div class="ion-text-end">
+      <p class="overline">{{ "Built: " + getDateTime(appInfo.builtTime) }}</p>
+      <ion-button v-if="pwaState.updateExists" @click="refreshApp()" fill="outline" color="dark" size="small">{{ $t("Update") }}</ion-button>
+    </div>
   </div>
 </template>
   
