@@ -1,12 +1,12 @@
 <template>
   <div class="section-header">
     <div>
-      <h1>{{ $t('App') }}</h1>
-      <p class="overline">{{ "Version: " + appVersion }}</p>
+      <h1>{{ translate('App') }}</h1>
+      <p class="overline">{{ translate("Version: ", { appVersion }) }}</p>
     </div>
     <div class="ion-text-end">
-      <p class="overline">{{ "Built: " + getDateTime(appInfo.builtTime) }}</p>
-      <ion-button v-if="pwaState.updateExists" @click="refreshApp()" fill="outline" color="dark" size="small">{{ $t("Update") }}</ion-button>
+      <p class="overline">{{ translate("Built: ", { builtDateTime: getDateTime(appInfo.builtTime) }) }}</p>
+      <ion-button v-if="pwaState.updateExists" @click="refreshApp()" fill="outline" color="dark" size="small">{{ translate("Update") }}</ion-button>
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { IonButton } from '@ionic/vue';
 import { DateTime } from 'luxon';
-import { appContext } from 'src';
+import { appContext, translate } from 'src';
 import { computed } from 'vue';
 
 declare var process: any;
