@@ -11,6 +11,8 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
 import { useUserStore } from "./store/user";
 
+import "./service-worker"
+
 // TODO: handle cases when the store from app or pinia store are not available
 // creating a pinia store for the plugin
 const pinia = createPinia();
@@ -25,6 +27,22 @@ let appContext = {} as any
 let productIdentificationContext = {} as any
 let notificationContext = {} as any
 let userContext = {} as any
+
+let refreshing = false;
+
+const updateAvailable = ($event: any) => {
+  const registration = $event.detail;
+  const updateExists = true;
+  appContext.config.globalProperties.$store.dispatch('user/updatePwaState', { registration, updateExists });
+  // showToast(translate("New version available, please update the app."));
+}
+
+document.addEventListener('swUpdated', updateAvailable, { once: true })
+navigator.serviceWorker.addEventListener('controllerchange', () => {
+  if (refreshing) return
+  refreshing = true
+  window.location.reload()
+})
 
 // executed on app initialization
 export let dxpComponents = {

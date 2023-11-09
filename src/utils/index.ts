@@ -1,3 +1,6 @@
+import { toastController } from "@ionic/vue";
+import { translate } from "src";
+
 const goToOms = (token: string, oms: string) => {
   const link = (oms.startsWith('http') ? oms.replace(/api\/?/, "") : `https://${oms}.hotwax.io/`) + `commerce/control/main?token=${token}`
   
@@ -24,7 +27,26 @@ const getProductIdentificationValue = (productIdentifier: string, product: any) 
   return value;
 }
 
+const showToast = async (message: string, configButtons?: any) => {
+  const defaultButtons = [{
+    text: 'Dismiss',
+    role: 'cancel'
+  }]
+
+  if (configButtons) defaultButtons.push(...configButtons);
+
+  const toast = await toastController
+    .create({
+      message: message,
+      duration: 3000,
+      position: 'bottom',
+      buttons: defaultButtons
+    })
+  return toast.present();
+}
+
 export {
   getProductIdentificationValue,
-  goToOms
+  goToOms,
+  showToast
 }
