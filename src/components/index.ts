@@ -19,6 +19,7 @@ export { default as DxpUserProfile } from './DxpUserProfile.vue'
 export { default as DxpAppVersionInfo } from './DxpAppVersionInfo.vue';
 export { default as LanguageSwitcher } from './LanguageSwitcher.vue';
 export { default as DxpMenuFooterNavigation } from './DxpMenuFooterNavigation.vue';
+export { default as DxpLogin } from './DxpLogin.vue';
 export { default as OmsInstanceNavigator } from './OmsInstanceNavigator.vue'
 export { default as ProductIdentifier } from "./ProductIdentifier.vue";
 export { default as Scanner } from './Scanner.vue';
