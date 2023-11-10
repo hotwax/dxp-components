@@ -48,14 +48,14 @@ const error = ref({
   responseMessage: ''
 })
 
-onMounted(() => {
+onMounted(async () => {
   if (!Object.keys(route.query).length) {
     window.location.href = context.appLoginUrl
     return
   }
 
   const { token, oms, expirationTime } = route.query
-  handleUserFlow(token, oms, expirationTime)
+  await handleUserFlow(token, oms, expirationTime)
 });
 
 async function handleUserFlow(token: string, oms: string, expirationTime: string) {
@@ -85,7 +85,8 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
 
   context.loader.present('Logging in')
   try {
-    await context.login({ token, oms })
+    // redirect route will be returned for certain cases
+    const redirectRoute = await context.login({ token, oms })
 
     const userStore = useUserStore()
     // to access baseUrl as we store only OMS in DXP
@@ -103,7 +104,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
       )
     }
 
-    router.push('/')
+    redirectRoute ? router.push(redirectRoute) : router.push('/')
   } catch (err: any) {
     console.error(err)
     error.value.message = 'Please contact the administrator.'
