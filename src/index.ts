@@ -3,12 +3,14 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { AppVersionInfo, DxpImage, DxpLogin, DxpUserProfile, LanguageSwitcher, DxpMenuFooterNavigation, OmsInstanceNavigator, ProductIdentifier, Scanner, ShopifyImg } from "./components";
+import { DxpAppVersionInfo, DxpImage, DxpLogin, DxpUserProfile, LanguageSwitcher, DxpMenuFooterNavigation, OmsInstanceNavigator, ProductIdentifier, Scanner, ShopifyImg } from "./components";
 import { goToOms, getProductIdentificationValue } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
 import { useUserStore } from "./store/user";
+
+import "./service-worker"
 
 // TODO: handle cases when the store from app or pinia store are not available
 // creating a pinia store for the plugin
@@ -24,6 +26,23 @@ let appContext = {} as any
 let productIdentificationContext = {} as any
 let notificationContext = {} as any
 let userContext = {} as any
+let showToast = {} as any
+
+let refreshing = false;
+
+const updateAvailable = ($event: any) => {
+  const registration = $event.detail;
+  const updateExists = true;
+  appContext.config.globalProperties.$store.dispatch('user/updatePwaState', { registration, updateExists });
+  showToast(translate("New version available, please update the app."));
+}
+
+document.addEventListener('swUpdated', updateAvailable, { once: true })
+navigator.serviceWorker.addEventListener('controllerchange', () => {
+  if (refreshing) return
+  refreshing = true
+  window.location.reload()
+})
 
 // executed on app initialization
 export let dxpComponents = {
@@ -42,7 +61,7 @@ export let dxpComponents = {
     app.use(pinia);
     app.use(i18n);
 
-    app.component('AppVersionInfo', AppVersionInfo)
+    app.component('DxpAppVersionInfo', DxpAppVersionInfo)
     app.component('DxpImage', DxpImage)
     app.component('DxpUserProfile', DxpUserProfile)
     app.component('LanguageSwitcher', LanguageSwitcher)
@@ -52,6 +71,8 @@ export let dxpComponents = {
     app.component('ProductIdentifier', ProductIdentifier)
     app.component('Scanner', Scanner)
     app.component('ShopifyImg', ShopifyImg)
+
+    showToast = options.showToast
 
     loginContext.login = options.login
     loginContext.logout = options.logout
