@@ -14,6 +14,9 @@
   "dependencies": {
     "@capacitor/android": "^2.4.7",
     "@capacitor/core": "^2.4.7",
+    "@hotwax/app-version-info": "^1.0.0",
+    "@hotwax/dxp-components": "^1.11.0",
+    "@hotwax/oms-api": "^1.11.0",
     "@ionic/core": "^7.5.4",
     "@ionic/vue": "^7.5.4",
     "@ionic/vue-router": "^7.5.4",
