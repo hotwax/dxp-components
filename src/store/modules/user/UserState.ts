@@ -5,16 +5,6 @@ export default interface UserState {
     currentFacility: object;
     instanceUrl: string;
     currentEComStore: object;
-    preference: {
-        printShippingLabel: boolean,
-        printPackingSlip: boolean
-    };
-    fieldMappings: object | null;
-    currentMapping: {
-        id: string;
-        mappingType: string;
-        name: string;
-        value: object;
-    };
+    preference: object;
     pwaState: any;
 }
