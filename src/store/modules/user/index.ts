@@ -14,17 +14,7 @@ const userModule: Module<UserState, RootState> = {
       currentFacility: {},
       instanceUrl: '',
       currentEComStore: {},
-      preference: {
-        printShippingLabel: false,
-        printPackingSlip: false
-      },
-      fieldMappings: {},
-      currentMapping: {
-        id: '',
-        mappingType: '',
-        name: '',
-        value: {}
-      },
+      preference: {},
       pwaState: {
         updateExists: false,
         registration: null,
