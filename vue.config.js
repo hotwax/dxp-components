@@ -1,3 +1,4 @@
+require("@hotwax/app-version-info")
 module.exports = {
   pluginOptions: {
     i18n: {
@@ -10,5 +11,7 @@ module.exports = {
       fullInstall: true,
       enableInSFC: true
     }
-  }
+  },
+  runtimeCompiler: true,
+  transpileDependencies: ['@hotwax/dxp-components']
 }

@@ -9,9 +9,26 @@ const userModule: Module<UserState, RootState> = {
     namespaced: true,
     state: {
       token: '',
-      current: null,
+      permissions: [],
+      current: {},
       currentFacility: {},
       instanceUrl: '',
+      currentEComStore: {},
+      preference: {
+        printShippingLabel: false,
+        printPackingSlip: false
+      },
+      fieldMappings: {},
+      currentMapping: {
+        id: '',
+        mappingType: '',
+        name: '',
+        value: {}
+      },
+      pwaState: {
+        updateExists: false,
+        registration: null,
+      }
     },
     getters,
     actions,

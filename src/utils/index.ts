@@ -1,120 +1,92 @@
-import saveAs from "file-saver";
+import { translate } from '@hotwax/dxp-components';
+import store from '@/store';
+import { Plugins } from '@capacitor/core';
 import { toastController } from '@ionic/vue';
-import Papa from 'papaparse'
+import { DateTime } from 'luxon';
 
 // TODO Use separate files for specific utilities
 
 // TODO Remove it when HC APIs are fully REST compliant
 const hasError = (response: any) => {
-  return !!response.data._ERROR_MESSAGE_ || !!response.data._ERROR_MESSAGE_LIST_;
+  return typeof response.data != "object" || !!response.data._ERROR_MESSAGE_ || !!response.data._ERROR_MESSAGE_LIST_ || !!response.data.error;
 }
 
-const showToast = async (message: string) => {
-  const toast = await toastController
-    .create({
-      message,
-      duration: 3000,
-      position: 'top',
-    })
-  return toast.present();
-}
+const showToast = async (message: string, options?: any) => {  
+  const config = {
+    message,
+    ...options
+  } as any;
 
-// Utility for parsing CSV file 
-// Package Used : PapaParse (Link to Documentation : https://www.papaparse.com/docs#config)
-
-// In this we will be receiving the file and options in the function 
-// and we are returning a promise with results in it 
-
-// We have used the parse method of the papaparse library which will take a config object with File.
-// In the config object we have passed various keys:
-//   - header : It tells papaparse that there will be a header in the CSV. 
-//   - skipEmptyLines : It will ignore any empty lines in the CSV.
-//   - complete : A parse result always contains three objects: data, errors, and meta. 
-//     data and errors are arrays, and meta is an object. In the step callback, the data 
-//     array will only contain one element.
-
-// Also, we have passed options, as if user wants to add some more properties to the method 
-// or if he want to modify some pre-build keys then he can do so.
-
-// Types of Responses
-
-// CSV FILE :
-// columnA,columnB,columnC
-// "Susan",41,a
-// "Mike",5,b
-// "Jake",33,c
-// "Jill",30,d
-
-// For (header:true) we get
-// [{columnA: 'Susan', columnB: '41', columnC: 'a'},
-// {columnA: 'Mike', columnB: '5', columnC: 'b'},
-// {columnA: 'Jake', columnB: '33', columnC: 'c'},
-// {columnA: 'Jill', columnB: '30', columnC: 'd'}]
-
-// // For (header:false) we get
-// [['columnA', 'columnB', 'columnC'],
-// ['Susan', '41', 'a'],
-// ['Mike', '5', 'b'],
-// ['Jake', '33', 'c'],
-// ['Jill', '30', 'd']]
-
-const parseCsv = async (file: File, options: any) => {
-  return new Promise ((resolve, reject) => {
-    Papa.parse(file, {
-      header: false,
-      skipEmptyLines: true,
-      complete: function (results: any) {
-        if (results.errors.length) {
-          reject(results.error)
-        } else {
-          resolve(results)
-        }
-      },
-      ...options
-    });
-  })
-}
-
-// Here we have created a JsonToCsvOption which contains the properties which we can pass to jsonToCsv function
-
-interface JsonToCsvOption {
-  parse?: object | null;
-  encode?: object | null;
-  name?: string;
-  download?: boolean;
-}
-
-// Utility for converting Javascript Object into blob and download it as Csv
-// Package Used : PapaParse (Link to Documentation : https://www.papaparse.com/docs#config)
-//                file-saver (Link to Documentation : https://www.npmjs.com/package/file-saver)
-
-// In this we will be receiving a Javascript object and options in the function and we will be 
-// returning a blob object 
-
-// We have used a unparse method of papaparse library for converting javascript object into csv file,
-// and in addition to this we are using saveAs method to download our blob file
-// In the options we will be passing various keys:
-//     parse: In this we will be passing a object which contains various properties (headers,skipEmptyLines) to be passed in unparse method
-//     encode: In this we will be passing a object which contains various properties related to the encoding like { type }
-//     name: In this we will provide a name by which we want to download the csv File, and it is necessary to provide the .csv in the name
-//     download: In this we will provide a value which will decide whether we want to download the file or not
-
-const jsonToCsv = (file: any, options: JsonToCsvOption = {}) => {
-  const csv = Papa.unparse(file, {
-    ...options.parse
-  });
-  const encoding = {
-    type: String,
-    default: "utf-8",
-    ...options.encode
-  };
-  const blob = new Blob([csv], {
-    type: "application/csvcharset=" + encoding 
-  });
-  if (options.download) {
-    saveAs(blob, options.name ? options.name : "default.csv");
+  if (!options?.position) {
+    config.position = 'bottom';
   }
-  return blob; 
+  if (options?.canDismiss) {
+    config.buttons = [
+      {
+        text: translate('Dismiss'),
+        role: 'cancel',
+      },
+    ]
+  }
+  if (!options?.manualDismiss) {
+    config.duration = 3000;
+  }
+
+  const toast = await toastController.create(config)
+  // present toast if manual dismiss is not needed
+  return !options?.manualDismiss ? toast.present() : toast
 }
 
-export { showToast, hasError , parseCsv , jsonToCsv, JsonToCsvOption }
+const handleDateTimeInput = (dateTimeValue: any) => {
+  // TODO Handle it in a better way
+  // Remove timezone and then convert to timestamp
+  // Current date time picker picks browser timezone and there is no supprt to change it
+  const dateTime = DateTime.fromISO(dateTimeValue, { setZone: true}).toFormat("yyyy-MM-dd'T'HH:mm:ss")
+  return DateTime.fromISO(dateTime).toMillis()
+}
+
+const formatDate = (value: any, inFormat?: string, outFormat?: string) => {
+  // TODO Make default format configurable and from environment variables
+  if(inFormat){
+    return DateTime.fromFormat(value, inFormat).toFormat(outFormat ? outFormat : 'MM-dd-yyyy');
+  }
+  return DateTime.fromISO(value).toFormat(outFormat ? outFormat : 'MM-dd-yyyy');
+}
+
+const formatUtcDate = (value: any, outFormat: string) => {
+  // TODO Make default format configurable and from environment variables
+  // TODO Fix this setDefault should set the default timezone instead of getting it everytiem and setting the tz
+  return DateTime.fromISO(value, { zone: 'utc' }).setZone(store.state.user.current.userTimeZone).toFormat(outFormat ? outFormat : 'MM-dd-yyyy')
+}
+
+const getFeature = (featureHierarchy: any, featureKey: string) => {
+  let  featureValue = ''
+  if (featureHierarchy) {
+    const feature = featureHierarchy.find((featureItem: any) => featureItem.startsWith(featureKey))
+    const featureSplit = feature ? feature.split('/') : [];
+    featureValue = featureSplit[2] ? featureSplit[2] : '';
+  }
+  return featureValue;
+}
+
+const copyToClipboard = async (value: string, text?: string) => {
+  const { Clipboard } = Plugins;
+
+  await Clipboard.write({
+    string: value,
+  }).then(() => {
+    text ? showToast(translate(text)) : showToast(translate("Copied", { value }));
+  });
+}
+
+const getIdentificationId = (identifications: any, id: string) => {
+  let  externalId = ''
+  if (identifications) {
+    const externalIdentification = identifications.find((identification: any) => identification.startsWith(id))
+    const externalIdentificationSplit = externalIdentification ? externalIdentification.split('/') : [];
+    externalId = externalIdentificationSplit[1] ? externalIdentificationSplit[1] : '';
+  }
+  return externalId;
+}
+
+export { copyToClipboard, formatDate, formatUtcDate, getFeature, getIdentificationId, handleDateTimeInput, showToast, hasError }
