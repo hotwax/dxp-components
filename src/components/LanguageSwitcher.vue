@@ -9,8 +9,7 @@
       {{ $t('Select your preferred language.') }}
     </ion-card-content>
     <ion-item lines="none">
-      <ion-label>{{ $t("Choose language") }}</ion-label>
-      <ion-select interface="popover" :value="currentLocale" @ionChange="setLocale($event.detail.value)">
+      <ion-select :label="$t('Choose language')" interface="popover" :value="currentLocale" @ionChange="setLocale($event.detail.value)">
         <ion-select-option v-for="locale in Object.keys(locales)" :key="locale" :value="locale">{{ locales[locale] }}</ion-select-option>
       </ion-select>
     </ion-item>
