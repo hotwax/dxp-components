@@ -22,5 +22,4 @@ export { default as DxpMenuFooterNavigation } from './DxpMenuFooterNavigation.vu
 export { default as DxpLogin } from './DxpLogin.vue';
 export { default as OmsInstanceNavigator } from './OmsInstanceNavigator.vue'
 export { default as ProductIdentifier } from "./ProductIdentifier.vue";
-export { default as Scanner } from './Scanner.vue';
 export { default as ShopifyImg } from './ShopifyImg.vue';
