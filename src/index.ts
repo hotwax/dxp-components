@@ -3,7 +3,7 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { DxpAppVersionInfo, DxpImage, DxpLogin, DxpUserProfile, LanguageSwitcher, DxpMenuFooterNavigation, OmsInstanceNavigator, ProductIdentifier, ShopifyImg } from "./components";
+import { DxpAppVersionInfo, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpProductIdentifier, DxpShopifyImg, DxpUserProfile } from "./components";
 import { goToOms, getProductIdentificationValue } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
@@ -63,13 +63,13 @@ export let dxpComponents = {
 
     app.component('DxpAppVersionInfo', DxpAppVersionInfo)
     app.component('DxpImage', DxpImage)
-    app.component('DxpUserProfile', DxpUserProfile)
-    app.component('LanguageSwitcher', LanguageSwitcher)
-    app.component('DxpMenuFooterNavigation', DxpMenuFooterNavigation)
+    app.component('DxpLanguageSwitcher', DxpLanguageSwitcher)
     app.component('DxpLogin', DxpLogin)
-    app.component('OmsInstanceNavigator', OmsInstanceNavigator)
-    app.component('ProductIdentifier', ProductIdentifier)
-    app.component('ShopifyImg', ShopifyImg)
+    app.component('DxpMenuFooterNavigation', DxpMenuFooterNavigation)
+    app.component('DxpOmsInstanceNavigator', DxpOmsInstanceNavigator)
+    app.component('DxpProductIdentifier', DxpProductIdentifier)
+    app.component('DxpShopifyImg', DxpShopifyImg)
+    app.component('DxpUserProfile', DxpUserProfile)
 
     showToast = options.showToast
 
@@ -104,20 +104,20 @@ export let dxpComponents = {
 export {
   appContext,
   DxpImage,
-  DxpUserProfile,
+  DxpLogin,
   DxpMenuFooterNavigation,
+  DxpOmsInstanceNavigator,
+  DxpProductIdentifier,
+  DxpShopifyImg,
+  DxpUserProfile,
   getProductIdentificationValue,
   goToOms,
   i18n,
   imageContext,
   initialiseFirebaseApp,
-  DxpLogin,
   loginContext,
   notificationContext,
-  OmsInstanceNavigator,
-  ProductIdentifier,
   productIdentificationContext,
-  ShopifyImg,
   shopifyImgContext,
   translate,
   useAuthStore,
