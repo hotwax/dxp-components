@@ -63,13 +63,13 @@ export let dxpComponents = {
 
     app.component('DxpAppVersionInfo', DxpAppVersionInfo)
     app.component('DxpImage', DxpImage)
-    app.component('DxpUserProfile', DxpUserProfile)
     app.component('DxpLanguageSwitcher', DxpLanguageSwitcher)
-    app.component('DxpMenuFooterNavigation', DxpMenuFooterNavigation)
     app.component('DxpLogin', DxpLogin)
+    app.component('DxpMenuFooterNavigation', DxpMenuFooterNavigation)
     app.component('DxpOmsInstanceNavigator', DxpOmsInstanceNavigator)
     app.component('DxpProductIdentifier', DxpProductIdentifier)
     app.component('DxpShopifyImg', DxpShopifyImg)
+    app.component('DxpUserProfile', DxpUserProfile)
 
     showToast = options.showToast
 
@@ -104,20 +104,20 @@ export let dxpComponents = {
 export {
   appContext,
   DxpImage,
-  DxpUserProfile,
+  DxpLogin,
   DxpMenuFooterNavigation,
+  DxpOmsInstanceNavigator,
+  DxpProductIdentifier,
+  DxpShopifyImg,
+  DxpUserProfile,
   getProductIdentificationValue,
   goToOms,
   i18n,
   imageContext,
   initialiseFirebaseApp,
-  DxpLogin,
   loginContext,
   notificationContext,
-  DxpOmsInstanceNavigator,
-  DxpProductIdentifier,
   productIdentificationContext,
-  DxpShopifyImg,
   shopifyImgContext,
   translate,
   useAuthStore,

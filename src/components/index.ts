@@ -14,12 +14,12 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
-export { default as DxpImage } from './DxpImage.vue';
-export { default as DxpUserProfile } from './DxpUserProfile.vue'
 export { default as DxpAppVersionInfo } from './DxpAppVersionInfo.vue';
+export { default as DxpImage } from './DxpImage.vue';
 export { default as DxpLanguageSwitcher } from './DxpLanguageSwitcher.vue';
-export { default as DxpMenuFooterNavigation } from './DxpMenuFooterNavigation.vue';
 export { default as DxpLogin } from './DxpLogin.vue';
+export { default as DxpMenuFooterNavigation } from './DxpMenuFooterNavigation.vue';
 export { default as DxpOmsInstanceNavigator } from './DxpOmsInstanceNavigator.vue'
 export { default as DxpProductIdentifier } from "./DxpProductIdentifier.vue";
 export { default as DxpShopifyImg } from './DxpShopifyImg.vue';
+export { default as DxpUserProfile } from './DxpUserProfile.vue'
