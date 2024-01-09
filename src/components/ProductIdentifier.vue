@@ -12,14 +12,12 @@
     </ion-card-content>
 
     <ion-item>
-      <ion-label>{{ "Primary Product Identifier" }}</ion-label>
-      <ion-select interface="popover" :placeholder="'primary identifier'" :value="productIdentificationPref.primaryId" @ionChange="setProductIdentificationPref($event.detail.value, 'primaryId')">
+      <ion-select :label="$t('Primary')" interface="popover" :placeholder="'primary identifier'" :value="productIdentificationPref.primaryId" @ionChange="setProductIdentificationPref($event.detail.value, 'primaryId')">
         <ion-select-option v-for="identification in productIdentificationOptions" :key="identification" :value="identification" >{{ identification }}</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-item>
-      <ion-label>{{ "Secondary Product Identifier" }}</ion-label>
-      <ion-select interface="popover" :placeholder="'secondary identifier'" :value="productIdentificationPref.secondaryId" @ionChange="setProductIdentificationPref($event.detail.value, 'secondaryId')">
+    <ion-item lines="none">
+      <ion-select :label="$t('Secondary')" interface="popover" :placeholder="'secondary identifier'" :value="productIdentificationPref.secondaryId" @ionChange="setProductIdentificationPref($event.detail.value, 'secondaryId')">
         <ion-select-option v-for="identification in productIdentificationOptions" :key="identification" :value="identification" >{{ identification }}</ion-select-option>
         <ion-select-option value="">{{ "None" }}</ion-select-option>
       </ion-select>
@@ -28,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel, IonSelect, IonSelectOption } from '@ionic/vue';
+import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonSelect, IonSelectOption } from '@ionic/vue';
 import { appContext } from 'src';
 import { useProductIdentificationStore } from 'src/store/productIdentification';
 import { computed, onMounted } from 'vue';
