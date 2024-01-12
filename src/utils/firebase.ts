@@ -1,7 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { defineStore } from "pinia";
+import { doc, getFirestore, getDoc, setDoc, updateDoc } from "firebase/firestore";
+
 let app;
+let database = {} as any
 
 const initialiseFirebaseApp = async (
   appFirebaseConfig: any,
@@ -12,6 +14,7 @@ const initialiseFirebaseApp = async (
   const firebaseConfig = appFirebaseConfig
 
   app = initializeApp(firebaseConfig);
+  database = getFirestore(app);
 
   // Check for notifications required only in bopis app.
   if(addNotification) {
@@ -38,10 +41,24 @@ const initialiseFirebaseApp = async (
       alert("You denied notifications.");
     }
   }
-  console.log(app);
-  
 };
 
+const getDocument = async (collection: any, document: any) => {
+  const querySnapshot = await getDoc(doc(database, collection, document));
+  return querySnapshot.data()
+}
+
+const addDocument = async (collection: any, document: any, data: any) => {
+  return await setDoc(doc(database, collection, document), data);
+}
+
+const updateDocument = async (collection: any, document: any, data: any) => {
+  return await updateDoc(doc(database, collection, document), data);
+}
+
 export {
+  addDocument,
   initialiseFirebaseApp,
+  getDocument,
+  updateDocument
 }
