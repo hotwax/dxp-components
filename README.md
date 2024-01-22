@@ -30,3 +30,105 @@ If you have any questions or ideas feel free to join our <a href="https://discor
 # The license
 
 DXP Components is completely free and released under the Apache v2.0 License. Check <a href="https://github.com/hotwax/dxp-components/blob/main/LICENSE" target="_blank">LICENSE</a> for more details.
+
+
+# Components - Overview
+
+## DxpShopifyImg
+### Introduction
+The 'DxpShopifyImg' component is a component providing a centralized solution for displaying Shopify images with dynamic sizing and image Url.
+
+The component takes an defaultImageUrl from the appContext and initialize the imageUrl with it. The default image path can be used in the 'DxpShopifyImg' component if the 'src' is not provided as a prop or if the provided image URL fails to load.
+
+### Basic Usage
+To use the DxpShopifyImg component, integrate it into your Vue 3 application. Provide the image source (src) and an optional size attribute:
+
+
+      <template>
+        <DxpShopifyImg src="path/to/shopify-image.jpg" size="medium" />
+      </template>
+
+      <script lang="ts">
+      import { DxpShopifyImg } from 'dxpComponents';
+      </script>
+
+### Props
+<b>"src"</b>
+<table>
+  <tr>
+    <th>Decription</th>
+    <td>Path to the Shopfiy image.</td>
+  </tr>
+  <tr>
+    <th>Type</th>
+    <td>String</td>
+  </tr>
+  <tr>
+    <th>Required</th>
+    <td>False</td>
+  </tr>
+</table>
+<br>
+
+<b>"size"</b>
+<table>
+  <tr>
+    <th>Description</th>
+    <td>Desired image size.</td>
+  </tr>
+  <tr>
+    <th>Type</th>
+    <td>String</td>
+  </tr>
+  <tr>
+    <th>Required</th>
+    <td>False</td>
+  </tr>
+  <tr>
+    <th>Example</th>
+    <td>pico, small, icon, thumb, etc</td>
+  </tr>
+</table>
+
+### Technical Implementation
+
+<b>checkIfImageExists(src: string)</b>
+
+Purpose
+* This function serves the purpose of determining whether an image exists at a specified URL.
+
+Usage
+* Accepts a single parameter <b>'src'</b> (Type: string), representing the URL of the image to be checked.
+* Returns a promise that resolves with <b>'True'</b> if the image exists and rejects with <b>'False'</b> if it does not.
+
+Implementation
+* Creates a new <b>Image</b> object and sets event handlers for <b>onload</b> and <b>onerror</b>.
+* <b>onload</b> resolves the Promise with true when the image is successfully loaded.
+* <b>onerror</b> rejects the Promise with false if there is an error loading the image.
+* Sets the source URL for the image from URL given as a argument.
+
+<br>
+<b>prepareImgUrl(src: string, size?: string)</b>
+
+Purpose
+* It is function to modify the image URL based on the provided size or return the original URL if no size is specified. 
+
+Usage
+* Accepts two parameters:
+  * "src": (Type - String) Original URL of the image
+  * "size": (Type - String, Optional) The size of the image
+* Returns as a String a modified URL of the image.
+
+Implementation
+* The function first checks if a size parameter is provided. If not, it directly returns the original image URL.
+* If a size is provided, the function modifies the image URL based on the specified size. It uses regular expressions to remove any existing size information from the URL and appends the new size.
+
+<br>
+<b>setImgUrl()</b>
+
+Purpose
+* This is called once the component mounted, responsible for setting the image URL based on certain conditions.
+
+Implementation
+* If image URL is given in props as 'src', this calls the prepareImgUrl function with 'src' as a parameter to generate the modified image URL.
+* Then this checks if the URL exisis using 'checkIfImageExists' function, and updates the value of imageUrl if the image is found.
