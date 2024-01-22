@@ -132,3 +132,60 @@ Purpose
 Implementation
 * If image URL is given in props as 'src', this calls the prepareImgUrl function with 'src' as a parameter to generate the modified image URL.
 * Then this checks if the URL exisis using 'checkIfImageExists' function, and updates the value of imageUrl if the image is found.
+
+
+## DxpProductIdentifier
+
+### Introduction
+Product Identifier typically refers to attributes or properties that uniquely identify and describe a product within a system or database. These identifiers help distinguish one product from another and provide essential information about the product.
+
+DxpProductIdentifer component serves as a user interface for selecting primary and secondary product identifiers. The component is designed to be easily integrated into applications, offering a card-based interface with dropdowns for identifier selection.
+
+### Basic usage
+To use the DxpProductIdentifier component, integrate it into your Vue application as follows:
+
+      <template>
+        <DxpProductIdentifier />
+      </template>
+
+      <script setup lang="ts">
+      import { DxpProductIdentifer } from 'dxpComponents';
+      </script>
+
+### Technical Implementation
+
+<h4> State Management </h4>
+The component relies on a Store ('userProductIdentificationStore') to manage and update the user's product identification preferences.
+
+The following store contains two fields in state:
+
+* <b> productIdentificationPref </b>
+  * An object with 'primaryId' and 'secondaryId'
+* <b> productIdentificationOptions </b>
+  * An array of identification options.
+
+The store also contains some actions and getters for getting and setting productIdentification preference.
+
+
+<h4> Getters </h4>
+
+The component uses two getters two fetch data form state in userProductIdentificationStore:
+* <b> getProductIdentificationOptions: </b> This getter fetches from state an array of product identification options to be displayed in the selection dropdown.
+
+* <b> getProductIdentificationPref: </b> This getter retrieves from state an object containing the product identification preferences from the state.
+
+<h4> getIdentificationPref </h4>
+
+* As soon as component is mounted, the 'getIdentificationPref' action of userProductIdentificationStore gets triggered with current EcomStoreId as a parameter.
+
+* This action retrieves the identification preferences for current EcomStore and updates the state accordingly. If can't fetch preference for this EcomStore it sets primaryId equals 'productId' by default.
+
+
+<h4> setProductIdentificationPref </h4>
+
+This function is triggered when the selected product identifications are changed, updating the identification preferences in the state.
+
+### Recommendation
+The following DxpProductIdentifier component can be used anywhere in any app, with a condition that the app should have dxp-components installed as a dependency in app and the following functions from oms-api should be passed as a parameter at the time of initialization of dxp while creation of app.
+
+* 'getProdcutIdentificationPref' and 'setProductIdentificationPref'
