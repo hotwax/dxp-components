@@ -133,6 +133,10 @@ Implementation
 * If image URL is given in props as 'src', this calls the prepareImgUrl function with 'src' as a parameter to generate the modified image URL.
 * Then this checks if the URL exisis using 'checkIfImageExists' function, and updates the value of imageUrl if the image is found.
 
+### Recommendation
+
+This component can be used anywhere for displaying image just need to pass image src as prop and optional to pass size.
+
 
 ## DxpProductIdentifier
 
@@ -189,3 +193,67 @@ This function is triggered when the selected product identifications are changed
 The following DxpProductIdentifier component can be used anywhere in any app, with a condition that the app should have dxp-components installed as a dependency in app and the following functions from oms-api should be passed as a parameter at the time of initialization of dxp while creation of app.
 
 * 'getProdcutIdentificationPref' and 'setProductIdentificationPref'
+
+
+## DxpMenuFooterNavigation
+
+### Introduction
+The DxpMenuFooterNavigation component is designed to display and manage certain user-related information within a footer in a menu. It provides a clean and organized way to showcase the user's instance URL, time zone, and options to select product stores and Shopify configurations.
+
+* Dynamic updates ensure that the displayed instance URL and time zone are always reflective of the latest user data.
+* The user can select a specific product store and Shopify configuration if multiple options are available.
+* The component emits events (updateEcomStore and updateShopifyConfig) when the user selects different options, allowing the parent component to react and update the application state accordingly.
+
+### Basic Usage
+
+To use the DxpMenuFooterNavigation component, integrate it into your Vue application as follows:
+
+      <template>
+        <DxpMenuFooterNavigation @update-ecom-store="setEComStore($event)" @update-shopify-config="setShopifyConfig($event)" />
+      </template>
+
+Our component allows us to change EcomStore and shopifyConfig, while the logic to change them is written in out app in parent component. For triggering those methods from our child component we are using events. We are passing these methods as argument to two events in our components. There events can be called from our component triggering those methods. 
+
+<h4> Conditions </h4>
+
+* Allows product stores selection only when there are multiple stores to choose from. (i.e., more than 2)
+* Allows shopify configs selection only if both the given below conditions fulfill:
+  * More than 1 shopify configs are availabe
+  * And less than 3 product stores are available
+
+### Technical Implementation
+
+<h4> State Management </h4>
+This component takes in use the state of both dxp-components and app.
+
+* <b>authStore:</b> Component uses authStore of dxp-components to get instance url to be displayed in footer.
+* <b>appState:</b> Component uses app state which is retrieved while dxp-components initialisation in the apps. Following components gets userProfile, currentEcomStore, shopifyConfigs, currentShopifyConfigs from the app state since these data are stored in the state of app.
+
+<h4> Browser Time Zone </h4>
+
+The browser's time zone is obtained using <b>Intl.DateTimeFormat().resolvedOptions().timeZone.</b> This information is used to compare with the user's configured time zone.
+
+<h4> Emits </h4>
+
+* @update-ecom-store: This takes in ecomStore updating function as a argument.
+* @update-shopify-config: This takes in shopConfig updating function as a argument.
+  
+### Events
+There are some events which are passed as prop to the component from the app. Listed below are some of those events and how they are used.
+
+<h4>updateEcomStore</h4>
+
+* Following event is emitted when user changes the selected EcomStore from the product stores select option. 
+* This event calls an method from the parent component which handles the logic for updating selected EcomStore.
+
+<h4>updateShopifyConfig</h4>
+
+* Following event is emitted when user chooses a shopify configs from the shopify configs select menu.
+* This event calls an methods from the parent component which handles the logic for updating shopify config.
+
+### Recommendation
+
+The implementation of this component is heavily dependent upon applications state and methods. Some of the dependency for using this component are as follows:
+
+* Methods for updating shopifyConfig and product stores should be passed in as a argument to events. Which are emitted from the component which on emit calls the method for updating store or config in application state.
+* Application state should be sent to dxp-components with the initialisation, since this component retrieve data such as productStore, current productStore, etc from the state.
