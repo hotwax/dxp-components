@@ -212,6 +212,26 @@ To use the DxpMenuFooterNavigation component, integrate it into your Vue applica
         <DxpMenuFooterNavigation @update-ecom-store="setEComStore($event)" @update-shopify-config="setShopifyConfig($event)" />
       </template>
 
+      <script lang="ts">
+        import { DxpMenuFooterNavigation } from "@hotwax/dxp-components";
+
+        export default defineComponent({
+          name: "Menu",
+          methods: {
+            async setEComStore(event: CustomEvent) {
+              if(this.userProfile && this.eComStore?.productStoreId !== event.detail.value) {
+                await this.store.dispatch('user/setEcomStore', { 'productStoreId': event.detail.value })
+                emitter.emit("productStoreOrConfigChanged")
+              }
+            },
+            async setShopifyConfig(event: CustomEvent){
+              await this.store.dispatch('user/setCurrentShopifyConfig', { 'shopifyConfigId': event.detail.value });
+              emitter.emit("productStoreOrConfigChanged")
+            }
+          }
+        })
+      </script>
+
 Our component allows us to change EcomStore and shopifyConfig, while the logic to change them is written in out app in parent component. For triggering those methods from our child component we are using events. We are passing these methods as argument to two events in our components. There events can be called from our component triggering those methods. 
 
 <h4> Conditions </h4>
