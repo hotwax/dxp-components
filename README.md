@@ -38,53 +38,42 @@ DXP Components is completely free and released under the Apache v2.0 License. Ch
 <li> It provides functionality to efficiently manage different types of image sources, including local assets, external web URLs, and images from a resource server.</li>
 
 ### Basic Usage 
-<li>TThe component dynamically loads and displays the specified image, considering different source scenarios, such as local assets, web URLs, or resource server images.</li>
+The component dynamically loads and displays the specified image, considering different source scenarios, such as local assets, web URLs, or resource server images.
+
+To use the DxpImage component, integrate it into your Vue 3 application and provide the image source (src).
+
+      <template>
+        <img :src="imageUrl" />
+      </template>
+
+      <script lang="ts">
+      import { DxpImage } from "@hotwax/dxp-components";
+      </script>
 
 ### Props
 #### 1. src
 <table>
-  <tr>
-    <th>Descrption</th>
-    <td>It's specifying that the component expects a prop named src.n this component props.src to access the value of the src.</td>
-  </tr>
-  <tr>
-    <th>Type</th>
-    <td>string</td>
-  </tr>
-  <tr>
-    <th>Required</th>
-    <td>False</td>
-  </tr>
-   <tr>
-    <th>Default value </th>
-    <td>‘context.defaultImgUrl’</td>
-  </tr>
-</table>
+    <thead>
+      <tr>
+        <th>Prop Name</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Default Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>src</code></td>
+        <td>It's specifying that the component expects a prop named src.n this component props.src to access the value of the src.</td>
+        <td>string</td>
+        <td>False</td>
+        <td>‘context.defaultImgUrl’</td>
+      </tr>
+    </tbody>
+  </table>
 
-## Technical Implementation
-#### 1. setImageUrl()
-The setImageUrl function is responsible for determining the appropriate image URL based on the provided props.src and the configured resourceUrl.
-<li>If props.src contains 'assets/', assigns directly to imageUrl for local assets.</li>
-<li>If props.src starts with 'http', checks image existence; if true, assigns to imageUrl for web URLs.</li>
-<li>If not local or web, assumes resource server image, appends to resourceUrl, and assigns if URL exists.</li>
 
-#### 2. checkIfImageExists()
-
-<li>Returns a Promise</li>
-<li>Resolves to true if the image loads successfully, rejects with false on error.</li>
-<li>Logs an error message to the console if the image doesn't exist</li>
-
-#### 2. onMounted()
-
-<li>onMounted() hook activates when the component is added to the DOM.</li>
-<li>It calls the setImageUrl function.</li>
-<li>During the initial rendering, it sets the image URL based on the logic within setImageUrl.</li>
-
-#### 2. onUpdated()
-
-<li>onUpdated() hook activates on component re-renders.</li>
-<li>Like onMounted, it calls setImageUrl.</li>
-<li>Ensures dynamic updating of the image URL based on changes in reactive dependencies during re-renders.</li>
 
 ## Recommendation
 <li>Use the component to load and display images stored as local assets within the project directory.</li>
@@ -97,18 +86,23 @@ The setImageUrl function is responsible for determining the appropriate image UR
 <li> This component focuses on displaying information about the Order Management System (OMS) instance that the user is currently connected to.</li>
 
 ### Basic Usage
-<li> It is used to navigate to the OMS instance from the application. </li>
+It is used to navigate to the OMS instance from the application. 
+
+To use the DxpOmsInstanceNavigator component, integrate it into your Vue 3 application.
+
+    <template>
+    <DxpOmsInstanceNavigator />
+    </template>
+
+    <script>
+    import { DxpOmsInstanceNavigator } from "@hotwax/dxp-components";
+    </script>
 
 ###  Events 
 #### 1. goToOms()
 <li>The purpose of goToOms is to navigate the user to a different screen or page within the application that corresponds to a specific OMS instance.
 <li>It takes two parameters: <b>token</b> (an authentication token) and <b>omsName</b> (the name of the OMS instance).
 
-## Technical Implementation
-### 1. computed()
-<li>Computed properties like token and oms are created using the computed function. 
-<li>This ensures that the component is reactive to changes in the underlying state of the authStore. 
-<li>If the token or OMS name changes in the store, the corresponding computed properties will automatically update, triggering a re-render of the component.
 
 ### state manamement 
 #### 1.useAuthStore()
@@ -121,7 +115,18 @@ The setImageUrl function is responsible for determining the appropriate image UR
 <li>The User Profile Card component is designed to display user profile information, allowing users to see details such as their login ID and party name. It also provides options to perform actions like logging out and navigating to the launchpad.
 
 ### Basic Usage
-<li>UserProfile component provides a user-friendly display of profile information 
+UserProfile component provides a user-friendly display of profile information.
+
+To use the DxpUserProfile component, integrate it into your Vue 3 application.
+
+      <template>
+      <DxpUserProfile @reset-state-before-logout="resetStateBeforeLogout" :userProfile="userProfile" logoutLabel="Logout" goToLabel="Go to Launchpad" />
+      </template>
+
+      <script>
+      import { DxpUserProfile } from "@hotwax/dxp-components";
+      </script>
+    
 
 ### Props
 <table>
@@ -180,8 +185,3 @@ This rule defines the columns for the grid layout.<br>
 <b>repeat(auto-fill, minmax(400px, 1fr)):</b><br>
 <b>auto-fill:</b> Automatically adds as many columns as can fit in the available space.<br>
 <b>minmax(400px, 1fr):</b> Each column should have a minimum width of 400 pixels, and they can grow to take up equal fractions (1fr) of the available space.
-
-
-### Technical Implementation
-#### 1. defineEmits([event1, event1....])
-It is used to declare and define the custom events that a component can emit. Here it is used to emit the <code>before-logout</code> event. It helps in specifying the events that child components can trigger, allowing parent components or other listeners to react to those events.
