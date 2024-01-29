@@ -49,7 +49,7 @@ To use the DxpShopifyImg component, integrate it into your Vue 3 application. Pr
       </template>
 
       <script lang="ts">
-      import { DxpShopifyImg } from 'dxpComponents';
+      import { DxpShopifyImg } from '@hotwax/dxp-components';
       </script>
 
 ### Props
@@ -153,7 +153,7 @@ To use the DxpProductIdentifier component, integrate it into your Vue applicatio
       </template>
 
       <script setup lang="ts">
-      import { DxpProductIdentifer } from 'dxpComponents';
+      import { DxpProductIdentifer } from '@hotwax/dxp-components';
       </script>
 
 ### Technical Implementation
