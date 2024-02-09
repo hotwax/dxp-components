@@ -93,17 +93,6 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
     const appState = appContext.config.globalProperties.$store
     await userStore.setLocale(appState.getters['user/getUserProfile'].userLocale)
 
-    // check if firebase configurations are there
-    if (notificationContext.appFirebaseConfig) {
-      // initialising and connecting firebase app for notification support
-      await initialiseFirebaseApp(
-        notificationContext.appFirebaseConfig,
-        notificationContext.appFirebaseVapidKey,
-        notificationContext.storeClientRegistrationToken,
-        notificationContext.addNotification,
-      )
-    }
-
     redirectRoute ? router.push(redirectRoute) : router.push('/')
   } catch (err: any) {
     console.error(err)
