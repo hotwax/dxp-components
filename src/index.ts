@@ -3,12 +3,13 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { DxpAppVersionInfo, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpProductIdentifier, DxpShopifyImg, DxpUserProfile } from "./components";
+import { DxpAppVersionInfo, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpProductIdentifier, DxpShopifyImg, DxpTimeZoneSwitcher, DxpUserProfile } from "./components";
 import { goToOms, getProductIdentificationValue } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
 import { useUserStore } from "./store/user";
+import { IonicVue } from '@ionic/vue';
 
 import "./service-worker"
 
@@ -60,6 +61,9 @@ export let dxpComponents = {
     // registering pinia in the app
     app.use(pinia);
     app.use(i18n);
+    app.use(IonicVue, {
+      mode: 'md'
+    })
 
     app.component('DxpAppVersionInfo', DxpAppVersionInfo)
     app.component('DxpImage', DxpImage)
@@ -69,6 +73,7 @@ export let dxpComponents = {
     app.component('DxpOmsInstanceNavigator', DxpOmsInstanceNavigator)
     app.component('DxpProductIdentifier', DxpProductIdentifier)
     app.component('DxpShopifyImg', DxpShopifyImg)
+    app.component('DxpTimeZoneSwitcher', DxpTimeZoneSwitcher)
     app.component('DxpUserProfile', DxpUserProfile)
 
     showToast = options.showToast
@@ -109,6 +114,7 @@ export {
   DxpOmsInstanceNavigator,
   DxpProductIdentifier,
   DxpShopifyImg,
+  DxpTimeZoneSwitcher,
   DxpUserProfile,
   getProductIdentificationValue,
   goToOms,
