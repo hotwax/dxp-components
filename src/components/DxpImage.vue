@@ -14,16 +14,16 @@ let resourceUrl = process.env.VUE_APP_RESOURCE_URL || "";
 
 const setImageUrl = () => {
   if (props.src) {
-    if (props.src.indexOf('assets/') != -1) {
-      // Assign directly in case of assets
-      imageUrl.value = props.src;
-    } else if (props.src.startsWith('http')) {
+    if (props.src.startsWith('http')) {
       // If starts with http, it is web url check for existence and assign
       checkIfImageExists(props.src).then(() => {
         imageUrl.value = props.src;
       }).catch(() => {
         console.error("Image doesn't exist");
       })
+    } else if (props.src.indexOf('assets/') != -1 || props.src.startsWith('/img/')) {
+      // Assign directly in case of assets or if image starts with /img/ (when url start with /img/ then the img is the local asset url of the app)
+      imageUrl.value = props.src;
     } else {
       // Image is from resource server, hence append to base resource url, check for existence and assign
       const newImageUrl = resourceUrl.concat(props.src)
