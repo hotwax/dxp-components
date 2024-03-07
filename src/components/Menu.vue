@@ -80,7 +80,12 @@ export default defineComponent({
         url: "/settings",
         iosIcon: settingsOutline,
         mdIcon: settingsOutline,
+      },
+      {
+        title: "JsonImportExport",
+        url: "/jsonimportexport",
       }
+
     ];
 
     const selectedIndex = computed(() => {

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import Settings from "@/views/Settings.vue"
+import jsonImportExport from "@/views/jsonImportExport.vue"
 import store from '@/store'
 import { hasPermission } from '@/authorization';
 import { showToast } from '@/utils'
@@ -51,7 +52,12 @@ const routes: Array<RouteRecordRaw> = [
     name: "Settings",
     component: Settings,
     beforeEnter: authGuard
+  },
+  {
+    path: "/jsonimportexport",
+    component: jsonImportExport
   }
+
 ]
 
 const router = createRouter({

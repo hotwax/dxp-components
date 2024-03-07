@@ -131,7 +131,7 @@ import { defineComponent } from 'vue';
 import { codeWorkingOutline, ellipsisVerticalOutline, globeOutline, openOutline, timeOutline } from 'ionicons/icons'
 import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import TimeZoneModal from '@/components/TimeZoneModal.vue'
+//import TimeZoneModal from '@/components/TimeZoneModal.vue'
 import { translate } from '@hotwax/dxp-components';
 import { Actions, hasPermission } from '@/authorization'
 import { DateTime } from 'luxon';
@@ -210,12 +210,12 @@ export default defineComponent({
         this.store.dispatch('order/clearOrders')
       }
     },
-    async changeTimeZone() {
-      const timeZoneModal = await modalController.create({
-        component: TimeZoneModal,
-      });
-      return timeZoneModal.present();
-    },
+    // async changeTimeZone() {
+    //   const timeZoneModal = await modalController.create({
+    //     component: TimeZoneModal,
+    //   });
+    //   return timeZoneModal.present();
+    // },
     async setEComStore(event: any) {
       // not updating the ecomstore when the current value in vuex state and selected value are same
       // or when an empty value is given (on logout)
