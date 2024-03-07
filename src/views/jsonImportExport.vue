@@ -4,10 +4,10 @@
       <ion-toolbar>
         <ion-title>JSON Editor</ion-title>
         <ion-buttons slot="end">
-          <ion-button @click="exportJson()">
-            <ion-icon :icon="downloadOutline" slot="icon-only" />
-          </ion-button>
-        </ion-buttons>
+      <ion-button @click="exportJson()" :disabled = isDisabled >
+        <ion-icon :icon="downloadOutline" slot="icon-only" />
+      </ion-button>
+    </ion-buttons>
       </ion-toolbar>
     </ion-header>
      
@@ -41,7 +41,7 @@
             Save
           </ion-button>
         </div>
-        <div v-else-if="selectedSegment === 'parameters' && !jsonData">
+        <div v-else-if="selectedSegment === 'parameters' && !jsonToBemodified">
           <ion-item lines="none">
             <ion-label>No JSON selected</ion-label>
           </ion-item>
@@ -61,20 +61,49 @@
 </template>
 
 <script>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonSegment, IonSegmentButton } from '@ionic/vue';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonIcon,
+  IonTitle,
+  IonContent,
+  IonItem,
+  IonLabel,
+  IonInput,
+  IonButton,
+  IonButtons,
+  IonSegment,
+  IonSegmentButton } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { showToast } from '@/utils'
 import { downloadOutline } from 'ionicons/icons'
+import saveAs from "file-saver";
 
 export default defineComponent({
-  components: { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonSegment, IonSegmentButton },
+  components: {
+    IonPage,
+    IonIcon,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonItem,
+    IonLabel,
+    IonInput,
+    IonButton,
+    IonButtons,
+    IonSegment,
+    IonSegmentButton },
   data() {
     return {  
       formData: {
         textToReplace: '',
         newText: '',
       },
-      jsonData: null,
+      jsonToBemodified: null,
+      OriginalJson: null,
+      isDisabled: true,
       nameOfFile: '',
       selectedSegment: 'replace', 
       parameterValues: [],
@@ -82,8 +111,8 @@ export default defineComponent({
   },
   methods: {
     getParameterValues() {
-      if (this.jsonData) {
-        const parameters1 = this.jsonData.parameterContexts['UCG HC Shopify Reconciliation'].parameters;
+      if (this.jsonToBemodified) {
+        const parameters1 = this.jsonToBemodified.parameterContexts['UCG HC Shopify Reconciliation'].parameters;
         this.parameterValues = parameters1.map(parameters1 => ({
           name: parameters1.name,
           value: parameters1.value
@@ -97,7 +126,8 @@ export default defineComponent({
       reader.onload = (e) => {
         const jsonContent = e.target.result;
         try {
-          this.jsonData = JSON.parse(jsonContent);
+          this.jsonToBemodified = JSON.parse(jsonContent);
+          this.OriginalJson = JSON.parse(jsonContent);
           this.getParameterValues();
         } catch (error) {
           console.error('Error parsing JSON:', error);
@@ -107,27 +137,50 @@ export default defineComponent({
       reader.readAsText(file);
     },
     replaceJson() {
-    if (!this.jsonData) {
-      console.error('No JSON data available to modify and save.');
-      showToast("No JSON data available to modify and save.");
-      return;
-    }
+      if (!this.jsonToBemodified) {
+        console.error('No JSON data available to modify and save.');
+        showToast("No JSON data available to modify and save.");
+        return;
+      }
 
-    const regex = new RegExp(this.formData.textToReplace, 'gi');
-    if (!regex.test(JSON.stringify(this.jsonData))) {
-      console.error('Text to replace does not exist in the JSON data.');
-      showToast("Text to replace does not exist in the JSON data.");
-      return;
-    }
+      const regex = new RegExp('\\b' + this.formData.textToReplace + '\\b', 'gi');
 
-    this.jsonData = JSON.parse(JSON.stringify(this.jsonData).replace(regex, this.formData.newText));
-    showToast("Data saved successfully");
-    console.log(this.jsonData);
-    this.formData.textToReplace = '';
-    this.formData.newText = '';
+      // Check if the text to replace exists in the JSON data
+      if (!regex.test(JSON.stringify(this.jsonToBemodified))) {
+        console.error('Text to replace does not exist in the JSON data.');
+        showToast("Text to replace does not exist in the JSON data.");
+        return;
+      }
+
+      // Replace the text while handling different cases
+      this.jsonToBemodified = JSON.parse(JSON.stringify(this.jsonToBemodified).replace(regex, match => {
+        // Convert the new text to the appropriate case based on the case of the matched text in JSON
+        if (match.toUpperCase() === match) {
+          // If the matched text is in uppercase in JSON, convert the new text to uppercase
+          return this.formData.newText.toUpperCase();
+        } else if (match.toLowerCase() === match) {
+          // If the matched text is in lowercase in JSON, convert the new text to lowercase
+          return this.formData.newText.toLowerCase();
+        } else if (match[0].toUpperCase() === match[0]) {
+          // If the first character of the matched text is capital in JSON, convert the new text to title case
+          return this.formData.newText.split(' ').map(word => {
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+          }).join(' ');
+        } else {
+          // Default case: replace with the new text as is
+          return this.formData.newText;
+        }
+      }));
+      if(this.jsonToBemodified != this.OriginalJson) {
+        this.isDisabled = false;
+      }
+      showToast("Data saved successfully");
+      console.log(this.jsonToBemodified);
+      this.formData.textToReplace = '';
+      this.formData.newText = '';
     },
     updateParameters() {
-      if (!this.jsonData) {
+      if (!this.jsonToBemodified) {
         console.error('No JSON data available to modify and save.');
         showToast("No JSON data available to modify and save.");
         return;
@@ -135,26 +188,28 @@ export default defineComponent({
       this.parameterValues.forEach(parameter => {
         const parameterName = parameter.name;
         const parameterValue = parameter.value;
-        this.jsonData.parameterContexts['UCG HC Shopify Reconciliation'].parameters.find(p => p.name === parameterName).value = parameterValue;
+        this.jsonToBemodified.parameterContexts['UCG HC Shopify Reconciliation'].parameters.find(p => p.name === parameterName).value = parameterValue;
       });
+      if(this.jsonToBemodified != this.OriginalJson) {
+        this.isDisabled = false;
+      }
       showToast("Data saved successfully");
     },
+    // enableExport() {
+    //   if(this.jsonToBemodified != this.OriginalJson)
+    //   {
+    //     this.isDisabled = false;
+    //   }
+    // },
     exportJson() {
-      if (!this.jsonData) {
+      if (!this.jsonToBemodified) {
         console.error('No JSON data available to export.');
         showToast("No JSON data available to export.");
         return;
       }
-      const modifiedData = JSON.stringify(this.jsonData, null, 2);
+      const modifiedData = JSON.stringify(this.jsonToBemodified, null, 2);
       const blob = new Blob([modifiedData], { type: 'application/json' });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'modified_data.json');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      saveAs(blob, 'modified_data.json');
     }
   },
   setup() {
