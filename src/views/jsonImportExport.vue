@@ -3,6 +3,11 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>JSON Editor</ion-title>
+        <ion-buttons slot="end">
+          <ion-button @click="exportJson()">
+            <ion-icon :icon="downloadOutline" slot="icon-only" />
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
      
@@ -36,17 +41,20 @@
             Save
           </ion-button>
         </div>
-        
+        <div v-else-if="selectedSegment === 'parameters' && !jsonData">
+          <ion-item lines="none">
+            <ion-label>No JSON selected</ion-label>
+          </ion-item>
+        </div>
         <div v-else-if="selectedSegment === 'parameters'">
           <ion-item v-for="(parameter, index) in parameterValues" :key="index">
-          <ion-label position="floating">{{ parameter.name }}</ion-label>
-          <ion-input position="floating" v-model="parameter.value"></ion-input>
+            <ion-label position="floating">{{ parameter.name }}</ion-label>
+            <ion-input position="floating" v-model="parameter.value"></ion-input>
           </ion-item>
           <ion-button expand="block" @click="updateParameters">
             Save
           </ion-button>
         </div>
-        <ion-button expand="block" @click="exportJson" class="ion-margin-top">Export</ion-button>
       </main> 
     </ion-content>
   </ion-page>
@@ -56,6 +64,7 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonSegment, IonSegmentButton } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { showToast } from '@/utils'
+import { downloadOutline } from 'ionicons/icons'
 
 export default defineComponent({
   components: { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonSegment, IonSegmentButton },
@@ -104,7 +113,7 @@ export default defineComponent({
       return;
     }
 
-    const regex = new RegExp(this.formData.textToReplace, 'g');
+    const regex = new RegExp(this.formData.textToReplace, 'gi');
     if (!regex.test(JSON.stringify(this.jsonData))) {
       console.error('Text to replace does not exist in the JSON data.');
       showToast("Text to replace does not exist in the JSON data.");
@@ -146,6 +155,11 @@ export default defineComponent({
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
+    }
+  },
+  setup() {
+    return {
+      downloadOutline,
     }
   }
 });
