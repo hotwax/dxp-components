@@ -83,7 +83,7 @@ export default defineComponent({
       },
       {
         title: "JsonImportExport",
-        url: "/jsonimportexport",
+        url: "/workflow-manipulation",
       }
 
     ];

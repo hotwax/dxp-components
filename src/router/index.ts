@@ -54,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter: authGuard
   },
   {
-    path: "/jsonimportexport",
+    path: "/workflow-manipulation",
     component: jsonImportExport
   }
 
