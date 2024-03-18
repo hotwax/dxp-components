@@ -62,3 +62,5 @@ jobs:
       
           - name: "Create label"
             run: gh label create "release-${{ env.LABEL }}" --color FF7F7E
+            env:
+              GH_TOKEN: ${{ secrets.envPAT }}
