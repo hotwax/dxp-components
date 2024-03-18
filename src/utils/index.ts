@@ -2,7 +2,7 @@ import { toastController } from "@ionic/vue";
 import { translate } from "src";
 
 const goToOms = (token: string, oms: string) => {
-  const link = (oms.startsWith('http') ? oms.replace(/api\/?/, "") : `https://${oms}.hotwax.io/`) + `commerce/control/main?token=${token}`
+  const link = (oms.startsWith('http') ? oms.replace(/\/api\/?|\/$/, "") : `https://${oms}.hotwax.io`) + `/commerce/control/main?token=${token}`
   
   window.open(link, '_blank', 'noopener, noreferrer')
 }
