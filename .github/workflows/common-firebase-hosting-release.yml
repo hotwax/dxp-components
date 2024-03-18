@@ -51,14 +51,14 @@ jobs:
             run: firebase deploy --token "$HOTWAX_PUBLIC_SECRET" -m "Deploying via GitHub actions"  --only hosting:uat
             env:
                 HOTWAX_PUBLIC_SECRET: ${{ secrets.HOTWAX_PUBLIC_SECRET }}
-  release:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: "Fetch release tag"
-        run: |
-          echo "LABEL=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $GITHUB_ENV
+    release:
+        runs-on: ubuntu-latest
+        
+        steps:
+          - uses: actions/checkout@v2
+          - name: "Fetch release tag"
+            run: |
+              echo "LABEL=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $GITHUB_ENV
       
-      - name: "Create label"
-        run: gh label create "release-${{ env.LABEL }}" --color FF7F7E
+          - name: "Create label"
+            run: gh label create "release-${{ env.LABEL }}" --color FF7F7E
