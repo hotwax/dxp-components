@@ -88,6 +88,10 @@ export let dxpComponents = {
 
     userContext.setUserLocale = options.setUserLocale
 
+    // TimeZone specific api from oms-api package exposed by the app
+    userContext.setUserTimeZone = options.setUserTimeZone
+    userContext.getAvailableTimeZones = options.getAvailableTimeZones
+
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
     
