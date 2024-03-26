@@ -8,8 +8,19 @@
     <ion-card-content>
       {{ $t('The timezone you select is used to ensure automations you schedule are always accurate to the time you select.') }}
     </ion-card-content>
+    <ion-item v-if="showBrowserTimeZone">
+      <ion-label>
+        <p class="overline">{{ $t("Browser TimeZone") }}</p>
+        {{ browserTimeZone.id }}
+        <p>{{ getCurrentTime(browserTimeZone.id) }}</p>
+      </ion-label>
+    </ion-item>
     <ion-item lines="none">
-      <ion-label>{{ currentTimeZoneId }}</ion-label>
+      <ion-label>
+        <p class="overline">{{ $t("Selected TimeZone") }}</p>
+        {{ currentTimeZoneId }}
+        <p>{{ getCurrentTime(currentTimeZoneId) }}</p>
+      </ion-label>
       <ion-button id="time-zone-modal" slot="end" fill="outline" color="dark">{{ $t("Change") }}</ion-button>
     </ion-item>
   </ion-card>
@@ -30,26 +41,44 @@
     </ion-header>
 
     <ion-content class="ion-padding">
-      <!-- Empty state -->
-      <div class="empty-state" v-if="isLoading">
-        <ion-item lines="none">
-          <ion-spinner color="secondary" name="crescent" slot="start" />
-          {{ $t("Fetching time zones") }}
-        </ion-item>
-      </div>
-      <div class="empty-state" v-else-if="filteredTimeZones.length === 0">
-        <p>{{ $t("No time zone found") }}</p>
-      </div>
-
-      <!-- Timezones -->
-      <div v-else>
-        <ion-list>
-          <ion-radio-group value="rd" v-model="timeZoneId">
-            <ion-item :key="timeZone.id" v-for="timeZone in filteredTimeZones">
-              <ion-radio label-placement="end" justify="start" :value="timeZone.id">{{ timeZone.label }} ({{ timeZone.id }})</ion-radio>
+      <div>
+        <ion-radio-group value="rd" v-model="timeZoneId">
+          <ion-list v-if="showBrowserTimeZone">
+            <ion-list-header>{{ $t("Browser time zone") }}</ion-list-header>
+            <ion-item>
+              <ion-radio label-placement="end" justify="start" :value="browserTimeZone.id">
+                <ion-label>
+                  {{ browserTimeZone.label }} ({{ browserTimeZone.id }})
+                  <p>{{ getCurrentTime(browserTimeZone.id) }}</p>
+                </ion-label>
+              </ion-radio>
             </ion-item>
-          </ion-radio-group>
-        </ion-list>
+          </ion-list>
+          <ion-list>
+            <ion-list-header v-if="showBrowserTimeZone">{{ $t("Select a different time zone") }}</ion-list-header>
+            <!-- Loading state -->
+            <div class="empty-state" v-if="isLoading">
+              <ion-item lines="none">
+                <ion-spinner color="secondary" name="crescent" slot="start" />
+                {{ $t("Fetching time zones") }}
+              </ion-item>
+            </div>
+            <!-- Empty state -->
+            <div class="empty-state" v-else-if="filteredTimeZones.length === 0">
+              <p>{{ $t("No time zone found") }}</p>
+            </div>
+            <div v-else>
+              <ion-item :key="timeZone.id" v-for="timeZone in filteredTimeZones">
+                <ion-radio label-placement="end" justify="start" :value="timeZone.id">
+                  <ion-label>
+                    {{ timeZone.label }} ({{ timeZone.id }})
+                    <p>{{ getCurrentTime(timeZone.id) }}</p>
+                  </ion-label>
+                </ion-radio>
+              </ion-item>
+            </div>
+          </ion-list>
+        </ion-radio-group>
       </div>
 
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -77,6 +106,7 @@ import {
   IonItem,
   IonLabel,
   IonList,
+  IonListHeader,
   IonModal,
   IonRadio,
   IonRadioGroup,
@@ -88,6 +118,7 @@ import {
 import { closeOutline, saveOutline } from "ionicons/icons";
 import { appContext, useUserStore } from '../index';
 import { computed, onBeforeMount, ref } from "vue";
+import { getCurrentTime } from '../utils'
 
 const appState = appContext.config.globalProperties.$store;
 const userStore = useUserStore();
@@ -101,8 +132,20 @@ const timeZoneModal = ref();
 const queryString = ref('');
 const filteredTimeZones = ref([])
 const timeZoneId = ref('')
+// Fetching timeZone of the brow
+const browserTimeZone = ref({
+  label: '',
+  id: Intl.DateTimeFormat().resolvedOptions().timeZone
+})
 
 const emit = defineEmits(["timeZoneUpdated"])
+
+const props = defineProps({
+  showBrowserTimeZone: {
+    type: Boolean,
+    default: false
+  }
+})
 
 const closeModal = () => {
   timeZoneModal.value.$el.dismiss(null, 'cancel');
@@ -111,13 +154,17 @@ const closeModal = () => {
 onBeforeMount(async () => {
   isLoading.value = true;
   await userStore.getAvailableTimeZones();
-  findTimeZone();
 
   if(userProfile.value && userProfile.value.userTimeZone) {
     userStore.currentTimeZoneId = userProfile.value.userTimeZone
     timeZoneId.value = userProfile.value.userTimeZone
   }
 
+  if(props.showBrowserTimeZone) {
+    browserTimeZone.value.label = timeZones.value.find((timeZone: any) => timeZone.id.toLowerCase().match(browserTimeZone.value.id.toLowerCase()))?.label
+  }
+
+  findTimeZone();
   isLoading.value = false;
 })
 
@@ -131,6 +178,10 @@ async function setUserTimeZone() {
 function findTimeZone() {
   const searchedString = queryString.value.toLowerCase();
   filteredTimeZones.value = timeZones.value.filter((timeZone: any) => timeZone.id.toLowerCase().match(searchedString) || timeZone.label.toLowerCase().match(searchedString));
+
+  if(props.showBrowserTimeZone) {
+    filteredTimeZones.value = filteredTimeZones.value.filter((timeZone: any) => !timeZone.id.toLowerCase().match(browserTimeZone.value.id.toLowerCase()));
+  }
 }
 
 async function selectSearchBarText(event: any) {
