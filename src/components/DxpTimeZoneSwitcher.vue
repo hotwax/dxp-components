@@ -143,7 +143,7 @@ const emit = defineEmits(["timeZoneUpdated"])
 const props = defineProps({
   showBrowserTimeZone: {
     type: Boolean,
-    default: false
+    default: true
   }
 })
 
