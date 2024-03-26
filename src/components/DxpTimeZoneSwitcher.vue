@@ -103,12 +103,6 @@ const filteredTimeZones = ref([])
 const timeZoneId = ref('')
 
 const emit = defineEmits(["timeZoneUpdated"])
-const props = defineProps({
-  persist: {
-    type: Boolean,
-    default: false
-  }
-})
 
 const closeModal = () => {
   timeZoneModal.value.$el.dismiss(null, 'cancel');
@@ -157,10 +151,6 @@ function search() {
 
 // clearing the data explicitely as the modal is mounted due to the component being mounted always
 function clearSearch() {
-  // Do not clear the data on modal dismiss if the user wants to persist the search even after modal close
-  if(props.persist) {
-    return;
-  }
   queryString.value = ''
   filteredTimeZones.value = []
 }
