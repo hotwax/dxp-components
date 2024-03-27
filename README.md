@@ -30,3 +30,42 @@ If you have any questions or ideas feel free to join our <a href="https://discor
 # The license
 
 DXP Components is completely free and released under the Apache v2.0 License. Check <a href="https://github.com/hotwax/dxp-components/blob/main/LICENSE" target="_blank">LICENSE</a> for more details.
+
+# Components
+## DxpTimeZoneSwitcher
+
+TimeZoneSwitcher provides support to select the timeZone for the application. The component uses luxon for managing the dateTime.
+
+### Usage
+```js
+<DxpTimeZoneSwitcher />
+
+![DxpTimeZoneSwitcher](image.png)
+```
+
+#### Change Date-Time format
+For the possible values of dateTimeFormat, check <a target="_blank" rel="noopener noreferrer" href="https://moment.github.io/luxon/#/formatting?id=table-of-tokens">here</a>.
+```js
+<DxpTimeZoneSwitcher dateTimeFormat="TTT" />
+```
+
+### Slots
+No slots are available for this component.
+
+### Props
+| Name | Description | Default Value |
+| --- | --- | --- |
+| showBrowserTimeZone | When `true` displays the timeZone of the browser in the timeZone selector | `true` |
+| showDateTime | When `true` will display the current dateTime as per the timeZone option in the format provided in `dateTimeFormat` | `true` |
+| dateTimeFormat | Pass the specific format in which you want to display the dateTime for the timeZone options. Honored only when `showDateTime` is `true`. | `t ZZZZ` |
+
+### Methods
+No methods are available for this component
+
+### Events
+| Name | Description |
+| ---  | ---         |
+| timeZoneUpdated | Emitted when timeZone is changed |
+
+### Recommendation
+This component can be used in the apps where user wants to change the applications timeZone.
