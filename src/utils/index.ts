@@ -1,5 +1,7 @@
 import { toastController } from "@ionic/vue";
+import { DateTime } from "luxon";
 import { translate } from "src";
+import { computed, ref } from "vue";
 
 const goToOms = (token: string, oms: string) => {
   const link = (oms.startsWith('http') ? oms.replace(/\/api\/?|\/$/, "") : `https://${oms}.hotwax.io`) + `/commerce/control/main?token=${token}`
@@ -45,7 +47,13 @@ const showToast = async (message: string, configButtons?: any) => {
   return toast.present();
 }
 
+// TimeZone format = 04:16 PM EDT
+const getCurrentTime = (zone: string, format = 't ZZZZ') => {
+  return DateTime.now().setZone(zone).toFormat(format)
+}
+
 export {
+  getCurrentTime,
   getProductIdentificationValue,
   goToOms,
   showToast

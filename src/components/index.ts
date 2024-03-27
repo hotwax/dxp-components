@@ -23,3 +23,4 @@ export { default as DxpOmsInstanceNavigator } from './DxpOmsInstanceNavigator.vu
 export { default as DxpProductIdentifier } from "./DxpProductIdentifier.vue";
 export { default as DxpShopifyImg } from './DxpShopifyImg.vue';
 export { default as DxpUserProfile } from './DxpUserProfile.vue'
+export { default as DxpTimeZoneSwitcher } from './DxpTimeZoneSwitcher.vue'
