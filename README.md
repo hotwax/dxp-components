@@ -40,14 +40,14 @@ TimeZoneSwitcher provides support to select the timeZone for the application. Th
 ```js
 <DxpTimeZoneSwitcher />
 ```
-![DxpTimeZoneSwitcher](image.png)
+![DxpTimeZoneSwitcher](/src/assets/images/DxpTimeZoneSwitcher.png)
 
 ### Change Date-Time format
 You can pass a specific token string in the `dateTimeFormat` to display the timeZone as per the app. For the possible values of dateTimeFormat, check <a target="_blank" rel="noopener noreferrer" href="https://moment.github.io/luxon/#/formatting?id=table-of-tokens">here</a>.
 ```js
 <DxpTimeZoneSwitcher dateTimeFormat="TTT" />
 ```
-![DxpTimeZoneSwitcher with custom dateTime format](image-1.png)
+![DxpTimeZoneSwitcher with custom dateTime format](/src/assets/images/DxpTimeZoneSwticherCustomFormat.png)
 
 ### Slots
 No slots are available for this component.
