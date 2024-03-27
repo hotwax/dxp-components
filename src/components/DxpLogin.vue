@@ -83,7 +83,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
     oms
   })
 
-  context.loader.present('Logging in')
+  await context.loader.present('Logging in')
   try {
     // redirect route will be returned for certain cases
     const redirectRoute = await context.login({ token, oms })
