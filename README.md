@@ -66,6 +66,3 @@ No methods are available for this component
 | Name | Description |
 | ---  | ---         |
 | timeZoneUpdated | Emitted when timeZone is changed |
-
-### Recommendation
-This component can be used in the apps where user wants to change the applications timeZone.
