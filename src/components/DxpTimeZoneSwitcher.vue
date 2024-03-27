@@ -12,14 +12,14 @@
       <ion-label>
         <p class="overline">{{ $t("Browser TimeZone") }}</p>
         {{ browserTimeZone.id }}
-        <p>{{ getCurrentTime(browserTimeZone.id) }}</p>
+        <p v-if="showDateTime">{{ getCurrentTime(browserTimeZone.id, dateTimeFormat) }}</p>
       </ion-label>
     </ion-item>
     <ion-item lines="none">
       <ion-label>
         <p class="overline">{{ $t("Selected TimeZone") }}</p>
         {{ currentTimeZoneId }}
-        <p>{{ getCurrentTime(currentTimeZoneId) }}</p>
+        <p v-if="showDateTime">{{ getCurrentTime(currentTimeZoneId, dateTimeFormat) }}</p>
       </ion-label>
       <ion-button id="time-zone-modal" slot="end" fill="outline" color="dark">{{ $t("Change") }}</ion-button>
     </ion-item>
@@ -49,7 +49,7 @@
               <ion-radio label-placement="end" justify="start" :value="browserTimeZone.id">
                 <ion-label>
                   {{ browserTimeZone.label }} ({{ browserTimeZone.id }})
-                  <p>{{ getCurrentTime(browserTimeZone.id) }}</p>
+                  <p v-if="showDateTime">{{ getCurrentTime(browserTimeZone.id, dateTimeFormat) }}</p>
                 </ion-label>
               </ion-radio>
             </ion-item>
@@ -72,7 +72,7 @@
                 <ion-radio label-placement="end" justify="start" :value="timeZone.id">
                   <ion-label>
                     {{ timeZone.label }} ({{ timeZone.id }})
-                    <p>{{ getCurrentTime(timeZone.id) }}</p>
+                    <p v-if="showDateTime">{{ getCurrentTime(timeZone.id, dateTimeFormat) }}</p>
                   </ion-label>
                 </ion-radio>
               </ion-item>
@@ -132,7 +132,7 @@ const timeZoneModal = ref();
 const queryString = ref('');
 const filteredTimeZones = ref([])
 const timeZoneId = ref('')
-// Fetching timeZone of the brow
+// Fetching timeZone of the browser
 const browserTimeZone = ref({
   label: '',
   id: Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -144,6 +144,14 @@ const props = defineProps({
   showBrowserTimeZone: {
     type: Boolean,
     default: true
+  },
+  showDateTime: {
+    type: Boolean,
+    default: true
+  },
+  dateTimeFormat: {
+    type: String,
+    default: 't ZZZZ'
   }
 })
 
