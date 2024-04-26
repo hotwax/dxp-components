@@ -14,10 +14,12 @@
 <script setup lang="ts">
 import { IonButton } from '@ionic/vue';
 import { DateTime } from 'luxon';
-import { appContext, translate } from 'src';
+import { appContext, translate, useUserStore } from 'src';
 import { computed } from 'vue';
 
 declare var process: any;
+
+const userStore = useUserStore();
 
 const appState = appContext.config.globalProperties.$store
 const pwaState = computed(() => appState.getters['user/getPwaState'])
@@ -30,5 +32,5 @@ const refreshApp = () => {
 
 const appInfo = (process.env.VUE_APP_VERSION_INFO ? JSON.parse(process.env.VUE_APP_VERSION_INFO) : {}) as any;
 const appVersion = appInfo.branch ? (appInfo.branch + "-" + appInfo.revision) : appInfo.tag;
-const getDateTime = (time: any) => DateTime.fromMillis(time).toLocaleString(DateTime.DATETIME_MED);
+const getDateTime = (time: any) => DateTime.fromMillis(time).setZone(userStore.currentTimeZoneId).toLocaleString(DateTime.DATETIME_MED);
 </script>
