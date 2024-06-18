@@ -53,21 +53,9 @@ const getCurrentTime = (zone: string, format = 't ZZZZ') => {
   return DateTime.now().setZone(zone).toFormat(format)
 }
 
-const openGitBookSearchModal = async () => {
-  const modal = await modalController.create({
-    component: DxpGitBookSearch
-  })
-
-  console.log(modal);
-  
-
-  return modal.present();
-}
-
 export {
   getCurrentTime,
   getProductIdentificationValue,
   goToOms,
-  showToast,
-  openGitBookSearchModal
+  showToast
 }
