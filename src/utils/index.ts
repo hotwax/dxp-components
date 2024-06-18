@@ -1,6 +1,7 @@
-import { toastController } from "@ionic/vue";
+import { modalController, toastController } from "@ionic/vue";
 import { DateTime } from "luxon";
 import { translate } from "src";
+import DxpGitBookSearch from "../components/DxpGitBookSearch.vue";
 import { computed, ref } from "vue";
 
 const goToOms = (token: string, oms: string) => {
@@ -52,9 +53,21 @@ const getCurrentTime = (zone: string, format = 't ZZZZ') => {
   return DateTime.now().setZone(zone).toFormat(format)
 }
 
+const openGitBookSearchModal = async () => {
+  const modal = await modalController.create({
+    component: DxpGitBookSearch
+  })
+
+  console.log(modal);
+  
+
+  return modal.present();
+}
+
 export {
   getCurrentTime,
   getProductIdentificationValue,
   goToOms,
-  showToast
+  showToast,
+  openGitBookSearchModal
 }

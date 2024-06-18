@@ -4,7 +4,7 @@ import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
 import { DxpAppVersionInfo, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpProductIdentifier, DxpShopifyImg, DxpTimeZoneSwitcher, DxpUserProfile } from "./components";
-import { goToOms, getProductIdentificationValue } from "./utils";
+import { goToOms, getProductIdentificationValue, openGitBookSearchModal } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
@@ -127,6 +127,7 @@ export {
   initialiseFirebaseApp,
   loginContext,
   notificationContext,
+  openGitBookSearchModal,
   productIdentificationContext,
   shopifyImgContext,
   translate,
