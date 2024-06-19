@@ -26,6 +26,7 @@ let shopifyImgContext = {} as any
 let appContext = {} as any
 let productIdentificationContext = {} as any
 let notificationContext = {} as any
+let gitBookContext = {} as any
 let userContext = {} as any
 let showToast = {} as any
 
@@ -101,6 +102,10 @@ export let dxpComponents = {
     notificationContext.appFirebaseVapidKey = options.appFirebaseVapidKey
     notificationContext.storeClientRegistrationToken = options.storeClientRegistrationToken
 
+    gitBookContext.askQuery = options.askQuery
+    gitBookContext.getGitBookPage = options.getGitBookPage
+    gitBookContext.searchQuery = options.searchQuery
+
     loginContext.getConfig = options.getConfig
     loginContext.initialise = options.initialise
 
@@ -122,6 +127,7 @@ export {
   DxpTimeZoneSwitcher,
   DxpUserProfile,
   getProductIdentificationValue,
+  gitBookContext,
   goToOms,
   i18n,
   imageContext,

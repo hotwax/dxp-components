@@ -136,8 +136,6 @@
           </div>
         </template>
       </template>
-
-
     </ion-content>
   </ion-modal>
 </template>
@@ -146,10 +144,10 @@
 import { IonButton, IonButtons, IonChip, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonModal, IonSearchbar, IonSegment, IonSegmentButton, IonSpinner, IonTabButton, IonTitle, IonToolbar, modalController } from "@ionic/vue";
 import { ref } from "vue";
 import { caretForwardOutline, caretDownOutline, close, documentOutline, helpOutline, returnDownBackOutline, returnDownForwardOutline, searchOutline } from "ionicons/icons";
-import { translate } from "src"
-// import { UtilService } from "@/services/UtilService";
+import { translate } from "src";
 import { hasError } from "@hotwax/oms-api";
 import VueMarkdown from 'vue-markdown-render';
+import { gitBookContext } from "../index"
 
 const gitBookSearchModal = ref();
 
@@ -164,6 +162,7 @@ const isResourceLoading = ref(false);
 const sources = ref([]) as any;
 const isResourceFetched = ref(false);
 
+declare var process: any;
 
 function closeModal() {
   gitBookSearchModal.value.$el.dismiss(null, 'cancel');
@@ -174,12 +173,19 @@ function updateSegment() {
   searchedItems.value = [];
   answer.value = {};
 }
+
 async function askQuery() {
   isLoading.value = true;
   let response = {} as any;
+
   try {
-    // const resp = await UtilService.askQuery({ queryString: queryString.value });
-    const resp = {} as any;
+    const resp = await gitBookContext.askQuery({ 
+      queryString: queryString.value,
+      spaceId: process.env.VUE_APP_SPACE_ID,
+      baseURL: process.env.VUE_APP_GITBOOK_BASE_URL,
+      token: process.env.VUE_APP_GITBOOK_API_KEY
+    });
+
     if(!hasError(resp)) {
       response = resp.data.answer;
       sources.value = []
@@ -193,12 +199,22 @@ async function askQuery() {
   answer.value = response;
   isLoading.value = false;
 }
+
 async function searchQuery() {
   isLoading.value = true;
   let items = [] as any;
+
+  const baseURL = process.env.VUE_APP_GITBOOK_BASE_URL
+  console.log(baseURL);
+
   try {
-    // const resp = await UtilService.searchQuery({ queryString: queryString.value });
-    const resp = {} as any;
+    const resp = await gitBookContext.searchQuery({
+      queryString: queryString.value,
+      spaceId: process.env.VUE_APP_SPACE_ID,
+      baseURL,
+      token: process.env.VUE_APP_GITBOOK_API_KEY
+    });
+
     if(!hasError(resp)) {
       items = resp.data.items;
     } else {
@@ -210,26 +226,37 @@ async function searchQuery() {
   searchedItems.value = items
   isLoading.value = false;
 }
+
 async function fetchSources() {
   isResourceLoading.value = true;
   const list = [] as any;
+
   const responses = await Promise.all(answer.value.sources.map((source: any) => {
-    // if(source.type === "page") {
-    //   return UtilService.getGitBookPage(source.page);
-    // }
+    if(source.type === "page") {
+      return gitBookContext.getGitBookPage({
+        pageId: source.page,
+        spaceId: process.env.VUE_APP_SPACE_ID,
+        baseURL: process.env.VUE_APP_GITBOOK_BASE_URL,
+        token: process.env.VUE_APP_GITBOOK_API_KEY
+      });
+    }
   }))
+
   responses.map((response: any) => {
     if(response.status === "fulfilled") {
       list.push(response.value.data)
     }
   })
+
   sources.value = list
   isResourceLoading.value = false
   isResourceFetched.value = true
 }
+
 function redirectToDoc(item: any) {
   window.open(`https://docs.hotwax.co/user-guides/${item.path}`, "_blank")
 }
+
 function searchRelatedQuestion(question: string) {
   queryString.value = question;
   askQuery()
