@@ -94,7 +94,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
     await userStore.setLocale(appState.getters['user/getUserProfile'].userLocale)
 
     // check if firebase configurations are there
-    if (notificationContext.appFirebaseConfig) {
+    if (notificationContext.appFirebaseConfig && notificationContext.appFirebaseConfig.apiKey) {
       // initialising and connecting firebase app for notification support
       await initialiseFirebaseApp(
         notificationContext.appFirebaseConfig,
