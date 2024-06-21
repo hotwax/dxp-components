@@ -1,6 +1,7 @@
-import { toastController } from "@ionic/vue";
+import { modalController, toastController } from "@ionic/vue";
 import { DateTime } from "luxon";
 import { translate } from "src";
+import DxpGitBookSearch from "../components/DxpGitBookSearch.vue";
 import { computed, ref } from "vue";
 
 const goToOms = (token: string, oms: string) => {
