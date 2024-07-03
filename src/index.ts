@@ -1,5 +1,7 @@
 declare var process: any;
 
+
+
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
@@ -10,6 +12,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
 import { useUserStore } from "./store/user";
 import { IonicVue } from '@ionic/vue';
+import { identify , setUserProperties , trackEvent ,  reset  } from "./utils/mixpanelService";
 
 import "./service-worker"
 
@@ -133,5 +136,9 @@ export {
   useAuthStore,
   useProductIdentificationStore,
   useUserStore,
-  userContext
+  userContext,
+  identify,
+  setUserProperties,
+  reset,
+  trackEvent
 }

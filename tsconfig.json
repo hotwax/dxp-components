@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "types": [
+      "node"
+    ]
   },
   "include": [
     "src/**/*.ts",
