@@ -5,7 +5,7 @@ import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
 import { DxpAppVersionInfo, DxpGitBookSearch, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpProductIdentifier, DxpShopifyImg, DxpTimeZoneSwitcher, DxpUserProfile } from "./components";
 import { goToOms, getProductIdentificationValue } from "./utils";
-import { initialiseFirebaseApp } from "./utils/firebase"
+import { addDocument, getDocument, initialiseFirebaseApp, updateDocument } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
 import { useUserStore } from "./store/user";
@@ -118,6 +118,7 @@ export let dxpComponents = {
 
 export {
   appContext,
+  addDocument,
   DxpImage,
   DxpLogin,
   DxpMenuFooterNavigation,
@@ -126,6 +127,7 @@ export {
   DxpShopifyImg,
   DxpTimeZoneSwitcher,
   DxpUserProfile,
+  getDocument,
   getProductIdentificationValue,
   gitBookContext,
   goToOms,
@@ -137,6 +139,7 @@ export {
   productIdentificationContext,
   shopifyImgContext,
   translate,
+  updateDocument,
   useAuthStore,
   useProductIdentificationStore,
   useUserStore,
