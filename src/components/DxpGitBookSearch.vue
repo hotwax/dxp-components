@@ -1,11 +1,11 @@
 <template>
-  <ion-tab-button tab="help" id="time-zone-modal">
+  <ion-tab-button tab="help" id="gibook-search-modal">
     <ion-icon :icon="helpOutline" />
     <ion-label>{{ translate("Help") }}</ion-label>
   </ion-tab-button>
 
   <!-- Using inline modal(as recommended by ionic), also using it inline as the component inside modal is not getting mounted when using modalController -->
-  <ion-modal ref="gitBookSearchModal" trigger="time-zone-modal">
+  <ion-modal ref="gitBookSearchModal" trigger="gibook-search-modal">
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
@@ -205,7 +205,6 @@ async function searchQuery() {
   let items = [] as any;
 
   const baseURL = process.env.VUE_APP_GITBOOK_BASE_URL
-  console.log(baseURL);
 
   try {
     const resp = await gitBookContext.searchQuery({
