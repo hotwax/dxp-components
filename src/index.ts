@@ -12,7 +12,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
 import { useUserStore } from "./store/user";
 import { IonicVue } from '@ionic/vue';
-import { identify , setUserProperties , trackEvent ,  reset  } from "./utils/mixpanelService";
+import { mixPanelIdentifyUser , mixPanelSetUserProperties , mixPanelTrackEvent ,  mixPanelReset  } from "./utils/mixpanelService";
 
 import "./service-worker"
 
@@ -137,8 +137,8 @@ export {
   useProductIdentificationStore,
   useUserStore,
   userContext,
-  identify,
-  setUserProperties,
-  reset,
-  trackEvent
+  mixPanelIdentifyUser,
+  mixPanelSetUserProperties,
+  mixPanelTrackEvent,
+  mixPanelReset
 }
