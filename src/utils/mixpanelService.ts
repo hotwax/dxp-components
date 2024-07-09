@@ -2,15 +2,13 @@ import mixpanel from 'mixpanel-browser';
 
 mixpanel.init(process.env.VUE_APP_MIX_PANEL_TOKEN as string , {debug: true , track_pageview: true, persistence: 'localStorage'});
 
-const mixPanelIdentifyUser = (userId : string) =>{
+const addMixPanelUser = (userId: string, properties: Record<string, any>) => {
     mixpanel.identify(userId);
-};
-
-const mixPanelSetUserProperties = ( properties : Record<string , any>) =>{
     mixpanel.people.set(properties);
 };
 
-const mixPanelTrackEvent = (event : string , properties: Record<string, any> = {}) =>{
+
+const addMixPanelEvent = (event : string , properties: Record<string, any> = {}) =>{
     mixpanel.track(event , properties);
 };
 
@@ -19,8 +17,7 @@ const mixPanelReset = () =>{
 };
 
 export {
-    mixPanelIdentifyUser,
-    mixPanelSetUserProperties,
-    mixPanelTrackEvent,
+    addMixPanelUser,
+    addMixPanelEvent,
     mixPanelReset
 }
