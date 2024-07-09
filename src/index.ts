@@ -3,7 +3,7 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { DxpAppVersionInfo, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpProductIdentifier, DxpShopifyImg, DxpTimeZoneSwitcher, DxpUserProfile } from "./components";
+import { DxpAppVersionInfo, DxpGitBookSearch, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpProductIdentifier, DxpShopifyImg, DxpTimeZoneSwitcher, DxpUserProfile } from "./components";
 import { goToOms, getProductIdentificationValue } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
@@ -26,6 +26,7 @@ let shopifyImgContext = {} as any
 let appContext = {} as any
 let productIdentificationContext = {} as any
 let notificationContext = {} as any
+let gitBookContext = {} as any
 let userContext = {} as any
 let showToast = {} as any
 
@@ -66,6 +67,7 @@ export let dxpComponents = {
     })
 
     app.component('DxpAppVersionInfo', DxpAppVersionInfo)
+    app.component('DxpGitBookSearch', DxpGitBookSearch)
     app.component('DxpImage', DxpImage)
     app.component('DxpLanguageSwitcher', DxpLanguageSwitcher)
     app.component('DxpLogin', DxpLogin)
@@ -100,6 +102,10 @@ export let dxpComponents = {
     notificationContext.appFirebaseVapidKey = options.appFirebaseVapidKey
     notificationContext.storeClientRegistrationToken = options.storeClientRegistrationToken
 
+    gitBookContext.askQuery = options.askQuery
+    gitBookContext.getGitBookPage = options.getGitBookPage
+    gitBookContext.searchQuery = options.searchQuery
+
     loginContext.getConfig = options.getConfig
     loginContext.initialise = options.initialise
 
@@ -121,6 +127,7 @@ export {
   DxpTimeZoneSwitcher,
   DxpUserProfile,
   getProductIdentificationValue,
+  gitBookContext,
   goToOms,
   i18n,
   imageContext,
