@@ -96,7 +96,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
     const allNotificationPrefs = appState.getters['user/getAllNotificationPrefs']
 
     // check if firebase configurations are there
-    if (notificationContext.appFirebaseConfig && notificationContext.appFirebaseConfig.apiKey && allNotificationPrefs.length) {
+    if (notificationContext.appFirebaseConfig && notificationContext.appFirebaseConfig.apiKey && allNotificationPrefs?.length) {
       // initialising and connecting firebase app for notification support
       await initialiseFirebaseApp(
         notificationContext.appFirebaseConfig,
