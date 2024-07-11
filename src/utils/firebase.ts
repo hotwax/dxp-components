@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getMessaging, getToken, onMessage, isSupported } from "firebase/messaging";
 
 const initialiseFirebaseApp = async (
   appFirebaseConfig: any,
@@ -8,6 +8,11 @@ const initialiseFirebaseApp = async (
   addNotification: Function
 ) => {
   const firebaseConfig = appFirebaseConfig
+
+  if(!await isSupported()) {
+    console.error("Notifications not supported");
+    return;
+  }
 
   const app = initializeApp(firebaseConfig);
   const messaging = getMessaging(app);
