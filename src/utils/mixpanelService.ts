@@ -23,7 +23,7 @@ const addMixPanelUser = (userId: string, properties: Record<string, any>) => {
  * Tracks an event in Mixpanel with optional properties.
  * 
  * @param {string} event - The name of the event to track.
- * @param {Record<string, any>} [properties={}] - Optional properties related to the event.
+ * @param {Record<string, any>} [properties={}]
  */
 const addMixPanelEvent = (event: string, properties: Record<string, any> = {}) => {
     mixpanel.track(event, properties); // Track the event with its associated properties.
