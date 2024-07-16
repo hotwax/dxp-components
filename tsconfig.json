@@ -1,18 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "strictNullChecks": false,
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "importsNotUsedAsValues": "error",
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
+    "strictNullChecks": false
   },
   "include": [
     "src/**/*.ts",
