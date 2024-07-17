@@ -1,6 +1,7 @@
-import { onMounted, onBeforeUnmount } from 'vue';
+import { onMounted, onBeforeUnmount , computed } from 'vue';
 import mixpanel from 'mixpanel-browser';
 import { appContext } from '../index';
+import { useAuthStore } from '../index';
 
 interface TrackableMetadata {
   label?: string;
@@ -13,6 +14,8 @@ function useAnalytics() {
     if (event.button === 0) { // Left mouse button
       const target = event.target as HTMLElement;
       const button = target.closest('button, ion-button') as HTMLElement;
+      const authStore = useAuthStore();
+      const oms = computed(() => authStore.getOms)
   
       if (button && button.hasAttribute('trackable')) {
         const trackableData = button.getAttribute('trackable');
@@ -28,6 +31,7 @@ function useAnalytics() {
         const buttonId = button.id || metadata.id || 'no-id';
   
         mixpanel.track(buttonLabel, {
+          oms : oms.value,
           label: buttonLabel,
           id: buttonId,
           ...metadata,
@@ -44,7 +48,8 @@ function useAnalytics() {
     } catch (error) {
       return;
     }
-
+    const authStore = useAuthStore();
+    const oms = computed(() => authStore.getOms)
     const appState = appContext.config.globalProperties.$store;
     const userProfile = appState.getters['user/getUserProfile'];
     const userEmail = userProfile.email;
@@ -55,6 +60,7 @@ function useAnalytics() {
       mixpanel.people.set({
         $email: userEmail,
         $userId: userID,
+        $oms : oms.value
       });
     } catch (error) {
       return;
