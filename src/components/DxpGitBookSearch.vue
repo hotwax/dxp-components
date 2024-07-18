@@ -5,7 +5,7 @@
   </ion-tab-button>
 
   <!-- Using inline modal(as recommended by ionic), also using it inline as the component inside modal is not getting mounted when using modalController -->
-  <ion-modal ref="gitBookSearchModal" trigger="gibook-search-modal">
+  <ion-modal ref="gitBookSearchModal" trigger="gibook-search-modal" @willDismiss="clearQueryState()">
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
@@ -230,7 +230,7 @@ async function fetchSources() {
   isResourceLoading.value = true;
   const list = [] as any;
 
-  const responses = await Promise.all(answer.value.sources.map((source: any) => {
+  const responses = await (Promise as any).allSettled(answer.value.sources.map((source: any) => {
     if(source.type === "page") {
       return gitBookContext.getGitBookPage({
         pageId: source.page,
@@ -259,5 +259,18 @@ function redirectToDoc(item: any) {
 function searchRelatedQuestion(question: string) {
   queryString.value = question;
   askQuery()
+}
+
+function clearQueryState() {
+  selectedSegment.value = "search";
+  queryString.value = "";
+  searchedItems.value = [];
+  answer.value = {};
+
+  isLoading.value = false;
+
+  isResourceLoading.value = false;
+  sources.value = [];
+  isResourceFetched.value = false;
 }
 </script>
