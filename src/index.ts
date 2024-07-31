@@ -10,6 +10,8 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
 import { useUserStore } from "./store/user";
 import { IonicVue } from '@ionic/vue';
+import useAnalytics from "./mixins/analytics";
+
 
 import "./service-worker"
 
@@ -140,5 +142,6 @@ export {
   useAuthStore,
   useProductIdentificationStore,
   useUserStore,
-  userContext
+  userContext,
+  useAnalytics
 }
