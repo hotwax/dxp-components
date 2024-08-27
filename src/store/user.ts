@@ -1,14 +1,16 @@
 import { defineStore } from "pinia";
-import { appContext, i18n, translate, userContext } from "../../src";
-import { hasError } from "@hotwax/oms-api";
+import { appContext, i18n, translate, userContext, useAuthStore } from "../../src";
 import { DateTime } from "luxon";
 import { showToast } from "src/utils";
+import { productStoreContext } from "../index";
 
 declare let process: any;
 
 export const useUserStore = defineStore('user', {
   state: () => {
     return {
+      current: {} as any,
+      currentEComStore: {} as any,
       localeOptions: process.env.VUE_APP_LOCALES ? JSON.parse(process.env.VUE_APP_LOCALES) : { "en-US": "English" },
       locale: 'en-US',
       currentTimeZoneId: '',
@@ -19,6 +21,8 @@ export const useUserStore = defineStore('user', {
     getLocale: (state) => state.locale,
     getLocaleOptions: (state) => state.localeOptions,
     getTimeZones: (state) => state.timeZones,
+    getCurrentEComStore: (state) => state.currentEComStore,
+    getProductStores: (state) => state.current.stores,
     getCurrentTimeZone: (state) => state.currentTimeZoneId
   },
   actions: {
@@ -74,7 +78,54 @@ export const useUserStore = defineStore('user', {
     },
     updateTimeZone(tzId: string) {
       this.currentTimeZoneId = tzId
-    }
+    },
+    async getEComStores(facilityId?: any) {
+      const authStore = useAuthStore();
+    
+      try {
+        const response = await productStoreContext.getEComStores(authStore.getToken.value, authStore.getBaseUrl, facilityId);
+        this.current.stores = response;
+      } catch (error) {
+        console.error(error);
+        this.current.stores = [];
+      }
+    },
+    async getPreferredStore(userPrefTypeId: any) {
+      const authStore = useAuthStore();
+      let preferredStore = {} as any;
+    
+      if (this.current.stores.length) {
+        preferredStore = this.current.stores[0];
+        let preferredStoreId = '';
+    
+        try {
+          preferredStoreId = await productStoreContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId);
+          const store = this.current.stores.find((store: any) => store.productStoreId === preferredStoreId);
+          if (store) {
+            preferredStore = store;
+          }
+          this.currentEComStore = preferredStore;
+          return Promise.resolve(preferredStoreId);
+        } catch (error) {
+          throw error;
+        }
+      } else {
+        this.currentEComStore = {};
+      }
+    },
+    async setEComStore(payload: any) {
+      const currentEComStore = JSON.parse(JSON.stringify(this.getCurrentEComStore))
+      if(!payload) {
+        this.currentEComStore = currentEComStore
+      }
+
+      try {
+        await productStoreContext.setEComStore(payload) 
+      } catch (error) {
+        console.error('error', error)
+      }
+      this.currentEComStore = payload.eComStore;
+    },
   },
   persist: true
 })
