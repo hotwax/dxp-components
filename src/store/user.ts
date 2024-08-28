@@ -87,38 +87,32 @@ export const useUserStore = defineStore('user', {
         this.current.stores = response;
       } catch (error) {
         console.error(error);
-        this.current.stores = [];
       }
+      return this.current.stores
     },
     async getPreferredStore(userPrefTypeId: any) {
-      const authStore = useAuthStore();
       let preferredStore = {} as any;
-    
-      if (this.current.stores.length) {
-        preferredStore = this.current.stores[0];
+      const authStore = useAuthStore();
+      preferredStore = this.current.stores[0];
+
+      try {
         let preferredStoreId = '';
-    
-        try {
-          preferredStoreId = await productStoreContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId);
+        preferredStoreId = await productStoreContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId);
+
+        if(preferredStoreId) {
           const store = this.current.stores.find((store: any) => store.productStoreId === preferredStoreId);
-          if (store) {
-            preferredStore = store;
-          }
-          this.currentEComStore = preferredStore;
-          return Promise.resolve(preferredStoreId);
-        } catch (error) {
-          throw error;
+          store && (preferredStore = store)
         }
-      } else {
-        this.currentEComStore = {};
+      } catch (error) {
+        console.error(error);
       }
+      this.currentEComStore = preferredStore;
     },
     async setEComStore(payload: any) {
       const currentEComStore = JSON.parse(JSON.stringify(this.getCurrentEComStore))
       if(!payload) {
         this.currentEComStore = currentEComStore
       }
-
       try {
         await productStoreContext.setEComStore(payload) 
       } catch (error) {
