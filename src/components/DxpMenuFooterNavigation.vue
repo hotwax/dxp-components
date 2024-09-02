@@ -40,13 +40,15 @@
 import { IonFooter, IonItem, IonLabel, IonNote, IonSelect, IonSelectOption, IonToolbar } from '@ionic/vue';
 import { appContext, useAuthStore } from "../index";
 import { computed } from 'vue';
+import { useUserStore } from 'src/store/user'
 
 const authStore = useAuthStore();
+const userStore = useUserStore()
 const appState = appContext.config.globalProperties.$store;
 const instanceUrl = computed(() => authStore.getOms); 
 const userAppState = computed(() => ({ 
   userProfile: appState.getters['user/getUserProfile'],
-  currentEComStore: appState.getters['user/getCurrentEComStore'],
+  currentEComStore: userStore.getCurrentEComStore,
   shopifyConfigs: appState.getters['user/getShopifyConfigs'],
   currentShopifyConfig: appState.getters['user/getCurrentShopifyConfig']
 }));

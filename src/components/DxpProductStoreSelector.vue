@@ -14,7 +14,7 @@
     </ion-card-content>
 
     <ion-item lines="none">
-      <ion-select :label="$t('Select store')" interface="popover" :placeholder="$t('store name')" :value="currentEComStore?.productStoreId" @ionChange="setEComStore($event)">
+      <ion-select :label="$t('Select store')" interface="popover" :placeholder="$t('store name')" :value="currentEComStore?.productStoreId" @ionChange="setEComStore($event); $emit('updateEcomStore', $event)">
         <ion-select-option v-for="store in (productStores ? productStores : [])" :key="store.productStoreId" :value="store.productStoreId">{{ store.storeName }}</ion-select-option>
       </ion-select>
     </ion-item>
