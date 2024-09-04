@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
-import { appContext, i18n, translate, userContext } from "../../src";
+import { appContext, i18n, translate, userContext, useAuthStore } from "../../src";
 import { hasError } from "@hotwax/oms-api";
 import { DateTime } from "luxon";
 import { showToast } from "src/utils";
+import { facilityContext } from "../index";
 
 declare let process: any;
 
@@ -12,14 +13,18 @@ export const useUserStore = defineStore('user', {
       localeOptions: process.env.VUE_APP_LOCALES ? JSON.parse(process.env.VUE_APP_LOCALES) : { "en-US": "English" },
       locale: 'en-US',
       currentTimeZoneId: '',
-      timeZones: []
+      timeZones: [],
+      facilities: {} as any,
+      currentFacility: {} as any
     }
   },
   getters: {
     getLocale: (state) => state.locale,
     getLocaleOptions: (state) => state.localeOptions,
     getTimeZones: (state) => state.timeZones,
-    getCurrentTimeZone: (state) => state.currentTimeZoneId
+    getCurrentTimeZone: (state) => state.currentTimeZoneId,
+    getFacilites: (state) => state.facilities.itemList,
+    getCurrentFacility: (state) => state.currentFacility
   },
   actions: {
     async setLocale(locale: string) {
@@ -74,7 +79,52 @@ export const useUserStore = defineStore('user', {
     },
     updateTimeZone(tzId: string) {
       this.currentTimeZoneId = tzId
-    }
+    },
+
+    async getUserFacilities(partyId: any, facilityGroupId: any, isAdminUser: boolean) {
+      const authStore = useAuthStore();
+
+      try {
+        const response = await facilityContext.getUserFacilities(authStore.getToken.value, authStore.getBaseUrl, partyId, facilityGroupId, isAdminUser);
+        this.facilities.itemList = response;
+      } catch (error) {
+        console.error(error);
+      }
+      return this.facilities.itemList
+    },
+
+    async setFacility(payload: any) {
+      const currentFacility = JSON.parse(JSON.stringify(this.getCurrentFacility))
+      if(!payload) this.currentFacility = currentFacility
+
+      try {
+        await facilityContext.setUserPreference({
+          userPrefTypeId: 'SELECTED_FACILITY',
+          userPrefValue: payload.facilityId
+        }) 
+      } catch (error) {
+        console.error('error', error)
+      }
+      this.currentFacility = payload;
+    },
+
+    async getPreferredFacility(userPrefTypeId: any) {
+      const authStore = useAuthStore();
+      let preferredFacility = {} as any;
+      preferredFacility = this.facilities.itemList[0];
+
+      try {
+        let preferredFacilityId = '';
+        preferredFacilityId = await facilityContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId);
+        if(preferredFacility) {
+          const facility = this.facilities.itemList.find((facility: any) => facility.facilityId === preferredFacilityId);
+          facility && (preferredFacility = facility)
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      this.currentFacility = preferredFacility;
+    },
   },
   persist: true
 })
