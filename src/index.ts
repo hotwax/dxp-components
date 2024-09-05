@@ -100,7 +100,7 @@ export let dxpComponents = {
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
      
     productStoreContext.getEComStores = options.getEComStores
-    productStoreContext.setEComStore = options.setEComStore
+    productStoreContext.setUserPreference = options.setUserPreference
     productStoreContext.getUserPreference = options.getUserPreference
 
     notificationContext.addNotification = options.addNotification

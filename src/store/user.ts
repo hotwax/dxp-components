@@ -114,11 +114,14 @@ export const useUserStore = defineStore('user', {
         this.currentEComStore = currentEComStore
       }
       try {
-        await productStoreContext.setEComStore(payload) 
+        await productStoreContext.setUserPreference({
+          userPrefTypeId: 'SELECTED_BRAND',
+          userPrefValue: payload.productStoreId
+        }) 
       } catch (error) {
         console.error('error', error)
       }
-      this.currentEComStore = payload.eComStore;
+      this.currentEComStore = payload;
     },
   },
   persist: true
