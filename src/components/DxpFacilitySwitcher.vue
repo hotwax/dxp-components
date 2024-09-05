@@ -31,7 +31,7 @@
     <ion-toolbar>
       <ion-searchbar @ionFocus="selectSearchBarText($event)" :placeholder="$t('Search facilities')" v-model="queryString" @keyup.enter="queryString = $event.target.value; findFacility()" @keydown="preventSpecialCharacters($event)"/>
     </ion-toolbar>
-    <ion-content class="ion-padding">
+    <ion-content>
       <div>
         <ion-radio-group v-model="selectedFacilityId">
           <!-- Loading state -->
@@ -107,6 +107,8 @@ const isLoading = ref(false);
 const filteredFacilities = ref(facilities.value)
 const selectedFacilityId = ref(currentFacility.value.facilityId)
 
+const emit = defineEmits(["updateFacility"])
+
 const closeModal = () => {
   facilityModal.value.$el.dismiss(null, 'cancel');
 }
@@ -136,6 +138,7 @@ function setFacility() {
   if(selectedFacility) {
     userStore.setFacility(selectedFacility)
   }
+  emit('updateFacility', selectedFacility.facilityId);
   closeModal();
 }
 </script>
