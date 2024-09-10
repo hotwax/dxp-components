@@ -13,16 +13,16 @@
         {{ currentFacility.facilityName }}
         <p>{{ currentFacility.facilityId }}</p>
       </ion-label>
-      <ion-button id="select-facility-modal" slot="end" fill="outline" color="dark">Change</ion-button>
+      <ion-button id="open-facility-modal" slot="end" fill="outline" color="dark">Change</ion-button>
     </ion-item>
   </ion-card>
   <!-- Using inline modal(as recommended by ionic), also using it inline as the component inside modal is not getting mounted when using modalController -->
-  <ion-modal ref="facilityModal" trigger="select-facility-modal" @didPresent="" @didDismiss="">
+  <ion-modal ref="facilityModal" trigger="open-facility-modal" @didPresent="loadFacilities()" @didDismiss="clearSearch()">
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-button @click="closeModal">
-            <ion-icon :icon="closeOutline" />
+            <ion-icon :icon="closeOutline"/>
           </ion-button>
         </ion-buttons>
         <ion-title>{{ $t("Select Facility") }}</ion-title>
@@ -32,8 +32,8 @@
       <ion-searchbar @ionFocus="selectSearchBarText($event)" :placeholder="$t('Search facilities')" v-model="queryString" @keyup.enter="queryString = $event.target.value; findFacility()" @keydown="preventSpecialCharacters($event)"/>
     </ion-toolbar>
     <ion-content>
-      <div>
-        <ion-radio-group v-model="selectedFacilityId">
+      <ion-radio-group v-model="selectedFacilityId">
+        <ion-list>
           <!-- Loading state -->
           <div class="empty-state" v-if="isLoading">
             <ion-item lines="none">
@@ -41,8 +41,11 @@
               {{ $t("Fetching facilities") }}
             </ion-item>
           </div>
-
-          <ion-list v-if="filteredFacilities.length ">
+          <!-- Empty state -->
+          <div class="empty-state" v-else-if="filteredFacilities.length === 0">
+            <p>{{ $t("No facilities found") }}</p>
+          </div>
+          <div v-else>
             <ion-item v-for="facility in filteredFacilities" :key="facility.facilityId">
               <ion-radio label-placement="end" justify="start" :value="facility.facilityId">
                 <ion-label>
@@ -51,13 +54,9 @@
                 </ion-label>
               </ion-radio>
             </ion-item>
-          </ion-list>
-          <!-- Empty state -->
-          <div class="empty-state" v-else>
-            <p>{{ $t("No facilities found") }}</p>
           </div>
-        </ion-radio-group>
-      </div>
+        </ion-list>
+      </ion-radio-group>
 
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button :disabled="selectedFacilityId === currentFacility.facilityId" @click="setFacility">
@@ -103,14 +102,19 @@ const currentFacility = computed(() => userStore.getCurrentFacility)
 
 const facilityModal = ref()
 const queryString = ref('')
-const isLoading = ref(false);
-const filteredFacilities = ref(facilities.value)
+const isLoading = ref(true);
+const filteredFacilities = ref([])
 const selectedFacilityId = ref(currentFacility.value.facilityId)
 
 const emit = defineEmits(["updateFacility"])
 
 const closeModal = () => {
   facilityModal.value.$el.dismiss(null, 'cancel');
+}
+
+function loadFacilities() {
+  filteredFacilities.value = facilities.value;
+  isLoading.value = false;
 }
 
 const findFacility = () => {
@@ -140,6 +144,12 @@ function setFacility() {
   }
   emit('updateFacility', selectedFacility.facilityId);
   closeModal();
+}
+
+function clearSearch() {
+  queryString.value = ''
+  filteredFacilities.value = []
+  isLoading.value = true
 }
 </script>
 

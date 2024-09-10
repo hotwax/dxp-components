@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
-import { appContext, i18n, translate, userContext, useAuthStore } from "../../src";
-import { hasError } from "@hotwax/oms-api";
+import { i18n, translate, userContext, useAuthStore } from "../../src";
 import { DateTime } from "luxon";
 import { showToast } from "src/utils";
 import { facilityContext } from "../index";
