@@ -8,7 +8,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
         primaryId: '',
         secondaryId: ''
       },
-      productIdentificationOptions: ["productId", "groupId", "groupName", "internalName", "parentProductName", "primaryProductCategoryName", "sku", "title", "SHOPIFY_PROD_SKU"]
+      productIdentificationOptions: ["productId", "groupId", "groupName", "internalName", "parentProductName", "primaryProductCategoryName", "sku", "title", "SHOPIFY_PROD_SKU", "upc"]
     }
   },
   getters: {

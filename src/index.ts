@@ -109,6 +109,7 @@ export let dxpComponents = {
     loginContext.getConfig = options.getConfig
     loginContext.initialise = options.initialise
 
+    appContext.Actions = options.Actions
     appContext.hasPermission = options.hasPermission
 
     // set a default locale in the state
