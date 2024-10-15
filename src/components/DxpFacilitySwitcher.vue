@@ -13,7 +13,7 @@
         {{ currentFacility.facilityName }}
         <p>{{ currentFacility.facilityId }}</p>
       </ion-label>
-      <ion-button id="open-facility-modal" slot="end" fill="outline" color="dark">Change</ion-button>
+      <ion-button id="open-facility-modal" slot="end" fill="outline" color="dark">{{ $t('Change')}}</ion-button>
     </ion-item>
   </ion-card>
   <!-- Using inline modal(as recommended by ionic), also using it inline as the component inside modal is not getting mounted when using modalController -->
@@ -42,7 +42,7 @@
             </ion-item>
           </div>
           <!-- Empty state -->
-          <div class="empty-state" v-else-if="filteredFacilities.length === 0">
+          <div class="empty-state" v-else-if="!filteredFacilities.length">
             <p>{{ $t("No facilities found") }}</p>
           </div>
           <div v-else>
@@ -119,11 +119,13 @@ function loadFacilities() {
 
 const findFacility = () => {
   isLoading.value = true
-  const searchedString = queryString.value.toLowerCase();
-  filteredFacilities.value = facilities.value.filter((facility: any) => 
-    facility.facilityName.toLowerCase().match(searchedString) || 
-    facility.facilityId.toLowerCase().match(searchedString)
-  );
+  const searchedString = queryString.value.trim().toLowerCase();
+  if(searchedString) {
+    filteredFacilities.value = facilities.value.filter((facility: any) => 
+      facility.facilityName.toLowerCase().includes(searchedString) || 
+      facility.facilityId.toLowerCase().includes(searchedString)
+    );
+  }
   isLoading.value = false
 }
 
@@ -139,10 +141,10 @@ function preventSpecialCharacters($event: any) {
 
 function setFacility() {
   const selectedFacility = facilities.value.find((facility: any) => facility.facilityId === selectedFacilityId.value)
-  if(selectedFacility) {
-    userStore.setFacility(selectedFacility)
+  const isUpdated = userStore.setFacility(selectedFacility)
+  if(isUpdated) {
+    emit('updateFacility', selectedFacility.facilityId);
   }
-  emit('updateFacility', selectedFacility.facilityId);
   closeModal();
 }
 

@@ -93,18 +93,18 @@ export const useUserStore = defineStore('user', {
     },
 
     async setFacility(payload: any) {
-      const currentFacility = JSON.parse(JSON.stringify(this.getCurrentFacility))
-      if(!payload) this.currentFacility = currentFacility
 
       try {
         await facilityContext.setUserPreference({
           userPrefTypeId: 'SELECTED_FACILITY',
           userPrefValue: payload.facilityId
         }) 
+        this.currentFacility = payload;
+        return true;
       } catch (error) {
         console.error('error', error)
       }
-      this.currentFacility = payload;
+      return false;
     },
 
     async getPreferredFacility(userPrefTypeId: any) {
