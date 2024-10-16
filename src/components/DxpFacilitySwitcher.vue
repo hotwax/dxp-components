@@ -125,6 +125,8 @@ const findFacility = () => {
       facility.facilityName.toLowerCase().includes(searchedString) || 
       facility.facilityId.toLowerCase().includes(searchedString)
     );
+  } else {
+    filteredFacilities.value = facilities.value;
   }
   isLoading.value = false
 }
