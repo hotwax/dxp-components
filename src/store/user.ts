@@ -105,19 +105,17 @@ export const useUserStore = defineStore('user', {
       this.currentFacility = payload;
     },
 
-    async getPreferredFacility(userPrefTypeId: any) {
+    async getFacilityPreference(userPrefTypeId: any) {
       const authStore = useAuthStore();
-      let preferredFacility = {} as any;
 
       if (!this.facilities.length) {
         return;
       }
-      preferredFacility = this.facilities[0];
+      let preferredFacility = this.facilities[0];
    
       try {
-        let preferredFacilityId = '';
-        preferredFacilityId = await facilityContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId);
-        if(preferredFacility) {
+        let preferredFacilityId = await facilityContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId);
+        if(preferredFacilityId) {
           const facility = this.facilities.find((facility: any) => facility.facilityId === preferredFacilityId);
           facility && (preferredFacility = facility)
         }
