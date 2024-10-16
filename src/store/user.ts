@@ -13,7 +13,7 @@ export const useUserStore = defineStore('user', {
       locale: 'en-US',
       currentTimeZoneId: '',
       timeZones: [],
-      facilities: {} as any,
+      facilities: [],
       currentFacility: {} as any
     }
   },
@@ -22,7 +22,7 @@ export const useUserStore = defineStore('user', {
     getLocaleOptions: (state) => state.localeOptions,
     getTimeZones: (state) => state.timeZones,
     getCurrentTimeZone: (state) => state.currentTimeZoneId,
-    getFacilites: (state) => state.facilities.itemList,
+    getFacilites: (state) => state.facilities,
     getCurrentFacility: (state) => state.currentFacility
   },
   actions: {
@@ -85,38 +85,40 @@ export const useUserStore = defineStore('user', {
 
       try {
         const response = await facilityContext.getUserFacilities(authStore.getToken.value, authStore.getBaseUrl, partyId, facilityGroupId, isAdminUser);
-        this.facilities.itemList = response;
+        this.facilities = response;
       } catch (error) {
         console.error(error);
       }
-      return this.facilities.itemList
+      return this.facilities
     },
 
-    async setFacility(payload: any) {
+    async setFacilityPreference(payload: any) {
 
       try {
         await facilityContext.setUserPreference({
           userPrefTypeId: 'SELECTED_FACILITY',
           userPrefValue: payload.facilityId
         }) 
-        this.currentFacility = payload;
-        return true;
       } catch (error) {
         console.error('error', error)
       }
-      return false;
+      this.currentFacility = payload;
     },
 
     async getPreferredFacility(userPrefTypeId: any) {
       const authStore = useAuthStore();
       let preferredFacility = {} as any;
-      preferredFacility = this.facilities.itemList[0];
 
+      if (!this.facilities.length) {
+        return;
+      }
+      preferredFacility = this.facilities[0];
+   
       try {
         let preferredFacilityId = '';
         preferredFacilityId = await facilityContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId);
         if(preferredFacility) {
-          const facility = this.facilities.itemList.find((facility: any) => facility.facilityId === preferredFacilityId);
+          const facility = this.facilities.find((facility: any) => facility.facilityId === preferredFacilityId);
           facility && (preferredFacility = facility)
         }
       } catch (error) {

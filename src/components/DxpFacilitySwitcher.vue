@@ -59,7 +59,7 @@
       </ion-radio-group>
 
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button :disabled="selectedFacilityId === currentFacility.facilityId" @click="setFacility">
+        <ion-fab-button :disabled="selectedFacilityId === currentFacility.facilityId" @click="updateFacility">
           <ion-icon :icon="saveOutline" />
         </ion-fab-button>
       </ion-fab>
@@ -141,12 +141,10 @@ function preventSpecialCharacters($event: any) {
   if(/[`!@#$%^&*()_+\-=\\|,.<>?~]/.test($event.key)) $event.preventDefault();
 }
 
-function setFacility() {
+async function updateFacility() {
   const selectedFacility = facilities.value.find((facility: any) => facility.facilityId === selectedFacilityId.value)
-  const isUpdated = userStore.setFacility(selectedFacility)
-  if(isUpdated) {
-    emit('updateFacility', selectedFacility.facilityId);
-  }
+  await userStore.setFacilityPreference(selectedFacility)
+  emit('updateFacility', selectedFacility.facilityId);
   closeModal();
 }
 
@@ -159,6 +157,6 @@ function clearSearch() {
 
 <style scoped>
 ion-content {
-  --padding-bottom: 70px;
+  --padding-bottom: 80px;
 }
 </style>
