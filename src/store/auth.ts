@@ -14,6 +14,10 @@ export const useAuthStore = defineStore('userAuth', {
   getters: {
     getToken: (state) => state.token,
     getOms: (state) => state.oms,
+    getBaseUrl: (state) => {
+      let baseURL = state.oms
+      return baseURL.startsWith('http') ? baseURL.includes('/api') ? baseURL : `${baseURL}/api/` : `https://${baseURL}.hotwax.io/api/`;
+    },
     isAuthenticated: (state) => {
       let isTokenExpired = false
       if (state.token.expiration) {
