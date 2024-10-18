@@ -9,7 +9,7 @@ declare let process: any;
 export const useUserStore = defineStore('user', {
   state: () => {
     return {
-      current: {} as any,
+      eComStores: [],
       currentEComStore: {} as any,
       localeOptions: process.env.VUE_APP_LOCALES ? JSON.parse(process.env.VUE_APP_LOCALES) : { "en-US": "English" },
       locale: 'en-US',
@@ -22,7 +22,7 @@ export const useUserStore = defineStore('user', {
     getLocaleOptions: (state) => state.localeOptions,
     getTimeZones: (state) => state.timeZones,
     getCurrentEComStore: (state) => state.currentEComStore,
-    getProductStores: (state) => state.current.stores,
+    getProductStores: (state) => state.eComStores,
     getCurrentTimeZone: (state) => state.currentTimeZoneId
   },
   actions: {
@@ -83,24 +83,25 @@ export const useUserStore = defineStore('user', {
       const authStore = useAuthStore();
     
       try {
-        const response = await productStoreContext.getEComStores(authStore.getToken.value, authStore.getBaseUrl, facilityId);
-        this.current.stores = response;
+        const response = await productStoreContext.getEComStores(authStore.getToken.value, authStore.getBaseUrl, 100, facilityId);
+        this.eComStores = response;
       } catch (error) {
         console.error(error);
       }
-      return this.current.stores
+      return this.eComStores
     },
-    async getPreferredStore(userPrefTypeId: any) {
-      let preferredStore = {} as any;
+    async getEComStorePreference(userPrefTypeId: any) {
       const authStore = useAuthStore();
-      preferredStore = this.current.stores[0];
 
+      if(!this.eComStores) {
+        return;
+      }
+      let preferredStore = this.eComStores[0];
       try {
-        let preferredStoreId = '';
-        preferredStoreId = await productStoreContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId);
+        let preferredStoreId = await productStoreContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId);
 
         if(preferredStoreId) {
-          const store = this.current.stores.find((store: any) => store.productStoreId === preferredStoreId);
+          const store = this.eComStores.find((store: any) => store.productStoreId === preferredStoreId);
           store && (preferredStore = store)
         }
       } catch (error) {
@@ -108,11 +109,8 @@ export const useUserStore = defineStore('user', {
       }
       this.currentEComStore = preferredStore;
     },
-    async setEComStore(payload: any) {
-      const currentEComStore = JSON.parse(JSON.stringify(this.getCurrentEComStore))
-      if(!payload) {
-        this.currentEComStore = currentEComStore
-      }
+    async setEComStorePreference(payload: any) {
+
       try {
         await productStoreContext.setUserPreference({
           userPrefTypeId: 'SELECTED_BRAND',

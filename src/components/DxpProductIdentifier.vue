@@ -34,16 +34,16 @@ import { computed, onMounted } from 'vue';
 const productIdentificationStore = useProductIdentificationStore();
 const userStore = useUserStore()
 
-const eComStore = computed(() =>  userStore.getCurrentEComStore)
+const currentEComStore = computed(() =>  userStore.getCurrentEComStore)
 const productIdentificationPref = computed(() => productIdentificationStore.getProductIdentificationPref);
 const productIdentificationOptions = productIdentificationStore.getProductIdentificationOptions;
 
 onMounted(() => {
-  productIdentificationStore.getIdentificationPref(eComStore.value.productStoreId);
+  productIdentificationStore.getIdentificationPref(currentEComStore.value.productStoreId);
 })
 
 function setProductIdentificationPref(value: string | any, id: string) {
-  productIdentificationStore.setProductIdentificationPref(id, value, eComStore.value.productStoreId)
+  productIdentificationStore.setProductIdentificationPref(id, value, currentEComStore.value.productStoreId)
 }
 
 </script>
