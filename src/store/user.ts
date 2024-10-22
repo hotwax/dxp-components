@@ -79,11 +79,11 @@ export const useUserStore = defineStore('user', {
     updateTimeZone(tzId: string) {
       this.currentTimeZoneId = tzId
     },
-    async getEComStores(facilityId?: any) {
+    async getEComStoresByFacility(facilityId?: any) {
       const authStore = useAuthStore();
     
       try {
-        const response = await productStoreContext.getEComStores(authStore.getToken.value, authStore.getBaseUrl, 100, facilityId);
+        const response = await productStoreContext.getEComStoresByFacility(authStore.getToken.value, authStore.getBaseUrl, 100, facilityId);
         this.eComStores = response;
       } catch (error) {
         console.error(error);
@@ -93,7 +93,7 @@ export const useUserStore = defineStore('user', {
     async getEComStorePreference(userPrefTypeId: any) {
       const authStore = useAuthStore();
 
-      if(!this.eComStores) {
+      if(!this.eComStores.length) {
         return;
       }
       let preferredStore = this.eComStores[0];

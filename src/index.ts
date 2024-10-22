@@ -99,7 +99,7 @@ export let dxpComponents = {
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
      
-    productStoreContext.getEComStores = options.getEComStores
+    productStoreContext.getEComStoresByFacility = options.getEComStoresByFacility
     productStoreContext.setUserPreference = options.setUserPreference
     productStoreContext.getUserPreference = options.getUserPreference
 

@@ -33,10 +33,8 @@ const eComStores = computed(() => userStore.getProductStores);
 const currentEComStore = computed(() => userStore.getCurrentEComStore);
 
 async function updateEComStore(eComStoreId: any) {
-  if (eComStoreId && currentEComStore.value?.productStoreId !== eComStoreId) {
-    const selectedProductStore = eComStores.value.find((store: any) => store.productStoreId == eComStoreId)
-    await userStore.setEComStorePreference(selectedProductStore)
-    emit('updateEcomStore', selectedProductStore)
-  }
+  const selectedProductStore = eComStores.value.find((store: any) => store.productStoreId == eComStoreId)
+  await userStore.setEComStorePreference(selectedProductStore)
+  emit('updateEcomStore', selectedProductStore)
 }
 </script>
