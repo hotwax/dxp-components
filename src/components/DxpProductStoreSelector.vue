@@ -27,7 +27,7 @@ import { useUserStore } from 'src';
 import { computed } from 'vue';
 
 const userStore = useUserStore();
-const emit = defineEmits(["updateEcomStore"])
+const emit = defineEmits(["updateEComStore"])
 
 const eComStores = computed(() => userStore.getProductStores); 
 const currentEComStore = computed(() => userStore.getCurrentEComStore);
@@ -35,6 +35,6 @@ const currentEComStore = computed(() => userStore.getCurrentEComStore);
 async function updateEComStore(eComStoreId: any) {
   const selectedProductStore = eComStores.value.find((store: any) => store.productStoreId == eComStoreId)
   await userStore.setEComStorePreference(selectedProductStore)
-  emit('updateEcomStore', selectedProductStore)
+  emit('updateEComStore', selectedProductStore)
 }
 </script>
