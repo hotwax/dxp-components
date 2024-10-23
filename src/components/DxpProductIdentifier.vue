@@ -30,6 +30,7 @@ import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonSelec
 import { useProductIdentificationStore } from 'src/store/productIdentification';
 import { useUserStore } from 'src/store/user'
 import { computed, onMounted } from 'vue';
+import { appContext } from "../index";
 
 const productIdentificationStore = useProductIdentificationStore();
 const userStore = useUserStore()
