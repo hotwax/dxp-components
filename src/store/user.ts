@@ -84,6 +84,7 @@ export const useUserStore = defineStore('user', {
     updateTimeZone(tzId: string) {
       this.currentTimeZoneId = tzId
     },
+    // Facility api calls - retrieve user facilities & get/set preferred facility
     async getUserFacilities(partyId: any, facilityGroupId: any, isAdminUser: boolean) {
       const authStore = useAuthStore();
 
@@ -126,6 +127,7 @@ export const useUserStore = defineStore('user', {
       }
       this.currentFacility = payload;
     },
+    // ECom store api calls - fetch stores by facility & get/set user store preferences
     async getEComStoresByFacility(facilityId?: any) {
       const authStore = useAuthStore();
     
