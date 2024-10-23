@@ -3,12 +3,15 @@ import { i18n, translate, userContext, useAuthStore } from "../../src";
 import { DateTime } from "luxon";
 import { showToast } from "src/utils";
 import { facilityContext } from "../index";
+import { productStoreContext } from "../index";
 
 declare let process: any;
 
 export const useUserStore = defineStore('user', {
   state: () => {
     return {
+      eComStores: [],
+      currentEComStore: {} as any,
       localeOptions: process.env.VUE_APP_LOCALES ? JSON.parse(process.env.VUE_APP_LOCALES) : { "en-US": "English" },
       locale: 'en-US',
       currentTimeZoneId: '',
@@ -23,7 +26,9 @@ export const useUserStore = defineStore('user', {
     getTimeZones: (state) => state.timeZones,
     getCurrentTimeZone: (state) => state.currentTimeZoneId,
     getFacilites: (state) => state.facilities,
-    getCurrentFacility: (state) => state.currentFacility
+    getCurrentFacility: (state) => state.currentFacility,
+    getProductStores: (state) => state.eComStores,
+    getCurrentEComStore: (state) => state.currentEComStore,
   },
   actions: {
     async setLocale(locale: string) {
@@ -79,7 +84,7 @@ export const useUserStore = defineStore('user', {
     updateTimeZone(tzId: string) {
       this.currentTimeZoneId = tzId
     },
-
+    // Facility api calls - retrieve user facilities & get/set preferred facility
     async getUserFacilities(partyId: any, facilityGroupId: any, isAdminUser: boolean) {
       const authStore = useAuthStore();
 
@@ -91,20 +96,6 @@ export const useUserStore = defineStore('user', {
       }
       return this.facilities
     },
-
-    async setFacilityPreference(payload: any) {
-
-      try {
-        await facilityContext.setUserPreference({
-          userPrefTypeId: 'SELECTED_FACILITY',
-          userPrefValue: payload.facilityId
-        }) 
-      } catch (error) {
-        console.error('error', error)
-      }
-      this.currentFacility = payload;
-    },
-
     async getFacilityPreference(userPrefTypeId: any) {
       const authStore = useAuthStore();
 
@@ -124,6 +115,61 @@ export const useUserStore = defineStore('user', {
       }
       this.currentFacility = preferredFacility;
     },
+    async setFacilityPreference(payload: any) {
+
+      try {
+        await facilityContext.setUserPreference({
+          userPrefTypeId: 'SELECTED_FACILITY',
+          userPrefValue: payload.facilityId
+        }) 
+      } catch (error) {
+        console.error('error', error)
+      }
+      this.currentFacility = payload;
+    },
+    // ECom store api calls - fetch stores by facility & get/set user store preferences
+    async getEComStoresByFacility(facilityId?: any) {
+      const authStore = useAuthStore();
+    
+      try {
+        const response = await productStoreContext.getEComStoresByFacility(authStore.getToken.value, authStore.getBaseUrl, 100, facilityId);
+        this.eComStores = response;
+      } catch (error) {
+        console.error(error);
+      }
+      return this.eComStores
+    },
+    async getEComStorePreference(userPrefTypeId: any) {
+      const authStore = useAuthStore();
+
+      if(!this.eComStores.length) {
+        return;
+      }
+      let preferredStore = this.eComStores[0];
+      try {
+        let preferredStoreId = await productStoreContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId);
+
+        if(preferredStoreId) {
+          const store = this.eComStores.find((store: any) => store.productStoreId === preferredStoreId);
+          store && (preferredStore = store)
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      this.currentEComStore = preferredStore;
+    },
+    async setEComStorePreference(payload: any) {
+
+      try {
+        await productStoreContext.setUserPreference({
+          userPrefTypeId: 'SELECTED_BRAND',
+          userPrefValue: payload.productStoreId
+        }) 
+      } catch (error) {
+        console.error('error', error)
+      }
+      this.currentEComStore = payload;
+    }
   },
   persist: true
 })

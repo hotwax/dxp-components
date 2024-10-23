@@ -27,23 +27,24 @@
 
 <script setup lang="ts">
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonSelect, IonSelectOption } from '@ionic/vue';
-import { appContext } from 'src';
 import { useProductIdentificationStore } from 'src/store/productIdentification';
+import { useUserStore } from 'src/store/user'
 import { computed, onMounted } from 'vue';
+import { appContext } from "../index";
 
 const productIdentificationStore = useProductIdentificationStore();
+const userStore = useUserStore()
 
-const appState = appContext.config.globalProperties.$store
-const eComStore = computed(() => appState.getters['user/getCurrentEComStore'])
+const currentEComStore = computed(() =>  userStore.getCurrentEComStore)
 const productIdentificationPref = computed(() => productIdentificationStore.getProductIdentificationPref);
 const productIdentificationOptions = productIdentificationStore.getProductIdentificationOptions;
 
 onMounted(() => {
-  productIdentificationStore.getIdentificationPref(eComStore.value.productStoreId);
+  productIdentificationStore.getIdentificationPref(currentEComStore.value.productStoreId);
 })
 
 function setProductIdentificationPref(value: string | any, id: string) {
-  productIdentificationStore.setProductIdentificationPref(id, value, eComStore.value.productStoreId)
+  productIdentificationStore.setProductIdentificationPref(id, value, currentEComStore.value.productStoreId)
 }
 
 </script>

@@ -3,7 +3,7 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { DxpAppVersionInfo, DxpFacilitySwitcher, DxpGitBookSearch, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpProductIdentifier, DxpShopifyImg, DxpTimeZoneSwitcher, DxpUserProfile } from "./components";
+import { DxpAppVersionInfo, DxpFacilitySwitcher, DxpGitBookSearch, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpProductIdentifier, DxpProductStoreSelector, DxpShopifyImg, DxpTimeZoneSwitcher, DxpUserProfile } from "./components";
 import { goToOms, getProductIdentificationValue } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
@@ -26,6 +26,7 @@ let shopifyImgContext = {} as any
 let appContext = {} as any
 let productIdentificationContext = {} as any
 let facilityContext = {} as any
+let productStoreContext = {} as any
 let notificationContext = {} as any
 let gitBookContext = {} as any
 let userContext = {} as any
@@ -76,6 +77,7 @@ export let dxpComponents = {
     app.component('DxpMenuFooterNavigation', DxpMenuFooterNavigation)
     app.component('DxpOmsInstanceNavigator', DxpOmsInstanceNavigator)
     app.component('DxpProductIdentifier', DxpProductIdentifier)
+    app.component('DxpProductStoreSelector', DxpProductStoreSelector)
     app.component('DxpShopifyImg', DxpShopifyImg)
     app.component('DxpTimeZoneSwitcher', DxpTimeZoneSwitcher)
     app.component('DxpUserProfile', DxpUserProfile)
@@ -102,7 +104,11 @@ export let dxpComponents = {
     facilityContext.getUserFacilities = options.getUserFacilities
     facilityContext.setUserPreference = options.setUserPreference
     facilityContext.getUserPreference = options.getUserPreference
-    
+     
+    productStoreContext.getEComStoresByFacility = options.getEComStoresByFacility
+    productStoreContext.setUserPreference = options.setUserPreference
+    productStoreContext.getUserPreference = options.getUserPreference
+
     notificationContext.addNotification = options.addNotification
     notificationContext.appFirebaseConfig = options.appFirebaseConfig
     notificationContext.appFirebaseVapidKey = options.appFirebaseVapidKey
@@ -145,6 +151,7 @@ export {
   notificationContext,
   productIdentificationContext,
   facilityContext,
+  productStoreContext,
   shopifyImgContext,
   translate,
   useAuthStore,
