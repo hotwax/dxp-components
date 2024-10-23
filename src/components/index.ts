@@ -15,6 +15,7 @@ import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
 export { default as DxpAppVersionInfo } from './DxpAppVersionInfo.vue';
+export { default as DxpFacilitySwitcher } from './DxpFacilitySwitcher.vue'
 export { default as DxpGitBookSearch } from './DxpGitBookSearch.vue';
 export { default as DxpImage } from './DxpImage.vue';
 export { default as DxpLanguageSwitcher } from './DxpLanguageSwitcher.vue';
