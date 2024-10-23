@@ -1,5 +1,3 @@
-declare const process: any;
-
 import { defineStore } from "pinia";
 import { DateTime } from 'luxon'
 
