@@ -96,6 +96,7 @@ export let dxpComponents = {
 
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
+    productIdentificationContext.fetchGoodIdentificationTypes = options.fetchGoodIdentificationTypes
     
     notificationContext.addNotification = options.addNotification
     notificationContext.appFirebaseConfig = options.appFirebaseConfig

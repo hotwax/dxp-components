@@ -36,9 +36,10 @@ const productIdentificationStore = useProductIdentificationStore();
 const appState = appContext.config.globalProperties.$store
 const eComStore = computed(() => appState.getters['user/getCurrentEComStore'])
 const productIdentificationPref = computed(() => productIdentificationStore.getProductIdentificationPref);
-const productIdentificationOptions = productIdentificationStore.getProductIdentificationOptions;
+const productIdentificationOptions = computed(() => productIdentificationStore.getProductIdentificationOptions);
 
 onMounted(() => {
+  productIdentificationStore.prepareProductIdentifierOptions();
   productIdentificationStore.getIdentificationPref(eComStore.value.productStoreId);
 })
 
