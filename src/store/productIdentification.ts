@@ -45,7 +45,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
 
       this.productIdentificationPref = await productIdentificationContext.getProductIdentificationPref(eComStoreId)
     },
-    async prepareGoodIdentificationTypeOptions() {
+    async prepareProductIdentifierOptions() {
       //static identifications 
       const productIdentificationOptions = ["productId", "groupId", "groupName", "internalName", "parentProductName", "primaryProductCategoryName", "title"];
       

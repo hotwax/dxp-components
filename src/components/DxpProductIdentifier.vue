@@ -40,7 +40,7 @@ const productIdentificationPref = computed(() => productIdentificationStore.getP
 const productIdentificationOptions = computed(() => productIdentificationStore.getProductIdentificationOptions);
 
 onMounted(() => {
-  productIdentificationStore.prepareGoodIdentificationTypeOptions();
+  productIdentificationStore.prepareProductIdentifierOptions();
   productIdentificationStore.getIdentificationPref(currentEComStore.value.productStoreId);
 })
 
