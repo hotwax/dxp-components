@@ -8,7 +8,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
         primaryId: '',
         secondaryId: ''
       },
-      productIdentificationOptions: ["productId", "groupId", "groupName", "internalName", "parentProductName", "primaryProductCategoryName", "sku", "title", "SHOPIFY_PROD_SKU", "upc"]
+      productIdentificationOptions: []
     }
   },
   getters: {
@@ -44,6 +44,17 @@ export const useProductIdentificationStore = defineStore('productIdentification'
       }
 
       this.productIdentificationPref = await productIdentificationContext.getProductIdentificationPref(eComStoreId)
+    },
+    async prepareGoodIdentificationTypeOptions() {
+      //static identifications 
+      const productIdentificationOptions = ["productId", "groupId", "groupName", "internalName", "parentProductName", "primaryProductCategoryName", "title"];
+      
+      //good identification types
+      const fetchedGoodIdentificationTypes = await productIdentificationContext.fetchGoodIdentificationTypes("HC_GOOD_ID_TYPE");
+      const fetchedGoodIdentificationOptions = fetchedGoodIdentificationTypes?.map((fetchedGoodIdentificationType: any) => fetchedGoodIdentificationType.goodIdentificationTypeId) || [];
+  
+      // Merge the arrays and remove duplicates
+      this.productIdentificationOptions = Array.from(new Set([...productIdentificationOptions, ...fetchedGoodIdentificationOptions])).sort();
     }
   }
 })

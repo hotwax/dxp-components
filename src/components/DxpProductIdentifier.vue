@@ -37,9 +37,10 @@ const userStore = useUserStore()
 
 const currentEComStore = computed(() =>  userStore.getCurrentEComStore)
 const productIdentificationPref = computed(() => productIdentificationStore.getProductIdentificationPref);
-const productIdentificationOptions = productIdentificationStore.getProductIdentificationOptions;
+const productIdentificationOptions = computed(() => productIdentificationStore.getProductIdentificationOptions);
 
 onMounted(() => {
+  productIdentificationStore.prepareGoodIdentificationTypeOptions();
   productIdentificationStore.getIdentificationPref(currentEComStore.value.productStoreId);
 })
 
