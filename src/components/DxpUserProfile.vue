@@ -65,7 +65,7 @@ const logout = () => {
   
   appState.dispatch('user/logout').then(() => {
     const redirectUrl = window.location.origin + '/login'
-    window.location.href = `${appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`
+    window.location.replace(`${appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`)
   })
 }
 

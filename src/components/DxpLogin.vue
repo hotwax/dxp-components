@@ -50,7 +50,7 @@ const error = ref({
 
 onMounted(async () => {
   if (!Object.keys(route.query).length) {
-    window.location.href = context.appLoginUrl
+    window.location.replace(context.appLoginUrl)
     return
   }
 
@@ -73,7 +73,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
     console.error('User token has expired, redirecting to launchpad.')
     error.value.message = 'User token has expired, redirecting to launchpad.'
     const redirectUrl = window.location.origin + '/login' // current app URL
-    window.location.href = `${context.appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`
+    window.location.replace(`${context.appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`)
     return
   }
 
@@ -116,7 +116,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
 }
 
 function goToLaunchpad() {
-  window.location.href = `${process.env.VUE_APP_LOGIN_URL}`
+  window.location.replace(process.env.VUE_APP_LOGIN_URL)
 }
 </script>
 
