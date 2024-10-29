@@ -105,8 +105,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
         notificationContext.addNotification,
       )
     }
-
-    redirectRoute ? router.push(redirectRoute) : router.push('/')
+    router.replace(redirectRoute ? redirectRoute : '/')
   } catch (err: any) {
     console.error(err)
     error.value.message = 'Please contact the administrator.'
