@@ -40,7 +40,7 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content class="ion-padding">
+    <ion-content>
       <div>
         <ion-radio-group value="rd" v-model="timeZoneId">
           <ion-list v-if="showBrowserTimeZone">
