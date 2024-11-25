@@ -28,10 +28,8 @@
         <ion-title>{{ $t("Select Facility") }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-toolbar>
-      <ion-searchbar @ionFocus="selectSearchBarText($event)" :placeholder="$t('Search facilities')" v-model="queryString" @keyup.enter="queryString = $event.target.value; findFacility()" @keydown="preventSpecialCharacters($event)"/>
-    </ion-toolbar>
     <ion-content>
+      <ion-searchbar @ionFocus="selectSearchBarText($event)" :placeholder="$t('Search facilities')" v-model="queryString" @keyup.enter="queryString = $event.target.value; findFacility()" @keydown="preventSpecialCharacters($event)"/>
       <ion-radio-group v-model="selectedFacilityId">
         <ion-list>
           <!-- Loading state -->
