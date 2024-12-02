@@ -33,7 +33,7 @@ const prepareImgUrl = (src: string, size?: string) => {
 const setImageUrl = () => {
   if (props.src) {
     const src: string = prepareImgUrl(props.src, props.size)
-    checkIfImageExists(src).then(() => imageUrl.value = src)
+    checkIfImageExists(src).then(() => imageUrl.value = src).catch(err => console.error("checkIfImageExists", err))
   }
 };
 
