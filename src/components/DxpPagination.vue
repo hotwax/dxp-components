@@ -58,7 +58,7 @@ function getDisplayedPageCounts() {
 
 // Changes the current page to the specified page and emits an event to notify the parent component to fetch new items.
 function updateCurrentPage(pageCount: number) {
-  if (pageCount < 1 || pageCount > totalPages.value) {
+  if(pageCount < 1 || pageCount > totalPages.value) {
     return;
   }
   currentPage.value = pageCount;
