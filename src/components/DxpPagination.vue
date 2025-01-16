@@ -1,13 +1,13 @@
 <template>
-  <ion-button size="small" fill="clear" color="medium" @click="changePage(1)" :disabled="currentPage === 1">
+  <ion-button size="small" fill="clear" color="medium" @click="updateCurrentPage(1)" :disabled="currentPage === 1">
     <ion-icon slot="icon-only" :icon="playSkipBackOutline" />
   </ion-button>
-  <ion-button size="small" fill="clear" color="medium" @click="changePage(currentPage - 1)" :disabled="currentPage === 1">
+  <ion-button size="small" fill="clear" color="medium" @click="updateCurrentPage(currentPage - 1)" :disabled="currentPage === 1">
     <ion-icon slot="icon-only" :icon="chevronBackOutline" />
   </ion-button>
 
   <ion-button
-    v-for="pageIndex in getDisplayedPageCounts()"
+    v-for="pageIndex in getDisplayedPageIndexs()"
     :key="pageIndex"
     fill="clear"
     :size="currentPage === pageIndex ? 'default' : 'small'"
@@ -17,10 +17,10 @@
     {{ pageIndex }}
   </ion-button>
 
-  <ion-button size="small" fill="clear" color="medium" @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages">
+  <ion-button size="small" fill="clear" color="medium" @click="updateCurrentPage(currentPage + 1)" :disabled="currentPage === totalPages">
     <ion-icon slot="icon-only" :icon="chevronForwardOutline" />
   </ion-button>
-  <ion-button size="small" fill="clear" color="medium" @click="changePage(totalPages)" :disabled="currentPage === totalPages">
+  <ion-button size="small" fill="clear" color="medium" @click="updateCurrentPage(totalPages)" :disabled="currentPage === totalPages">
     <ion-icon slot="icon-only" :icon="playSkipForwardOutline" />
   </ion-button>
 </template>
@@ -40,13 +40,13 @@ const props = defineProps({
     required: true
   }
 });
-const emit = defineEmits(['updatePageCount']);
+const emit = defineEmits(['updatePageIndex']);
 
 const totalPages = computed(() => Math.ceil(props.totalItems / props.itemsPerPage))
 const currentPage = ref(1);
 
 // Function to determine which page numbers to display based on the current page
-function getDisplayedPageCounts() {
+function getDisplayedPageIndexs() {
   const pages = [];
   const startPage = Math.max(1, currentPage.value - 1);
   const endPage = Math.min(totalPages.value, currentPage.value + 1);
@@ -59,11 +59,10 @@ function getDisplayedPageCounts() {
 // Changes the current page to the specified page and emits an event to notify the parent component to fetch new items.
 function updateCurrentPage(pageIndex: number) {
   currentPage.value = pageIndex;
-  const viewIndex = (currentPage.value - 1);
-  emit('updatePageCount', viewIndex);
-}
-
-function changePage(pageIndex: number) {
-  updateCurrentPage(pageIndex);
+  // Subtracting 1 from the currentPage to calculate the viewIndex, as viewIndex starts from 0.
+  // This ensures that the first set of items is requested with viewIndex = 0 by default from the parent component.
+  // On subsequent page changes, the viewIndex emitted from here is adjusted accordingly to manage API calls efficiently.
+  const viewIndex = currentPage.value - 1;
+  emit('updatePageIndex', viewIndex);
 }
 </script>
