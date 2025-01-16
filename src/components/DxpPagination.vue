@@ -7,14 +7,14 @@
   </ion-button>
 
   <ion-button
-    v-for="pageCount in getDisplayedPageCounts()"
-    :key="pageCount"
+    v-for="pageIndex in getDisplayedPageCounts()"
+    :key="pageIndex"
     fill="clear"
-    :size="currentPage === pageCount ? 'default' : 'small'"
-    :color="currentPage === pageCount ? 'dark' : 'medium'"
-    @click="updateCurrentPage(pageCount)"
+    :size="currentPage === pageIndex ? 'default' : 'small'"
+    :color="currentPage === pageIndex ? 'dark' : 'medium'"
+    @click="updateCurrentPage(pageIndex)"
   >
-    {{ pageCount }}
+    {{ pageIndex }}
   </ion-button>
 
   <ion-button size="small" fill="clear" color="medium" @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages">
@@ -57,13 +57,13 @@ function getDisplayedPageCounts() {
 }
 
 // Changes the current page to the specified page and emits an event to notify the parent component to fetch new items.
-function updateCurrentPage(pageCount: number) {
-  currentPage.value = pageCount;
+function updateCurrentPage(pageIndex: number) {
+  currentPage.value = pageIndex;
   const viewIndex = (currentPage.value - 1);
   emit('updatePageCount', viewIndex);
 }
 
-function changePage(pageCount: number) {
-  updateCurrentPage(pageCount);
+function changePage(pageIndex: number) {
+  updateCurrentPage(pageIndex);
 }
 </script>
