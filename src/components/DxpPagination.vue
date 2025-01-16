@@ -9,10 +9,9 @@
   <ion-button
     v-for="pageCount in getDisplayedPageCounts()"
     :key="pageCount"
-    size="small" 
     fill="clear"
+    :size="currentPage === pageCount ? 'default' : 'small'"
     :color="currentPage === pageCount ? 'dark' : 'medium'"
-    :class="{ 'selected-page': currentPage === pageCount }"
     @click="updateCurrentPage(pageCount)"
   >
     {{ pageCount }}
@@ -68,9 +67,3 @@ function changePage(pageCount: number) {
   updateCurrentPage(pageCount);
 }
 </script>
-
-<style scoped>
-.selected-page {
-  font-size: 15px;
-}
-</style>
