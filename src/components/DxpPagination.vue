@@ -7,7 +7,7 @@
   </ion-button>
 
   <ion-button
-    v-for="pageIndex in getDisplayedPageIndexs()"
+    v-for="pageIndex in getDisplayedPageIndexes()"
     :key="pageIndex"
     fill="clear"
     :size="currentPage === pageIndex ? 'default' : 'small'"
@@ -46,7 +46,7 @@ const totalPages = computed(() => Math.ceil(props.totalItems / props.itemsPerPag
 const currentPage = ref(1);
 
 // Function to determine which page numbers to display based on the current page
-function getDisplayedPageIndexs() {
+function getDisplayedPageIndexes() {
   const pages = [];
   const startPage = Math.max(1, currentPage.value - 1);
   const endPage = Math.min(totalPages.value, currentPage.value + 1);
