@@ -22,6 +22,7 @@ export { default as DxpLanguageSwitcher } from './DxpLanguageSwitcher.vue';
 export { default as DxpLogin } from './DxpLogin.vue';
 export { default as DxpMenuFooterNavigation } from './DxpMenuFooterNavigation.vue';
 export { default as DxpOmsInstanceNavigator } from './DxpOmsInstanceNavigator.vue'
+export { default as DxpPagination } from './DxpPagination.vue'
 export { default as DxpProductIdentifier } from "./DxpProductIdentifier.vue";
 export { default as DxpProductStoreSelector } from "./DxpProductStoreSelector.vue"
 export { default as DxpShopifyImg } from './DxpShopifyImg.vue';

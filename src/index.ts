@@ -3,7 +3,7 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { DxpAppVersionInfo, DxpFacilitySwitcher, DxpGitBookSearch, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpProductIdentifier, DxpProductStoreSelector, DxpShopifyImg, DxpTimeZoneSwitcher, DxpUserProfile } from "./components";
+import { DxpAppVersionInfo, DxpFacilitySwitcher, DxpGitBookSearch, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpPagination, DxpProductIdentifier, DxpProductStoreSelector, DxpShopifyImg, DxpTimeZoneSwitcher, DxpUserProfile } from "./components";
 import { goToOms, getProductIdentificationValue } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
@@ -76,6 +76,7 @@ export let dxpComponents = {
     app.component('DxpLogin', DxpLogin)
     app.component('DxpMenuFooterNavigation', DxpMenuFooterNavigation)
     app.component('DxpOmsInstanceNavigator', DxpOmsInstanceNavigator)
+    app.component('DxpPagination', DxpPagination)
     app.component('DxpProductIdentifier', DxpProductIdentifier)
     app.component('DxpProductStoreSelector', DxpProductStoreSelector)
     app.component('DxpShopifyImg', DxpShopifyImg)
@@ -138,6 +139,7 @@ export {
   DxpLogin,
   DxpMenuFooterNavigation,
   DxpOmsInstanceNavigator,
+  DxpPagination,
   DxpProductIdentifier,
   DxpShopifyImg,
   DxpTimeZoneSwitcher,
