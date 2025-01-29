@@ -102,7 +102,7 @@ const facilityModal = ref()
 const queryString = ref('')
 const isLoading = ref(true);
 const filteredFacilities = ref([])
-const selectedFacilityId = ref(currentFacility.value.facilityId)
+const selectedFacilityId = ref('')
 
 const emit = defineEmits(["updateFacility"])
 
@@ -112,6 +112,7 @@ const closeModal = () => {
 
 function loadFacilities() {
   filteredFacilities.value = facilities.value;
+  selectedFacilityId.value = currentFacility.value.facilityId
   isLoading.value = false;
 }
 
@@ -149,6 +150,7 @@ async function updateFacility() {
 function clearSearch() {
   queryString.value = ''
   filteredFacilities.value = []
+  selectedFacilityId.value = ''
   isLoading.value = true
 }
 </script>
