@@ -121,8 +121,8 @@ const findFacility = () => {
   const searchedString = queryString.value.trim().toLowerCase();
   if(searchedString) {
     filteredFacilities.value = facilities.value.filter((facility: any) => 
-      facility.facilityName.toLowerCase().includes(searchedString) || 
-      facility.facilityId.toLowerCase().includes(searchedString)
+      facility.facilityName?.toLowerCase().includes(searchedString) ||
+      facility.facilityId?.toLowerCase().includes(searchedString)
     );
   } else {
     filteredFacilities.value = facilities.value;
