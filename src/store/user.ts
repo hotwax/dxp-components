@@ -139,6 +139,17 @@ export const useUserStore = defineStore('user', {
       }
       return this.eComStores
     },
+    async getEComStores() {
+      const authStore = useAuthStore();
+    
+      try {
+        const response = await productStoreContext.getEComStores(authStore.getToken.value, authStore.getBaseUrl, 100);
+        this.eComStores = response;
+      } catch (error) {
+        console.error(error);
+      }
+      return this.eComStores
+    },
     async getEComStorePreference(userPrefTypeId: any) {
       const authStore = useAuthStore();
 
