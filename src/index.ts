@@ -108,6 +108,7 @@ export let dxpComponents = {
     facilityContext.getUserPreference = options.getUserPreference
      
     productStoreContext.getEComStoresByFacility = options.getEComStoresByFacility
+    productStoreContext.getEComStores = options.getEComStores
     productStoreContext.setUserPreference = options.setUserPreference
     productStoreContext.getUserPreference = options.getUserPreference
 
