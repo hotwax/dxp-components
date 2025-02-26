@@ -6,8 +6,7 @@
         <ion-list-header>{{ featureType }}</ion-list-header>
         <ion-item lines="none">
           <ion-row>
-            <ion-chip v-for="option in featureOptions" :key="option" :outline="selectedFeatures[featureType] !== option"
-              @click="handleFeatureSelection(option, featureType)">
+            <ion-chip v-for="option in featureOptions" :key="option" :outline="selectedFeatures[featureType] !== option" @click="handleFeatureSelection(option, featureType)">
               <ion-label class="ion-text-wrap">{{ option }}</ion-label>
             </ion-chip>
           </ion-row>
