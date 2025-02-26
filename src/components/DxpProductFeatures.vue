@@ -1,17 +1,13 @@
 <template>
   <div>
-    <ion-spinner v-if="isLoading" name="crescent"/>
+    <ion-spinner v-if="isLoading" name="crescent" />
     <div v-else>
       <ion-list v-for="(featureOptions, featureType) in productFeatures" :key="featureType">
         <ion-list-header>{{ featureType }}</ion-list-header>
         <ion-item lines="none">
           <ion-row>
-            <ion-chip
-              v-for="option in featureOptions"
-              :key="option"
-              :outline="selectedFeatures[featureType] !== option"
-              @click="handleFeatureSelection(option, featureType)"
-            >
+            <ion-chip v-for="option in featureOptions" :key="option" :outline="selectedFeatures[featureType] !== option"
+              @click="handleFeatureSelection(option, featureType)">
               <ion-label class="ion-text-wrap">{{ option }}</ion-label>
             </ion-chip>
           </ion-row>
@@ -32,55 +28,26 @@ import {
   IonSpinner
 } from '@ionic/vue';
 import { sortSizes } from '../utils/apparel-sorter';
-import { ref, defineProps, defineEmits, onMounted } from 'vue';
-import { api } from "@hotwax/oms-api"
+import { ref, defineProps, defineEmits, onMounted, computed } from 'vue';
+import { useProductFeatureStore } from '../store/productFeature';
 
 const props = defineProps(['productGroupId']);
 const emit = defineEmits(['selected_variant']);
 
-const products = ref([] as any[]);
-const productGroupId = ref(props.productGroupId);
-const isLoading = ref(false);
+const productFeatureStore = useProductFeatureStore();
+const isLoading = computed(() => productFeatureStore.getIsLoading);
 const productFeatures = ref({} as Record<string, string[]>);
 const selectedFeatures = ref({} as Record<string, string>);
 const selectedProductId = ref('');
 
-onMounted(() => {
-  fetchProductsByGroupId();
+onMounted(async () => {
+  const products = await productFeatureStore.fetchProductsByGroupId(props.productGroupId);
+  extractProductFeatures(products);
 });
 
-async function fetchProductsByGroupId() {
-  isLoading.value = true;
-  try {
-    const response = await api({
-      url: "https://dev-oms.hotwax.io/api/searchProducts",
-      method: "post",
-      data: {
-        "filters": [
-          `groupId: ${productGroupId.value} OR productId: ${productGroupId.value}`
-        ],
-        "viewSize": 50
-      },
-      cache: true
-    });
-
-
-    if (response?.data?.response?.docs && response.data.response.docs.length > 0) {
-      products.value = response.data.response.docs;
-      extractProductFeatures();
-    } else {
-      // console.warn('No products found or error in response');
-    }
-  } catch (error) {
-    // console.error('Error fetching products:', error);
-  } finally {
-    isLoading.value = false;
-  }
-}
-
-function extractProductFeatures() {
+function extractProductFeatures(products: any[]) {
   const features: Record<string, string[]> = {};
-  const mainProduct = products.value.find(product => product.productId === productGroupId.value);
+  const mainProduct = products.find(product => product.productId === props.productGroupId);
 
   if (mainProduct && mainProduct.productFeatures) {
     mainProduct.productFeatures.forEach((feature: string) => {
@@ -100,22 +67,22 @@ function extractProductFeatures() {
     .sort((a, b) => {
       const aIndex = featureOrder.indexOf(a.toUpperCase());
       const bIndex = featureOrder.indexOf(b.toUpperCase());
-      
+
       if (aIndex !== -1 && bIndex !== -1) {
         return aIndex - bIndex;
       }
-      
+
       if (aIndex !== -1) return -1;
       if (bIndex !== -1) return 1;
-      
+
       return a.localeCompare(b);
     });
 
   // Create a new sorted features object
   const sortedFeatures: Record<string, string[]> = {};
   sortedFeatureTypes.forEach(featureType => {
-    sortedFeatures[featureType] = featureType.toUpperCase() === 'SIZE' 
-      ? sortSizes(features[featureType]) 
+    sortedFeatures[featureType] = featureType.toUpperCase() === 'SIZE'
+      ? sortSizes(features[featureType])
       : features[featureType].sort();
   });
 
@@ -127,7 +94,7 @@ function extractProductFeatures() {
   });
 
   // Set initial selected product ID
-  const selectedVariant = findMatchingVariant();
+  const selectedVariant = findMatchingVariant(products);
   if (selectedVariant) {
     selectedProductId.value = selectedVariant.productId;
   }
@@ -135,16 +102,16 @@ function extractProductFeatures() {
 
 function handleFeatureSelection(option: string, featureType: string) {
   selectedFeatures.value[featureType] = option;
-  const selectedVariant = findMatchingVariant();
+  const selectedVariant = findMatchingVariant(productFeatureStore.getProducts(props.productGroupId));
   if (selectedVariant) {
     selectedProductId.value = selectedVariant.productId;
   }
   emit('selected_variant', selectedVariant.productId);
 }
 
-function findMatchingVariant() {
-  return products.value.find((product: any) => {
-    const matches = Object.entries(selectedFeatures.value).every(([featureType, featureValue]) => 
+function findMatchingVariant(products: any[]) {
+  return products.find((product: any) => {
+    const matches = Object.entries(selectedFeatures.value).every(([featureType, featureValue]) =>
       product.productFeatures.includes(`${featureType}/${featureValue}`)
     );
     return matches && product.isVariant === "true";
