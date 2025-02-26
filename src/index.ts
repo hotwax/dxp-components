@@ -3,7 +3,7 @@ declare var process: any;
 import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
-import { DxpAppVersionInfo, DxpFacilitySwitcher, DxpGitBookSearch, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpPagination, DxpProductIdentifier, DxpProductStoreSelector, DxpShopifyImg, DxpTimeZoneSwitcher, DxpUserProfile } from "./components";
+import { DxpAppVersionInfo, DxpFacilitySwitcher, DxpGitBookSearch, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpPagination, DxpProductIdentifier, DxpProductStoreSelector, DxpShopifyImg, DxpTimeZoneSwitcher, DxpUserProfile, DxpProductFeatures } from "./components";
 import { goToOms, getProductIdentificationValue } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
@@ -82,6 +82,7 @@ export let dxpComponents = {
     app.component('DxpShopifyImg', DxpShopifyImg)
     app.component('DxpTimeZoneSwitcher', DxpTimeZoneSwitcher)
     app.component('DxpUserProfile', DxpUserProfile)
+    app.component('DxpProductFeatures', DxpProductFeatures)
 
     showToast = options.showToast
 
@@ -160,5 +161,6 @@ export {
   useAuthStore,
   useProductIdentificationStore,
   useUserStore,
-  userContext
+  userContext,
+  DxpProductFeatures
 }
