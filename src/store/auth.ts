@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { DateTime } from 'luxon'
+import { loginContext } from "src";
 
 export const useAuthStore = defineStore('userAuth', {
   state: () => {
@@ -16,7 +17,12 @@ export const useAuthStore = defineStore('userAuth', {
     getOms: (state) => state.oms,
     getBaseUrl: (state) => {
       let baseURL = state.oms
-      return baseURL.startsWith('http') ? baseURL.includes('/api') ? baseURL : `${baseURL}/api/` : `https://${baseURL}.hotwax.io/api/`;
+      const appConfig = loginContext.getConfig()
+
+      if (baseURL && appConfig.systemType === "MOQUI") return baseURL.startsWith('http') ? baseURL.includes('/rest/s1') ? baseURL : `${baseURL}/rest/s1/` : `https://${baseURL}.hotwax.io/rest/s1/`;
+      else if (baseURL) return baseURL.startsWith('http') ? baseURL.includes('/api') ? baseURL : `${baseURL}/api/` : `https://${baseURL}.hotwax.io/api/`;
+
+      return "";
     },
     isAuthenticated: (state) => {
       let isTokenExpired = false
