@@ -85,11 +85,11 @@ export const useUserStore = defineStore('user', {
       this.currentTimeZoneId = tzId
     },
     // Facility api calls - retrieve user facilities & get/set preferred facility
-    async getUserFacilities(partyId: any, facilityGroupId: any, isAdminUser: boolean) {
+    async getUserFacilities(partyId: any, facilityGroupId: any, isAdminUser: boolean, payload?: any) {
       const authStore = useAuthStore();
 
       try {
-        const response = await facilityContext.getUserFacilities(authStore.getToken.value, authStore.getBaseUrl, partyId, facilityGroupId, isAdminUser);
+        const response = await facilityContext.getUserFacilities(authStore.getToken.value, authStore.getBaseUrl, partyId, facilityGroupId, isAdminUser, payload);
         this.facilities = response;
       } catch (error) {
         console.error(error);
