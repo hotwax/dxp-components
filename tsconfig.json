@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "strictNullChecks": false
-  },
+    "strictNullChecks": false,
+    "lib": ["es2017","dom"]
+     },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
