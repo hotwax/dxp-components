@@ -34,7 +34,7 @@ const props = defineProps(['productGroupId']);
 const emit = defineEmits(['selected_variant']);
 
 const productFeatureStore = useProductFeatureStore();
-const isLoading = computed(() => productFeatureStore.getIsLoading);
+const isLoading = computed(() => productFeatureStore.isLoading);
 const productFeatures = ref({} as Record<string, string[]>);
 const selectedFeatures = ref({} as Record<string, string>);
 const selectedProductId = ref('');
@@ -101,7 +101,7 @@ function extractProductFeatures(products: any[]) {
 
 function handleFeatureSelection(option: string, featureType: string) {
   selectedFeatures.value[featureType] = option;
-  const selectedVariant = findMatchingVariant(productFeatureStore.getProducts(props.productGroupId));
+  const selectedVariant = findMatchingVariant(productFeatureStore.getProductsByGroupId(props.productGroupId));
   if (selectedVariant) {
     selectedProductId.value = selectedVariant.productId;
   }

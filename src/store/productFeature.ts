@@ -8,8 +8,8 @@ export const useProductFeatureStore = defineStore('productFeature', {
     isLoading: false
   }),
   getters: {
-    getProducts: (state) => (productGroupId: string) => state.products[productGroupId] || [],
-    getIsLoading: (state) => state.isLoading
+    getProductsByGroupId: (state) => (productGroupId: string) => state.products[productGroupId] || [],
+    isLoading: (state) => state.isLoading
   },
   actions: {
     async fetchProductsByGroupId(productGroupId: string) {
@@ -22,7 +22,7 @@ export const useProductFeatureStore = defineStore('productFeature', {
         const authStore = useAuthStore();
         const baseUrl = authStore.getBaseUrl;
         const response = await api({
-          url: `${baseUrl}searchProducts`,
+          url: `${baseUrl}/searchProducts`,
           method: "post",
           data: {
             "filters": [
@@ -37,11 +37,9 @@ export const useProductFeatureStore = defineStore('productFeature', {
           this.products[productGroupId] = response.data.response.docs;
           return this.products[productGroupId];
         } else {
-          // console.warn('No products found or error in response');
           return [];
         }
       } catch (error) {
-        // console.error('Error fetching products:', error);
         return [];
       } finally {
         this.isLoading = false;
