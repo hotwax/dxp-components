@@ -127,7 +127,7 @@ const userProfile: any = computed(() => appState.getters['user/getUserProfile'])
 const timeZones = computed(() => userStore.getTimeZones)
 const currentTimeZoneId = computed(() => userStore.getCurrentTimeZone)
 
-const isLoading = ref(false);
+const isLoading = ref(true);
 const timeZoneModal = ref();
 const queryString = ref('');
 const filteredTimeZones = ref([])
@@ -212,5 +212,6 @@ function search() {
 function clearSearch() {
   queryString.value = ''
   filteredTimeZones.value = []
+  isLoading.value = true
 }
 </script>
