@@ -8,12 +8,14 @@ export const useProductIdentificationStore = defineStore('productIdentification'
         primaryId: '',
         secondaryId: ''
       },
-      productIdentificationOptions: []
+      productIdentificationOptions: [],
+      goodIdentificationOptions: []
     }
   },
   getters: {
     getProductIdentificationPref: (state) => state.productIdentificationPref,
-    getProductIdentificationOptions: (state) => state.productIdentificationOptions
+    getProductIdentificationOptions: (state) => state.productIdentificationOptions,
+    getGoodIdentificationOptions: (state) => state.goodIdentificationOptions
   },
   actions: {
     async setProductIdentificationPref(id: string, value: string, eComStoreId: string) {
@@ -55,6 +57,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
   
       // Merge the arrays and remove duplicates
       this.productIdentificationOptions = Array.from(new Set([...productIdentificationOptions, ...fetchedGoodIdentificationOptions])).sort();
+      this.goodIdentificationOptions = fetchedGoodIdentificationOptions
     }
   }
 })
