@@ -49,12 +49,18 @@ export const useProductIdentificationStore = defineStore('productIdentification'
     },
     async prepareProductIdentifierOptions() {
       //static identifications 
-      const productIdentificationOptions = ["productId", "groupId", "groupName", "internalName", "parentProductName", "primaryProductCategoryName", "title"];
-      
+      const productIdentificationOptions = [
+        { goodIdentificationTypeId: "productId", description: "Product ID" },
+        { goodIdentificationTypeId: "groupId", description: "Group ID" },
+        { goodIdentificationTypeId: "groupName", description: "Group Name" },
+        { goodIdentificationTypeId: "internalName", description: "Internal Name" },
+        { goodIdentificationTypeId: "parentProductName", description: "Parent Product Name" },
+        { goodIdentificationTypeId: "primaryProductCategoryName", description: "Primary Product Category Name" },
+        { goodIdentificationTypeId: "title", description: "Title" }
+      ]
       //good identification types
       const fetchedGoodIdentificationTypes = await productIdentificationContext.fetchGoodIdentificationTypes("HC_GOOD_ID_TYPE");
-      const fetchedGoodIdentificationOptions = fetchedGoodIdentificationTypes?.map((fetchedGoodIdentificationType: any) => fetchedGoodIdentificationType.goodIdentificationTypeId) || [];
-  
+      const fetchedGoodIdentificationOptions = fetchedGoodIdentificationTypes || []
       // Merge the arrays and remove duplicates
       this.productIdentificationOptions = Array.from(new Set([...productIdentificationOptions, ...fetchedGoodIdentificationOptions])).sort();
       this.goodIdentificationOptions = fetchedGoodIdentificationOptions
