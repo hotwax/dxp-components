@@ -92,7 +92,6 @@ import {
 import { closeOutline, saveOutline } from "ionicons/icons";
 import { useUserStore } from 'src/store/user';
 import { computed, ref } from 'vue';
-
 const userStore = useUserStore();
 
 const facilities = computed(() => userStore.getFacilites)
