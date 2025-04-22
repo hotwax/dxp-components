@@ -175,6 +175,7 @@ export const useUserStore = defineStore('user', {
     async setEComStorePreference(payload: any) {
       const appState = appContext.config.globalProperties.$store;
       const userProfile = appState.getters['user/getUserProfile']
+
       try {
         await productStoreContext.setUserPreference({
           userPrefTypeId: 'SELECTED_BRAND',
