@@ -28,3 +28,4 @@ export { default as DxpProductStoreSelector } from "./DxpProductStoreSelector.vu
 export { default as DxpShopifyImg } from './DxpShopifyImg.vue';
 export { default as DxpUserProfile } from './DxpUserProfile.vue'
 export { default as DxpTimeZoneSwitcher } from './DxpTimeZoneSwitcher.vue'
+export {default as DxpProductFeatures } from './DxpProductFeatures.vue'
