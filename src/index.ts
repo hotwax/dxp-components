@@ -10,6 +10,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
 import { useUserStore } from "./store/user";
 import { IonicVue } from '@ionic/vue';
+import imagePreview from "./directives/imagePreview";
 
 import "./service-worker"
 
@@ -82,6 +83,8 @@ export let dxpComponents = {
     app.component('DxpShopifyImg', DxpShopifyImg)
     app.component('DxpTimeZoneSwitcher', DxpTimeZoneSwitcher)
     app.component('DxpUserProfile', DxpUserProfile)
+
+    app.directive('image-preview', imagePreview)
 
     showToast = options.showToast
 
