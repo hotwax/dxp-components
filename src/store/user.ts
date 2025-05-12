@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { i18n, translate, userContext, useAuthStore } from "../../src";
+import { appContext, i18n, translate, userContext, useAuthStore } from "../../src";
 import { DateTime } from "luxon";
 import { showToast } from "src/utils";
 import { facilityContext } from "../index";
@@ -85,18 +85,18 @@ export const useUserStore = defineStore('user', {
       this.currentTimeZoneId = tzId
     },
     // Facility api calls - retrieve user facilities & get/set preferred facility
-    async getUserFacilities(partyId: any, facilityGroupId: any, isAdminUser: boolean) {
+    async getUserFacilities(partyId: any, facilityGroupId: any, isAdminUser: boolean, payload?: any) {
       const authStore = useAuthStore();
 
       try {
-        const response = await facilityContext.getUserFacilities(authStore.getToken.value, authStore.getBaseUrl, partyId, facilityGroupId, isAdminUser);
+        const response = await facilityContext.getUserFacilities(authStore.getToken.value, authStore.getBaseUrl, partyId, facilityGroupId, isAdminUser, payload);
         this.facilities = response;
       } catch (error) {
         console.error(error);
       }
       return this.facilities
     },
-    async getFacilityPreference(userPrefTypeId: any) {
+    async getFacilityPreference(userPrefTypeId: any, userId?: any) {
       const authStore = useAuthStore();
 
       if (!this.facilities.length) {
@@ -105,7 +105,7 @@ export const useUserStore = defineStore('user', {
       let preferredFacility = this.facilities[0];
    
       try {
-        let preferredFacilityId = await facilityContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId);
+        let preferredFacilityId = await facilityContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId, userId);
         if(preferredFacilityId) {
           const facility = this.facilities.find((facility: any) => facility.facilityId === preferredFacilityId);
           facility && (preferredFacility = facility)
@@ -116,11 +116,14 @@ export const useUserStore = defineStore('user', {
       this.currentFacility = preferredFacility;
     },
     async setFacilityPreference(payload: any) {
+      const appState = appContext.config.globalProperties.$store;
+      const userProfile = appState.getters['user/getUserProfile']
 
       try {
         await facilityContext.setUserPreference({
           userPrefTypeId: 'SELECTED_FACILITY',
-          userPrefValue: payload.facilityId
+          userPrefValue: payload.facilityId,
+          userId: userProfile.userId
         }) 
       } catch (error) {
         console.error('error', error)
@@ -150,7 +153,7 @@ export const useUserStore = defineStore('user', {
       }
       return this.eComStores
     },
-    async getEComStorePreference(userPrefTypeId: any) {
+    async getEComStorePreference(userPrefTypeId: any, userId?: any) {
       const authStore = useAuthStore();
 
       if(!this.eComStores.length) {
@@ -158,7 +161,7 @@ export const useUserStore = defineStore('user', {
       }
       let preferredStore = this.eComStores[0];
       try {
-        let preferredStoreId = await productStoreContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId);
+        let preferredStoreId = await productStoreContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId, userId);
 
         if(preferredStoreId) {
           const store = this.eComStores.find((store: any) => store.productStoreId === preferredStoreId);
@@ -170,11 +173,14 @@ export const useUserStore = defineStore('user', {
       this.currentEComStore = preferredStore;
     },
     async setEComStorePreference(payload: any) {
+      const appState = appContext.config.globalProperties.$store;
+      const userProfile = appState.getters['user/getUserProfile']
 
       try {
         await productStoreContext.setUserPreference({
           userPrefTypeId: 'SELECTED_BRAND',
-          userPrefValue: payload.productStoreId
+          userPrefValue: payload.productStoreId,
+          userId: userProfile.userId
         }) 
       } catch (error) {
         console.error('error', error)
