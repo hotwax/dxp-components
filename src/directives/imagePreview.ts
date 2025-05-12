@@ -8,7 +8,7 @@ export default {
     const imageUrl = binding.value?.mainImageUrl;
     const productName = binding.value?.productName;
 
-    const openModal = async () => {
+    const openModal = () => {
       const container = document.createElement("div")
       el.appendChild(container)
 

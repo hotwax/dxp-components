@@ -1,6 +1,6 @@
 <template>
   <ion-modal :is-open="true" @didDismiss="closeModal">
-    <ion-header :translucent="true">
+    <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-button @click="closeModal">
