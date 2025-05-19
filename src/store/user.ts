@@ -85,7 +85,7 @@ export const useUserStore = defineStore('user', {
       this.currentTimeZoneId = tzId
     },
     // Facility api calls - retrieve user facilities & get/set preferred facility
-    async getUserFacilities(partyId: any, facilityGroupId: any, isAdminUser: boolean, payload?: any) {
+    async getUserFacilities(partyId: any, facilityGroupId: any, isAdminUser: boolean, payload = {}) {
       const authStore = useAuthStore();
 
       try {
@@ -96,7 +96,7 @@ export const useUserStore = defineStore('user', {
       }
       return this.facilities
     },
-    async getFacilityPreference(userPrefTypeId: any, userId?: any) {
+    async getFacilityPreference(userPrefTypeId: any, userId = "") {
       const authStore = useAuthStore();
 
       if (!this.facilities.length) {
@@ -153,7 +153,7 @@ export const useUserStore = defineStore('user', {
       }
       return this.eComStores
     },
-    async getEComStorePreference(userPrefTypeId: any, userId?: any) {
+    async getEComStorePreference(userPrefTypeId: any, userId = "") {
       const authStore = useAuthStore();
 
       if(!this.eComStores.length) {
