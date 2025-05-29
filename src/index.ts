@@ -11,6 +11,7 @@ import { createI18n } from 'vue-i18n'
 import { useUserStore } from "./store/user";
 import { IonicVue } from '@ionic/vue';
 import imagePreview from "./directives/imagePreview";
+import { useFormValidator } from "./composables/useFormValidation";
 
 import "./service-worker"
 
@@ -162,6 +163,7 @@ export {
   shopifyImgContext,
   translate,
   useAuthStore,
+  useFormValidator,
   useProductIdentificationStore,
   useUserStore,
   userContext
