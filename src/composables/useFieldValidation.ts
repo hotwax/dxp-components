@@ -1,5 +1,5 @@
-import { useField } from 'vee-validate'
-import { buildYupSchema } from './util';
+import { useField } from "vee-validate";
+import { buildYupSchema } from "./buildYupSchema";
 
 export function useFieldValidator(fieldName: string, rules: any, initialValue?: any) {
   const schema = buildYupSchema(rules)

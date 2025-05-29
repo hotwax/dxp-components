@@ -1,6 +1,6 @@
-import { useForm } from 'vee-validate'
-import * as yup from 'yup'
-import { buildYupSchema } from './util';
+import { useForm } from "vee-validate";
+import * as yup from "yup";
+import { buildYupSchema } from "./buildYupSchema";
 
 export function useFormValidator(fields: any, initialValues?: any) {
   const schemaShape: Record<string, yup.AnySchema> = {}
