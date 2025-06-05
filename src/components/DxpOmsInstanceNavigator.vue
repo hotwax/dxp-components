@@ -11,7 +11,7 @@
     <ion-card-content>
       {{ $t('This is the name of the OMS you are connected to right now. Make sure that you are connected to the right instance before proceeding.') }}
     </ion-card-content>
-    <ion-button :class="{ 'pwa-hidden': !appContext.hasPermission(appContext.Actions.APP_PWA_STANDALONE_ACCESS) }" @click="goToOms(token.value, oms)" fill="clear" :disabled="!appContext.hasPermission(appContext.Actions.APP_COMMERCE_VIEW)">
+    <ion-button :standalone-hidden="!appContext.hasPermission(appContext.Actions.APP_PWA_STANDALONE_ACCESS)" @click="goToOms(token.value, oms)" fill="clear" :disabled="!appContext.hasPermission(appContext.Actions.APP_COMMERCE_VIEW)">
       {{ $t('Go to OMS') }}
       <ion-icon slot="end" :icon="openOutline" />
     </ion-button>
@@ -43,7 +43,7 @@ const oms = computed(() => authStore.getOms)
 <style scoped>
 /* Added conditional hiding in standalone mode that respects user permissions */
 @media (display-mode: standalone) {
-  .pwa-hidden {
+  [standalone-hidden] {
     display: none;
   }
 }
