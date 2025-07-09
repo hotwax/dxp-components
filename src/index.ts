@@ -43,11 +43,13 @@ const updateAvailable = ($event: any) => {
 }
 
 document.addEventListener('swUpdated', updateAvailable, { once: true })
-navigator.serviceWorker.addEventListener('controllerchange', () => {
-  if (refreshing) return
-  refreshing = true
-  window.location.reload()
-})
+if(navigator.serviceWorker) {
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (refreshing) return
+    refreshing = true
+    window.location.reload()
+  })
+}
 
 // executed on app initialization
 export let dxpComponents = {
