@@ -54,11 +54,11 @@ onMounted(async () => {
     return
   }
 
-  const { token, oms, expirationTime, omsRedirectionUrl } = route.query
-  await handleUserFlow(token, oms, expirationTime, omsRedirectionUrl)
+  const { token, oms, expirationTime, omsRedirectionUrl ,isEmbedded} = route.query
+  await handleUserFlow(token, oms, expirationTime, omsRedirectionUrl, isEmbedded)
 });
 
-async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "") {
+async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "", isEmbedded: string) {
   // fetch the current config for the user
   const appConfig = loginContext.getConfig()
 
@@ -86,7 +86,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
   context.loader.present('Logging in')
   try {
     // redirect route will be returned for certain cases
-    const redirectRoute = await context.login({ token, oms, omsRedirectionUrl })
+    const redirectRoute = await context.login({ token, oms, omsRedirectionUrl, isEmbedded})
 
     const userStore = useUserStore()
     // to access baseUrl as we store only OMS in DXP
