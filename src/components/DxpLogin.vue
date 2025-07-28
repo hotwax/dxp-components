@@ -50,23 +50,15 @@ const error = ref({
 })
 
 onMounted(async () => {
-  // This will be regular launchpad's each time.
-  context.appLoginUrl = getAppLoginUrl()
-
   if (!Object.keys(route.query).length) {
     window.location.replace(context.appLoginUrl)
     return
   }
 
   const { token, oms, expirationTime, omsRedirectionUrl ,isEmbedded} = route.query
-  // Update the flag in auth, since the store is updated app login url will be embedded luanchpad's url. 
-  
-  if (isEmbedded) {
-    authStore.isEmbedded = isEmbedded == 'true'? true : false
-    
-    context.appLoginUrl = getAppLoginUrl()    
-  }
-  await handleUserFlow(token, oms, expirationTime, omsRedirectionUrl, authStore.isEmbedded)
+  // Update the flag in auth, since the store is updated app login url will be embedded luanchpad's url.
+  const isEmbeddedFlag = isEmbedded === 'true'
+  await handleUserFlow(token, oms, expirationTime, omsRedirectionUrl, isEmbeddedFlag)
 });
 
 async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "", isEmbedded: boolean) {
@@ -83,11 +75,17 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
   if (+expirationTime < DateTime.now().toMillis()) {
     console.error('User token has expired, redirecting to launchpad.')
     error.value.message = 'User token has expired, redirecting to launchpad.'
+
+    // This will be the url of referer launchpad, we maintain two launchpads.
+    // The launchpad urls are defined the env file in each PW App. 
+    // Setting this flag here because it is needed to identify the launchpad's URL, this will updated in this function later.
+    authStore.isEmbedded = isEmbedded
+    const appLoginUrl = getAppLoginUrl()
     if (isEmbedded) {
-      window.location.replace(getAppLoginUrl())
+      window.location.replace(appLoginUrl)
     } else {
       const redirectUrl = window.location.origin + '/login' // current app URL
-      window.location.replace(`${getAppLoginUrl()}?isLoggedOut=true&redirectUrl=${redirectUrl}`)
+      window.location.replace(`${appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`)
     }
     return
   }
