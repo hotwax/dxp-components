@@ -9,7 +9,8 @@ export const useAuthStore = defineStore('userAuth', {
         value: '',
         expiration: undefined
       },
-      oms: ''
+      oms: '',
+      isEmbedded: false
     }
   },
   getters: {
