@@ -38,6 +38,7 @@ import {
   useUserStore
 } from "../index"
 import { DateTime } from "luxon"
+import { getAppLoginUrl } from "src/utils";
 declare var process: any;
 
 const authStore = useAuthStore()
@@ -49,16 +50,26 @@ const error = ref({
 })
 
 onMounted(async () => {
+  // This will be regular launchpad's each time.
+  context.appLoginUrl = getAppLoginUrl()
+
   if (!Object.keys(route.query).length) {
     window.location.replace(context.appLoginUrl)
     return
   }
 
   const { token, oms, expirationTime, omsRedirectionUrl ,isEmbedded} = route.query
-  await handleUserFlow(token, oms, expirationTime, omsRedirectionUrl, isEmbedded)
+  // Update the flag in auth, since the store is updated app login url will be embedded luanchpad's url. 
+  
+  if (isEmbedded) {
+    authStore.isEmbedded = isEmbedded == 'true'? true : false
+    
+    context.appLoginUrl = getAppLoginUrl()    
+  }
+  await handleUserFlow(token, oms, expirationTime, omsRedirectionUrl, authStore.isEmbedded)
 });
 
-async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "", isEmbedded: string) {
+async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "", isEmbedded: boolean) {
   // fetch the current config for the user
   const appConfig = loginContext.getConfig()
 
@@ -72,15 +83,20 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
   if (+expirationTime < DateTime.now().toMillis()) {
     console.error('User token has expired, redirecting to launchpad.')
     error.value.message = 'User token has expired, redirecting to launchpad.'
-    const redirectUrl = window.location.origin + '/login' // current app URL
-    window.location.replace(`${context.appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`)
+    if (isEmbedded) {
+      window.location.replace(getAppLoginUrl())
+    } else {
+      const redirectUrl = window.location.origin + '/login' // current app URL
+      window.location.replace(`${getAppLoginUrl()}?isLoggedOut=true&redirectUrl=${redirectUrl}`)
+    }
     return
   }
 
   // update the previously set values if the user opts ending the previous session
   authStore.$patch({
     token: { value: token, expiration: expirationTime as any },
-    oms
+    oms,
+    isEmbedded
   })
 
   context.loader.present('Logging in')
@@ -116,7 +132,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
 }
 
 function goToLaunchpad() {
-  window.location.replace(process.env.VUE_APP_LOGIN_URL)
+  window.location.replace(getAppLoginUrl())
 }
 </script>
 
