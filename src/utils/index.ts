@@ -3,6 +3,7 @@ import { DateTime } from "luxon";
 import { translate } from "src";
 import DxpGitBookSearch from "../components/DxpGitBookSearch.vue";
 import { computed, ref } from "vue";
+import { Plugins } from '@capacitor/core';
 
 const goToOms = (token: string, oms: string) => {
   const link = (oms.startsWith('http') ? oms.replace(/\/api\/?|\/$/, "") : `https://${oms}.hotwax.io`) + `/commerce/control/main?token=${token}`
@@ -53,9 +54,21 @@ const getCurrentTime = (zone: string, format = 't ZZZZ') => {
   return DateTime.now().setZone(zone).toFormat(format)
 }
 
+//Copy to clipboard
+const copyToClipboard = async (value: string, text?: string) => {
+  const { Clipboard } = Plugins;
+
+  await Clipboard.write({
+    string: value,
+  }).then(() => {
+    text ? showToast(translate(text)) : showToast(translate("Copied", { value }));
+  });
+}
+
 export {
   getCurrentTime,
   getProductIdentificationValue,
   goToOms,
-  showToast
+  showToast,
+  copyToClipboard
 }
