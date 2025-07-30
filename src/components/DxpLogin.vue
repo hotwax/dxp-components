@@ -55,13 +55,13 @@ onMounted(async () => {
     return
   }
 
-  const { token, oms, expirationTime, omsRedirectionUrl ,isEmbedded} = route.query
+  const { token, oms, expirationTime, omsRedirectionUrl, isEmbedded, shop, host} = route.query
   // Update the flag in auth, since the store is updated app login url will be embedded luanchpad's url.
   const isEmbeddedFlag = isEmbedded === 'true'
-  await handleUserFlow(token, oms, expirationTime, omsRedirectionUrl, isEmbeddedFlag)
+  await handleUserFlow(token, oms, expirationTime, omsRedirectionUrl, isEmbeddedFlag, shop, host)
 });
 
-async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "", isEmbedded: boolean) {
+async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "", isEmbedded: boolean, shop: string, host: string) {
   // fetch the current config for the user
   const appConfig = loginContext.getConfig()
 
@@ -80,6 +80,8 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
     // The launchpad urls are defined the env file in each PW App. 
     // Setting this flag here because it is needed to identify the launchpad's URL, this will updated in this function later.
     authStore.isEmbedded = isEmbedded
+    authStore.shop = shop? shop: undefined
+    authStore.host = host? host: undefined
     const appLoginUrl = getAppLoginUrl()
     if (isEmbedded) {
       window.location.replace(appLoginUrl)
@@ -94,7 +96,9 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
   authStore.$patch({
     token: { value: token, expiration: expirationTime as any },
     oms,
-    isEmbedded
+    isEmbedded,
+    shop: shop as any,
+    host: host as any
   })
 
   context.loader.present('Logging in')
