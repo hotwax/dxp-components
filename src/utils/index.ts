@@ -58,7 +58,7 @@ const getCurrentTime = (zone: string, format = 't ZZZZ') => {
 const getAppLoginUrl = () => {
   const authStore = useAuthStore();
   if (authStore.isEmbedded) {
-    return process.env.VUE_APP_EMBEDDED_LAUNCHPAD_URL
+    return `${process.env.VUE_APP_EMBEDDED_LAUNCHPAD_URL}/?shop=${authStore.shop}&host=${authStore.host}`
   } else {
     return process.env.VUE_APP_LOGIN_URL
   }
