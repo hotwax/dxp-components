@@ -80,8 +80,8 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
     // The launchpad urls are defined the env file in each PW App. 
     // Setting this flag here because it is needed to identify the launchpad's URL, this will updated in this function later.
     authStore.isEmbedded = isEmbedded
-    authStore.shop = shop? shop: undefined
-    authStore.host = host? host: undefined
+    authStore.shop = shop
+    authStore.host = host
     const appLoginUrl = getAppLoginUrl()
     if (isEmbedded) {
       window.location.replace(appLoginUrl)
@@ -104,7 +104,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
   context.loader.present('Logging in')
   try {
     // redirect route will be returned for certain cases
-    const redirectRoute = await context.login({ token, oms, omsRedirectionUrl, isEmbedded})
+    const redirectRoute = await context.login({ token, oms, omsRedirectionUrl})
 
     const userStore = useUserStore()
     // to access baseUrl as we store only OMS in DXP
