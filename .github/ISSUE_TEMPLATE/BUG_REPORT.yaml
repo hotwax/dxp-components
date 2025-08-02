@@ -38,15 +38,14 @@ body:
     attributes:
       label: App Version
       placeholder: v1.0.0
-      render: markdown
     validations:
       required: true
   - type: dropdown
     attributes:
       label: Can you handle fixing this bug by yourself?
       options:
-        - Yes
-        - No
+        - 'Yes'
+        - 'No'
       default: 1
     validations:
       required: true
