@@ -145,11 +145,20 @@ We can have the following types of buttons to submit the form:
 
 This component emits an event `submitForm` that will be handled by the parent component to perform required steps.
 
-Validations in this component will be applied on the basis of type property defined in the component schema. For validation we need to define the structure for rules.
+Validations in the specific component will be applied on the basis of validations property array defined in the component schema.
+
+Following validations are supported:
+'required'
+'email'
+'number'
+'mobile' (10–15 digits, optional +)
+{ type: 'min' | 'max', value: number } (for numbers)
+{ type: 'minLength' | 'maxLength', value: number } (for strings)
+
 
 All the elements will be displayed in ion-list wrapped by ion-item.
 
-Define an object consisting the type of component and actual Ionic component using which we will decide which component to render on the UI.
+Define an object/enum consisting the type of component and actual Ionic component using which we will decide which component to render on the UI.
 enum Components {
   input: "IonInput",
   select: "IonSelect",
