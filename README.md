@@ -72,13 +72,13 @@ No methods are available for this component
 
 ## DxpForm
 
-This components handles creation and validation of the forms in the app. It wraps the logic for form creation and validation from the developers and then can directly define the form elements and pass the same in this component that automatically renders a Ionic form to be used in the app.
+This component handles creation and validation of the forms in the app. It hides the logic for form creation and validation from the developers and they can directly define the form elements and pass the schema in this component that renders a Ionic form to be used in the app.
 
 ## Usage
 
 ```html
 <template>
-  <DxpForm :schema="{}" />
+  <DxpForm :schema="{}" :fabSaveButton="true" :blockSaveButton="false" />
 </template>
 <script></script>
 ```
@@ -104,6 +104,7 @@ This components handles creation and validation of the forms in the app. It wrap
 | submitForm | Trigged when the form is submitted by the user |
 
 ## Methods
+No methods are available for this component.
 
 ## Recommendation
 
@@ -121,7 +122,7 @@ schema: {
   }
 }
 
-Following components are currently support: 
+Following values are currently supported as component-name: 
 
 input
 select
