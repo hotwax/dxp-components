@@ -22,18 +22,18 @@
         <ion-select-option value="">{{ "None" }}</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-item lines="full" color="light">
-      <ion-label color="medium">{{ 'Preview Product Identifier' }}</ion-label>
+    <ion-item lines="full" color="light" v-if="currentShuffledProduct">
+      <ion-label color="medium">{{ $t('Preview Product Identifier') }}</ion-label>
     </ion-item>
     <ion-item lines="none">
       <ion-thumbnail slot="start">
-        <DxpImage :src="currentShuffledProduct.images.mainImageUrl" />
+        <DxpImage :src="currentShuffledProduct.mainImageUrl" />
       </ion-thumbnail>
       <ion-label>
         {{ getProductIdentificationValue(productIdentificationPref.primaryId, currentShuffledProduct) ? getProductIdentificationValue(productIdentificationPref.primaryId, currentShuffledProduct) : currentShuffledProduct.productId }}
-        <p>{{ getProductIdentificationValue(productIdentificationPref.secondaryId, currentShuffledProduct) }}</p>
+        <p>{{ getProductIdentificationValue(productIdentificationPref.secondaryId, currentShuffledProduct) ? getProductIdentificationValue(productIdentificationPref.secondaryId, currentShuffledProduct) : currentShuffledProduct.productId }}</p>
       </ion-label>
-      <ion-button fill="clear" @click="shuffle" >  
+      <ion-button fill="clear" @click="shuffle">  
         <ion-icon slot="icon-only" :icon="shuffleOutline"/>
       </ion-button>
     </ion-item>
