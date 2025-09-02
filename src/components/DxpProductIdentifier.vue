@@ -22,6 +22,21 @@
         <ion-select-option value="">{{ "None" }}</ion-select-option>
       </ion-select>
     </ion-item>
+    <ion-item lines="full" color="light">
+      <ion-label color="medium">{{ 'Preview Product Identifier' }}</ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-thumbnail slot="start">
+        <DxpImage :src="currentShuffledProduct.images.mainImageUrl" />
+      </ion-thumbnail>
+      <ion-label>
+        {{ getProductIdentificationValue(productIdentificationPref.primaryId, currentShuffledProduct) ? getProductIdentificationValue(productIdentificationPref.primaryId, currentShuffledProduct) : currentShuffledProduct.productId }}
+        <p>{{ getProductIdentificationValue(productIdentificationPref.secondaryId, currentShuffledProduct) }}</p>
+      </ion-label>
+      <ion-button fill="clear" @click="shuffle" >  
+        <ion-icon slot="icon-only" :icon="shuffleOutline"/>
+      </ion-button>
+    </ion-item>
   </ion-card>
 </template>
 
@@ -30,7 +45,8 @@ import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonSelec
 import { useProductIdentificationStore } from 'src/store/productIdentification';
 import { useUserStore } from 'src/store/user'
 import { computed, onMounted } from 'vue';
-import { appContext } from "../index";
+import { appContext, DxpImage, DxpShopifyImg, getProductIdentificationValue } from "../index";
+import { shuffleOutline } from "ionicons/icons";
 
 const productIdentificationStore = useProductIdentificationStore();
 const userStore = useUserStore()
@@ -38,14 +54,19 @@ const userStore = useUserStore()
 const currentEComStore = computed(() =>  userStore.getCurrentEComStore)
 const productIdentificationPref = computed(() => productIdentificationStore.getProductIdentificationPref);
 const productIdentificationOptions = computed(() => productIdentificationStore.getProductIdentificationOptions);
-
+const currentShuffledProduct = computed(() => productIdentificationStore.getCurrentShuffledProduct)
 onMounted(() => {
   productIdentificationStore.prepareProductIdentifierOptions();
   productIdentificationStore.getIdentificationPref(currentEComStore.value.productStoreId);
+  productIdentificationStore.fetchProducts(); 
 })
 
 function setProductIdentificationPref(value: string | any, id: string) {
   productIdentificationStore.setProductIdentificationPref(id, value, currentEComStore.value.productStoreId)
+}
+
+function shuffle() {
+  productIdentificationStore.shuffleProduct()
 }
 
 </script>
