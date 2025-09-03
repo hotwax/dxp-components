@@ -109,6 +109,8 @@ export let dxpComponents = {
     productIdentificationContext.getProductIdentificationPref = options.getProductIdentificationPref
     productIdentificationContext.setProductIdentificationPref = options.setProductIdentificationPref
     productIdentificationContext.fetchGoodIdentificationTypes = options.fetchGoodIdentificationTypes
+    productIdentificationContext.fetchProduct = options.fetchProduct
+
 
     facilityContext.getUserFacilities = options.getUserFacilities
     facilityContext.setUserPreference = options.setUserPreference
