@@ -27,11 +27,11 @@
     </ion-item>
     <ion-item lines="none">
       <ion-thumbnail slot="start">
-        <DxpImage :src="currentShuffledProduct.mainImageUrl" />
+        <DxpImage :src="currentShuffledProduct.mainImageUrl"/>
       </ion-thumbnail>
       <ion-label>
         {{ getProductIdentificationValue(productIdentificationPref.primaryId, currentShuffledProduct) ? getProductIdentificationValue(productIdentificationPref.primaryId, currentShuffledProduct) : currentShuffledProduct.productId }}
-        <p>{{ getProductIdentificationValue(productIdentificationPref.secondaryId, currentShuffledProduct) ? getProductIdentificationValue(productIdentificationPref.secondaryId, currentShuffledProduct) : currentShuffledProduct.productId }}</p>
+        <p>{{ getProductIdentificationValue(productIdentificationPref.secondaryId, currentShuffledProduct) }}</p>
       </ion-label>
       <ion-button fill="clear" @click="shuffle">  
         <ion-icon slot="icon-only" :icon="shuffleOutline"/>

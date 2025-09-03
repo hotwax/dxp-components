@@ -76,7 +76,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
           this.shuffledProducts = products.data.response.docs;
           this.shuffleProduct()
         } catch (error) {
-          console.log(error)
+          console.error(error)
         }
       }
     },
