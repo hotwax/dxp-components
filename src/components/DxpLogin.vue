@@ -38,7 +38,7 @@ import {
   useUserStore
 } from "../index"
 import { DateTime } from "luxon"
-import { createShopifyAppBridge, getAppLoginUrl, getSessionTokenFromShopify } from "src/utils";
+import { createShopifyAppBridge, getSessionTokenFromShopify } from "src/utils";
 import { shopifyAppUserLogin } from "@hotwax/oms-api";
 declare var process: any;
 
@@ -90,19 +90,8 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
     console.error('User token has expired, redirecting to launchpad.')
     error.value.message = 'User token has expired, redirecting to launchpad.'
 
-    // This will be the url of referer launchpad, we maintain two launchpads.
-    // The launchpad urls are defined the env file in each PW App. 
-    // Setting this flag here because it is needed to identify the launchpad's URL, this will updated in this function later.
-    authStore.isEmbedded = isEmbedded
-    authStore.shop = shop
-    authStore.host = host
-    const appLoginUrl = getAppLoginUrl()
-    if (isEmbedded) {
-      window.location.replace(appLoginUrl)
-    } else {
       const redirectUrl = window.location.origin + '/login' // current app URL
-      window.location.replace(`${appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`)
-    }
+      window.location.replace(`${context.appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`)
     return
   }
 
@@ -149,7 +138,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
 }
 
 function goToLaunchpad() {
-  window.location.replace(getAppLoginUrl())
+  window.location.replace(process.env.VUE_APP_LOGIN_URL)
 }
 
 async function appBridgeLogin(shop: string, host: string) {
