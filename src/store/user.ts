@@ -36,13 +36,15 @@ export const useUserStore = defineStore('user', {
       newLocale = this.locale
       // handling if locale is not coming from userProfile
       try {
+        const appState = appContext.config.globalProperties.$store;
+        const userProfile = appState.getters['user/getUserProfile']
         if (locale) {
           matchingLocale = Object.keys(this.localeOptions).find((option: string) => option === locale)
           // If exact locale is not found, try to match the first two characters i.e primary code
           matchingLocale = matchingLocale || Object.keys(this.localeOptions).find((option: string) => option.slice(0, 2) === locale.slice(0, 2))
           newLocale = matchingLocale || this.locale
           // update locale in state and globally
-          if(userContext.setUserLocale) await userContext.setUserLocale({ newLocale })
+          if(userContext.setUserLocale) await userContext.setUserLocale({ userId: userProfile.userId, newLocale })
         }
       } catch (error) {
         console.error(error)
@@ -58,7 +60,10 @@ export const useUserStore = defineStore('user', {
       }
 
       try {
-        await userContext.setUserTimeZone({ tzId })
+        const appState = appContext.config.globalProperties.$store;
+        const userProfile = appState.getters['user/getUserProfile']
+
+        await userContext.setUserTimeZone({ userId: userProfile.userId, tzId })
         this.currentTimeZoneId = tzId
 
         showToast(translate("Time zone updated successfully"));
