@@ -69,10 +69,10 @@ export const useProductIdentificationStore = defineStore('productIdentification'
       this.goodIdentificationOptions = fetchedGoodIdentificationOptions
     },
     async fetchProducts() {
-      const params = { viewSize: 50 }
-      if (productIdentificationContext.fetchProduct) {
+      const params = { viewSize: 10 }
+      if (productIdentificationContext.fetchProducts) {
         try {
-          const products = await productIdentificationContext.fetchProduct(params)
+          const products = await productIdentificationContext.fetchProducts(params)
           this.shuffledProducts = products.data.response.docs;
           this.shuffleProduct()
         } catch (error) {
