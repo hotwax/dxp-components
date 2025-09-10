@@ -184,7 +184,7 @@ async function appBridgeLogin(shop: string, host: string) {
 
     loginResponse = await loginShopifyAppUser(`${maargUrl}/rest/s1/`, loginPayload);
 
-    if (!loginResponse?.data?.token) {
+    if (!loginResponse?.token) {
       throw "Login response doesn't have token, cannot proceed further.";
     }
   } catch (e) {
@@ -193,10 +193,10 @@ async function appBridgeLogin(shop: string, host: string) {
     return;
   }
 
-  console.log("This is login response : ", loginResponse.data);
-  const loginToken = loginResponse.data.token;
-  const omsInstanceUrl = loginResponse.data.omsInstanceUrl;
-  const expiresAt = loginResponse.data.expiresAt;
+  console.log("This is login response : ", loginResponse);
+  const loginToken = loginResponse.token;
+  const omsInstanceUrl = loginResponse.omsInstanceUrl;
+  const expiresAt = loginResponse.expiresAt;
   const appConfig: any = loginContext.getConfig();
   console.log("This is app config: ", appConfig);
   // If the system type is MOQUI then we need to pass the baseURL as oms and omsInstanceUrl as redirection url
