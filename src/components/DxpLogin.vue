@@ -39,7 +39,7 @@ import {
 } from "../index"
 import { DateTime } from "luxon"
 import { createShopifyAppBridge, getSessionTokenFromShopify } from "src/utils";
-import { shopifyAppUserLogin } from "@hotwax/oms-api";
+import { loginShopifyAppUser } from "@hotwax/oms-api";
 declare var process: any;
 
 const authStore = useAuthStore()
@@ -182,7 +182,7 @@ async function appBridgeLogin(shop: string, host: string) {
     // This is the maarg url mapped with the shop domain.
     console.log("This is maarg url: ", maargUrl)
 
-    loginResponse = await shopifyAppUserLogin(`${maargUrl}/rest/s1/`, loginPayload);
+    loginResponse = await loginShopifyAppUser(`${maargUrl}/rest/s1/`, loginPayload);
 
     if (!loginResponse?.data?.token) {
       throw "Login response doesn't have token, cannot proceed further.";
