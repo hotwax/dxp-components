@@ -182,7 +182,7 @@ async function appBridgeLogin(shop: string, host: string) {
     // This is the maarg url mapped with the shop domain.
     console.log("This is maarg url: ", maargUrl)
 
-    loginResponse = await shopifyAppUserLogin(authStore.getBaseUrl, loginPayload);
+    loginResponse = await shopifyAppUserLogin(`${maargUrl}/rest/s1/`, loginPayload);
 
     if (!loginResponse?.data?.token) {
       throw "Login response doesn't have token, cannot proceed further.";
