@@ -185,7 +185,7 @@ async function appBridgeLogin(shop: string, host: string) {
     loginResponse = await loginShopifyAppUser(`${maargUrl}/rest/s1/`, loginPayload);
 
     if (!loginResponse?.token) {
-      throw "Login response doesn't have token, cannot proceed further.";
+      throw new Error("Login response doesn't have token, cannot proceed further.");
     }
   } catch (e) {
     console.error("Error ", e);
