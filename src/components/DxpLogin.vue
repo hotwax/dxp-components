@@ -64,7 +64,6 @@ onMounted(async () => {
   }
 
   const { token, oms, expirationTime, omsRedirectionUrl, embedded, shop, host } = route.query
-  console.log("This is route and it's query: ", route, " and. ", route.query);
   isEmbedded = isEmbedded || embedded === '1'
 
   if (isEmbedded) {
@@ -142,6 +141,7 @@ function goToLaunchpad() {
 }
 
 async function appBridgeLogin(shop: string, host: string) {
+  console.log("This is an embedded app user, proceeding with Shopify App Bridge login flow.");
   // In case where token expired and user is routed login path, the query params will not have shop and host,
   // So we get them from auth store before it is cleared.
   if (!shop) {
@@ -155,17 +155,18 @@ async function appBridgeLogin(shop: string, host: string) {
     error.value.message = "Please contact the administrator.";
     return;
   }
-  console.log("This is shop and host: ", shop, " and ", host);
   const loginPayload = {} as any;
   let loginResponse;
   const maargUrl = JSON.parse(process.env.VUE_APP_SHOPIFY_SHOP_CONFIG)[shop].maarg;
   let shopifyAppBridge;
   try {
     shopifyAppBridge = await createShopifyAppBridge(shop, host);
-    console.log("This is app bridge config : ", shopifyAppBridge);
     const shopifySessionToken = await getSessionTokenFromShopify(shopifyAppBridge);
-    console.log("This is Shopify Session Token: ", shopifySessionToken);
     const appState: any = await shopifyAppBridge.getState();
+
+    if (!appState) {
+      throw new Error("Couldn't get Shopify App Bridge state, cannot proceed further.");
+    }
     // Since the Shopify Admin doesn't provide location and user details,
     // we are using the app state to get the POS location and user details in case of POS Embedded Apps.
     loginPayload.sessionToken = shopifySessionToken;
@@ -178,9 +179,6 @@ async function appBridgeLogin(shop: string, host: string) {
     if (appState.pos?.user?.lastName) {
       loginPayload.lastName = appState.pos.user.lastName;
     }
-    console.log("***********This is login payload: ", loginPayload);
-    // This is the maarg url mapped with the shop domain.
-    console.log("This is maarg url: ", maargUrl)
 
     loginResponse = await loginShopifyAppUser(`${maargUrl}/rest/s1/`, loginPayload);
 
@@ -193,14 +191,11 @@ async function appBridgeLogin(shop: string, host: string) {
     return;
   }
 
-  console.log("This is login response : ", loginResponse);
   const loginToken = loginResponse.token;
   const omsInstanceUrl = loginResponse.omsInstanceUrl;
   const expiresAt = loginResponse.expiresAt;
   const appConfig: any = loginContext.getConfig();
-  console.log("This is app config: ", appConfig);
-  // If the system type is MOQUI then we need to pass the baseURL as oms and omsInstanceUrl as redirection url
-  // If the system type is not MOQUI then we need to pass the omsInstanceUrl as oms and baseURL as redirection url
+  // Switch Maarg and OMS URLs for Moqui first Apps
   const isMoquiFirst = appConfig.systemType === "MOQUI";
   await handleUserFlow(loginToken, isMoquiFirst ? maargUrl : omsInstanceUrl, expiresAt, isMoquiFirst ? omsInstanceUrl : maargUrl, true, shop, host, shopifyAppBridge);
 }
