@@ -99,51 +99,46 @@ const getSessionTokenFromShopify = async (appBridgeConfig: any) => {
   }
 }
 
-const openPosScanner = async (): Promise<any> => {
-  let scanData = undefined;
-  try {
-    const authStore = useAuthStore();
-    const app = authStore.shopifyAppBridge;
+const openPosScanner = (): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    try {
+      const authStore = useAuthStore();
+      const app = authStore.shopifyAppBridge;
 
-    const scanner = Scanner.create(app);
-
-    console.log("This is Scanner", scanner);
-
-    const features = Features.create(app);
-
-    console.log("These are features: ", features);
-
-    scanner.subscribe(Scanner.Action.CAPTURE, 
-      function (payload) {
-        scanData = payload?.scanData;
-        console.log("This is scanned Value: ", scanData);
+      if (!app) {
+        return reject(new Error("Shopify App Bridge not initialized."));
       }
-    )
 
-    // Subscribe to the update action (triggered when the permission dialog is interacted with)
-    features.subscribe(Features.Action.REQUEST_UPDATE, function (payload) {
-    console.log("This is payload: ", payload)
+      const scanner = Scanner.create(app);
+      const features = Features.create(app);
 
-    if (payload.feature[Scanner.Action.OPEN_CAMERA]) {
-      const available = payload.feature[Scanner.Action.OPEN_CAMERA].Dispatch;
-      console.log("Is scanner available: ", available);
+      const unsubscribeScanner = scanner.subscribe(Scanner.Action.CAPTURE, (payload) => {
+        unsubscribeScanner();
+        unsubscribeFeatures();
+        resolve(payload?.data?.scanData);
+      });
 
-      // If the Camera Scanner actions were enabled, open a Scanner
-      if (available) {
-        scanner.dispatch(Scanner.Action.OPEN_CAMERA)
-      }
+      const unsubscribeFeatures = features.subscribe(Features.Action.REQUEST_UPDATE, (payload) => {
+        if (payload.feature[Scanner.Action.OPEN_CAMERA]) {
+          const available = payload.feature[Scanner.Action.OPEN_CAMERA].Dispatch;
+          if (available) {
+            scanner.dispatch(Scanner.Action.OPEN_CAMERA);
+          } else {
+            unsubscribeScanner();
+            unsubscribeFeatures();
+            reject(new Error("Scanner feature not available."));
+          }
+        }
+      });
+
+      features.dispatch(Features.Action.REQUEST, {
+        feature: Group.Scanner,
+        action: Scanner.Action.OPEN_CAMERA
+      });
+    } catch(error) {
+      reject(error);
     }
-    });
-    // Dispatch an action to request access to Scanner actions
-    features.dispatch(Features.Action.REQUEST, {
-    feature: Group.Scanner,
-    action: Scanner.Action.OPEN_CAMERA
-    });
-  } catch(error) {
-    console.log("Error: ", error);
-    return Promise.reject(error);
-  }
-  return Promise.resolve(scanData);
+  });
 }
 
 export {
