@@ -69,18 +69,12 @@ const getAppLoginUrl = () => {
 
 const createShopifyAppBridge = async (shop: string, host: string) => {
   try {
-  // const host = new URLSearchParams(location.search).get('host') || "";
-  // const shop = new URLSearchParams(location.search).get('shop') || "";
-
-  // const authStore = useAuthStore();
-  // authStore.shop = shop;
-  // authStore.host = host;
 
   const apiKey = JSON.parse(process.env.VUE_APP_SHOPIFY_SHOP_CONFIG)[shop].apiKey;  
   const shopifyAppBridgeConfig = {
     apiKey: apiKey || '',
     host: host || '',
-    forceRedirect: true,
+    forceRedirect: false,
   };
     
   const appBridge = createApp(shopifyAppBridgeConfig);
