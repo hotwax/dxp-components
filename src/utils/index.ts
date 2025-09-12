@@ -1,9 +1,11 @@
 import { modalController, toastController } from "@ionic/vue";
 import { DateTime } from "luxon";
-import { translate } from "src";
+import { translate, useAuthStore } from "src";
 import DxpGitBookSearch from "../components/DxpGitBookSearch.vue";
 import { computed, ref } from "vue";
 import { Plugins } from '@capacitor/core';
+
+declare var process: any;
 
 const goToOms = (token: string, oms: string) => {
   const link = (oms.startsWith('http') ? oms.replace(/\/api\/?|\/$/, "") : `https://${oms}.hotwax.io`) + `/commerce/control/main?token=${token}`
@@ -64,11 +66,20 @@ const copyToClipboard = async (value: string, text?: string) => {
     text ? showToast(translate(text)) : showToast(translate("Copied", { value }));
   });
 }
+const getAppLoginUrl = () => {
+  const authStore = useAuthStore();
+  if (authStore.isEmbedded) {
+    return `${process.env.VUE_APP_EMBEDDED_LAUNCHPAD_URL}/?shop=${authStore.shop}&host=${authStore.host}`
+  } else {
+    return process.env.VUE_APP_LOGIN_URL
+  }
+}
 
 export {
   getCurrentTime,
   getProductIdentificationValue,
   goToOms,
   showToast,
-  copyToClipboard
+  copyToClipboard,
+  getAppLoginUrl
 }

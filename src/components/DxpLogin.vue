@@ -38,6 +38,7 @@ import {
   useUserStore
 } from "../index"
 import { DateTime } from "luxon"
+import { getAppLoginUrl } from "src/utils";
 declare var process: any;
 
 const authStore = useAuthStore()
@@ -54,11 +55,13 @@ onMounted(async () => {
     return
   }
 
-  const { token, oms, expirationTime, omsRedirectionUrl } = route.query
-  await handleUserFlow(token, oms, expirationTime, omsRedirectionUrl)
+  const { token, oms, expirationTime, omsRedirectionUrl, isEmbedded, shop, host} = route.query
+  // Update the flag in auth, since the store is updated app login url will be embedded luanchpad's url.
+  const isEmbeddedFlag = isEmbedded === 'true'
+  await handleUserFlow(token, oms, expirationTime, omsRedirectionUrl, isEmbeddedFlag, shop, host)
 });
 
-async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "") {
+async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "", isEmbedded: boolean, shop: string, host: string) {
   // fetch the current config for the user
   const appConfig = loginContext.getConfig()
 
@@ -72,21 +75,36 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
   if (+expirationTime < DateTime.now().toMillis()) {
     console.error('User token has expired, redirecting to launchpad.')
     error.value.message = 'User token has expired, redirecting to launchpad.'
-    const redirectUrl = window.location.origin + '/login' // current app URL
-    window.location.replace(`${context.appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`)
+
+    // This will be the url of referer launchpad, we maintain two launchpads.
+    // The launchpad urls are defined the env file in each PW App. 
+    // Setting this flag here because it is needed to identify the launchpad's URL, this will updated in this function later.
+    authStore.isEmbedded = isEmbedded
+    authStore.shop = shop
+    authStore.host = host
+    const appLoginUrl = getAppLoginUrl()
+    if (isEmbedded) {
+      window.location.replace(appLoginUrl)
+    } else {
+      const redirectUrl = window.location.origin + '/login' // current app URL
+      window.location.replace(`${appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`)
+    }
     return
   }
 
   // update the previously set values if the user opts ending the previous session
   authStore.$patch({
     token: { value: token, expiration: expirationTime as any },
-    oms
+    oms,
+    isEmbedded,
+    shop: shop as any,
+    host: host as any
   })
 
   context.loader.present('Logging in')
   try {
     // redirect route will be returned for certain cases
-    const redirectRoute = await context.login({ token, oms, omsRedirectionUrl })
+    const redirectRoute = await context.login({ token, oms, omsRedirectionUrl})
 
     const userStore = useUserStore()
     // to access baseUrl as we store only OMS in DXP
@@ -116,7 +134,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
 }
 
 function goToLaunchpad() {
-  window.location.replace(process.env.VUE_APP_LOGIN_URL)
+  window.location.replace(getAppLoginUrl())
 }
 </script>
 

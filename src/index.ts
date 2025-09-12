@@ -4,13 +4,15 @@ import { createPinia } from "pinia";
 import { useProductIdentificationStore } from "./store/productIdentification";
 import { useAuthStore } from "./store/auth";
 import { DxpAppVersionInfo, DxpFacilitySwitcher, DxpGitBookSearch, DxpImage, DxpLanguageSwitcher, DxpLogin, DxpMenuFooterNavigation, DxpOmsInstanceNavigator, DxpPagination, DxpProductIdentifier, DxpProductStoreSelector, DxpShopifyImg, DxpTimeZoneSwitcher, DxpUserProfile } from "./components";
-import { goToOms, getProductIdentificationValue } from "./utils";
+import { goToOms, getProductIdentificationValue, getAppLoginUrl } from "./utils";
 import { initialiseFirebaseApp } from "./utils/firebase"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createI18n } from 'vue-i18n'
 import { useUserStore } from "./store/user";
 import { IonicVue } from '@ionic/vue';
 import imagePreview from "./directives/imagePreview";
+import { useFormValidator } from "./composables/useFormValidation";
+import { useFieldValidator } from "./composables/useFieldValidation";
 
 import "./service-worker"
 
@@ -164,7 +166,10 @@ export {
   shopifyImgContext,
   translate,
   useAuthStore,
+  useFieldValidator,
+  useFormValidator,
   useProductIdentificationStore,
   useUserStore,
-  userContext
+  userContext,
+  getAppLoginUrl
 }
