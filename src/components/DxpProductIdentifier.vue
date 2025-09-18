@@ -22,16 +22,16 @@
         <ion-select-option value="">{{ "None" }}</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-item lines="full" color="light" v-if="currentShuffledProduct">
+    <ion-item lines="full" color="light" v-if="currentSampleProduct">
       <ion-label color="medium">{{ $t('Preview Product Identifier') }}</ion-label>
     </ion-item>
     <ion-item lines="none">
       <ion-thumbnail slot="start">
-        <DxpShopifyImg size="small" :src="currentShuffledProduct.mainImageUrl"/>
+        <DxpShopifyImg size="small" :src="currentSampleProduct.mainImageUrl"/>
       </ion-thumbnail>
       <ion-label>
-        {{ getProductIdentificationValue(productIdentificationPref.primaryId, currentShuffledProduct) ? getProductIdentificationValue(productIdentificationPref.primaryId, currentShuffledProduct) : currentShuffledProduct.productId }}
-        <p>{{ getProductIdentificationValue(productIdentificationPref.secondaryId, currentShuffledProduct) }}</p>
+        {{ getProductIdentificationValue(productIdentificationPref.primaryId, currentSampleProduct) ? getProductIdentificationValue(productIdentificationPref.primaryId, currentSampleProduct) : currentSampleProduct.productId }}
+        <p>{{ getProductIdentificationValue(productIdentificationPref.secondaryId, currentSampleProduct) }}</p>
       </ion-label>
       <ion-button fill="clear" @click="shuffle">  
         <ion-icon slot="icon-only" :icon="shuffleOutline"/>
@@ -54,7 +54,7 @@ const userStore = useUserStore()
 const currentEComStore = computed(() =>  userStore.getCurrentEComStore)
 const productIdentificationPref = computed(() => productIdentificationStore.getProductIdentificationPref);
 const productIdentificationOptions = computed(() => productIdentificationStore.getProductIdentificationOptions);
-const currentShuffledProduct = computed(() => productIdentificationStore.getCurrentShuffledProduct)
+const currentSampleProduct = computed(() => productIdentificationStore.getCurrentSampleProduct)
 onMounted(() => {
   productIdentificationStore.prepareProductIdentifierOptions();
   productIdentificationStore.getIdentificationPref(currentEComStore.value.productStoreId);

@@ -11,15 +11,15 @@ export const useProductIdentificationStore = defineStore('productIdentification'
       },
       productIdentificationOptions: [],
       goodIdentificationOptions: [],
-      shuffledProducts: [],
-      currentShuffledProduct: null
+      sampleProducts: [],
+      currentSampleProduct: null
     }
   },
   getters: {
     getProductIdentificationPref: (state) => state.productIdentificationPref,
     getProductIdentificationOptions: (state) => state.productIdentificationOptions,
     getGoodIdentificationOptions: (state) => state.goodIdentificationOptions,
-    getCurrentShuffledProduct: (state) => state.currentShuffledProduct
+    getCurrentSampleProduct: (state) => state.currentSampleProduct
   },
   actions: {
     async setProductIdentificationPref(id: string, value: string, eComStoreId: string) {
@@ -75,7 +75,7 @@ export const useProductIdentificationStore = defineStore('productIdentification'
         try {
           const products = await productIdentificationContext.fetchProducts(params)
           if (!hasError(products)) {
-            this.shuffledProducts = products.data.response.docs;
+            this.sampleProducts = products.data.response.docs;
             this.shuffleProduct()
           } else {
             throw products.data
@@ -86,11 +86,11 @@ export const useProductIdentificationStore = defineStore('productIdentification'
       }
     },
     shuffleProduct() {
-      if (this.shuffledProducts.length) {
-        const randomIndex = Math.floor(Math.random() * this.shuffledProducts.length)
-        this.currentShuffledProduct = this.shuffledProducts[randomIndex]
+      if (this.sampleProducts.length) {
+        const randomIndex = Math.floor(Math.random() * this.sampleProducts.length)
+        this.currentSampleProduct = this.sampleProducts[randomIndex]
       } else {
-        this.currentShuffledProduct = null
+        this.currentSampleProduct = null
       }
     }
   }
