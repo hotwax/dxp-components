@@ -27,7 +27,7 @@
     </ion-item>
     <ion-item lines="none">
       <ion-thumbnail slot="start">
-        <DxpImage :src="currentShuffledProduct.mainImageUrl"/>
+        <DxpShopifyImg size="small" :src="currentShuffledProduct.mainImageUrl"/>
       </ion-thumbnail>
       <ion-label>
         {{ getProductIdentificationValue(productIdentificationPref.primaryId, currentShuffledProduct) ? getProductIdentificationValue(productIdentificationPref.primaryId, currentShuffledProduct) : currentShuffledProduct.productId }}
@@ -45,7 +45,7 @@ import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonSelec
 import { useProductIdentificationStore } from 'src/store/productIdentification';
 import { useUserStore } from 'src/store/user'
 import { computed, onMounted } from 'vue';
-import { appContext, DxpImage, DxpShopifyImg, getProductIdentificationValue } from "../index";
+import { appContext, DxpShopifyImg, getProductIdentificationValue } from "../index";
 import { shuffleOutline } from "ionicons/icons";
 
 const productIdentificationStore = useProductIdentificationStore();

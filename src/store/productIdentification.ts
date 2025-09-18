@@ -1,3 +1,4 @@
+import { hasError } from "@hotwax/oms-api";
 import { productIdentificationContext } from "../index";
 import { defineStore } from "pinia";
 
@@ -73,15 +74,19 @@ export const useProductIdentificationStore = defineStore('productIdentification'
       if (productIdentificationContext.fetchProducts) {
         try {
           const products = await productIdentificationContext.fetchProducts(params)
-          this.shuffledProducts = products.data.response.docs;
-          this.shuffleProduct()
-        } catch (error) {
+          if (!hasError(products)) {
+            this.shuffledProducts = products.data.response.docs;
+            this.shuffleProduct()
+          } else {
+            throw products.data
+          }
+        } catch (error: any) {
           console.error(error)
         }
       }
     },
     shuffleProduct() {
-      if (this.shuffledProducts.length > 0) {
+      if (this.shuffledProducts.length) {
         const randomIndex = Math.floor(Math.random() * this.shuffledProducts.length)
         this.currentShuffledProduct = this.shuffledProducts[randomIndex]
       } else {
