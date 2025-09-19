@@ -69,18 +69,24 @@ const getAppLoginUrl = () => {
 
 const createShopifyAppBridge = async (shop: string, host: string) => {
   try {
-
-  const apiKey = JSON.parse(process.env.VUE_APP_SHOPIFY_SHOP_CONFIG)[shop].apiKey;  
-  const shopifyAppBridgeConfig = {
-    apiKey: apiKey || '',
-    host: host || '',
-    forceRedirect: false,
-  };
+    if (!shop || !host) {
+      throw new Error("Shop or host missing");
+    }
+    const apiKey = JSON.parse(process.env.VUE_APP_SHOPIFY_SHOP_CONFIG)[shop]?.apiKey;
+    if (!apiKey) {
+      throw new Error("Api Key not found");
+    }
+    const shopifyAppBridgeConfig = {
+      apiKey: apiKey || '',
+      host: host || '',
+      forceRedirect: false,
+    };
     
-  const appBridge = createApp(shopifyAppBridgeConfig);
+    const appBridge = createApp(shopifyAppBridgeConfig);
 
-  return Promise.resolve(appBridge);      
+    return Promise.resolve(appBridge);      
   } catch (error) {
+    console.error(error);
     return Promise.reject(error);
   }
 }
