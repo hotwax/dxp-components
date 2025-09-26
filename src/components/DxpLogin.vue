@@ -55,13 +55,13 @@ onMounted(async () => {
     return
   }
 
-  const { token, oms, expirationTime, omsRedirectionUrl, isEmbedded, shop, host} = route.query
+  const { token, oms, expirationTime, maarg, isEmbedded, shop, host} = route.query
   // Update the flag in auth, since the store is updated app login url will be embedded luanchpad's url.
   const isEmbeddedFlag = isEmbedded === 'true'
-  await handleUserFlow(token, oms, expirationTime, omsRedirectionUrl, isEmbeddedFlag, shop, host)
+  await handleUserFlow(token, oms, expirationTime, maarg, isEmbeddedFlag, shop, host)
 });
 
-async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "", isEmbedded: boolean, shop: string, host: string) {
+async function handleUserFlow(token: string, oms: string, expirationTime: string, maarg = "", isEmbedded: boolean, shop: string, host: string) {
   // fetch the current config for the user
   const appConfig = loginContext.getConfig()
 
@@ -104,7 +104,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
   context.loader.present('Logging in')
   try {
     // redirect route will be returned for certain cases
-    const redirectRoute = await context.login({ token, oms, omsRedirectionUrl})
+    const redirectRoute = await context.login({ token, oms, maarg })
 
     const userStore = useUserStore()
     // to access baseUrl as we store only OMS in DXP
