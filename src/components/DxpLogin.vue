@@ -96,6 +96,7 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
   authStore.$patch({
     token: { value: token, expiration: expirationTime as any },
     oms,
+    maarg,
     isEmbedded,
     shop: shop as any,
     host: host as any
