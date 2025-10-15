@@ -16,14 +16,14 @@
     <ion-list lines="none" v-if="eComStores.length === 0">
       <ion-item v-if="appContext.hasPermission(appContext.Actions.APP_FACILITY_EDIT_PERMISSION)">
         <div class="facility-route" >
-          There are no Product Stores linked to {{ currentFacility.facilityName }}.
-          <ion-button fill="clear" @click="gotoFacilityDetails">Finish facility setup</ion-button>
+          {{ $t(`There are no Product Stores linked to`) }} {{ currentFacility.facilityName }}.
+          <ion-button fill="clear" @click="gotoFacilityDetails">{{ $t("Finish facility setup") }}</ion-button>
         </div>
         <ion-icon :icon="openOutline" slot="end"></ion-icon>
       </ion-item>
       <ion-item v-else>
-        <ion-label color="medium">There are no Product Stores linked to {{currentFacility.facilityName}}. Please contact your admin to finish this facilities setup</ion-label>
-        <ion-button fill="clear" color="medium" @click="copyToClipboard(copyPermissionErrorMessage, 'Support request link copied to clipboard')"> 
+        <ion-label color="medium">{{ $t("There are no Product Stores linked to") }} {{ currentFacility.facilityName }} {{ $t(". Please contact your admin to finish this facilities setup") }}</ion-label>
+        <ion-button fill="clear" color="medium" @click="copyToClipboard(copyPermissionErrorMessage, $t('Support request link copied to clipboard'))"> 
           <ion-icon :icon="copyOutline" slot="end"></ion-icon>
         </ion-button> 
       </ion-item>
