@@ -1,8 +1,10 @@
 import { modalController, toastController } from "@ionic/vue";
 import { DateTime } from "luxon";
-import { translate } from "src";
+import { translate, useAuthStore } from "src";
 import DxpGitBookSearch from "../components/DxpGitBookSearch.vue";
 import { computed, ref } from "vue";
+
+declare var process: any;
 
 const goToOms = (token: string, oms: string) => {
   const link = (oms.startsWith('http') ? oms.replace(/\/api\/?|\/$/, "") : `https://${oms}.hotwax.io`) + `/commerce/control/main?token=${token}`
@@ -53,9 +55,19 @@ const getCurrentTime = (zone: string, format = 't ZZZZ') => {
   return DateTime.now().setZone(zone).toFormat(format)
 }
 
+const getAppLoginUrl = () => {
+  const authStore = useAuthStore();
+  if (authStore.isEmbedded) {
+    return `${process.env.VUE_APP_EMBEDDED_LAUNCHPAD_URL}/?shop=${authStore.shop}&host=${authStore.host}`
+  } else {
+    return process.env.VUE_APP_LOGIN_URL
+  }
+}
+
 export {
   getCurrentTime,
   getProductIdentificationValue,
   goToOms,
-  showToast
+  showToast,
+  getAppLoginUrl
 }
