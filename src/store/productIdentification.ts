@@ -1,3 +1,4 @@
+import { hasError } from "@hotwax/oms-api";
 import { productIdentificationContext } from "../index";
 import { defineStore } from "pinia";
 
@@ -9,13 +10,16 @@ export const useProductIdentificationStore = defineStore('productIdentification'
         secondaryId: ''
       },
       productIdentificationOptions: [],
-      goodIdentificationOptions: []
+      goodIdentificationOptions: [],
+      sampleProducts: [],
+      currentSampleProduct: null
     }
   },
   getters: {
     getProductIdentificationPref: (state) => state.productIdentificationPref,
     getProductIdentificationOptions: (state) => state.productIdentificationOptions,
-    getGoodIdentificationOptions: (state) => state.goodIdentificationOptions
+    getGoodIdentificationOptions: (state) => state.goodIdentificationOptions,
+    getCurrentSampleProduct: (state) => state.currentSampleProduct
   },
   actions: {
     async setProductIdentificationPref(id: string, value: string, eComStoreId: string) {
@@ -64,6 +68,30 @@ export const useProductIdentificationStore = defineStore('productIdentification'
       // Merge the arrays and remove duplicates
       this.productIdentificationOptions = Array.from(new Set([...productIdentificationOptions, ...fetchedGoodIdentificationOptions])).sort();
       this.goodIdentificationOptions = fetchedGoodIdentificationOptions
+    },
+    async fetchProducts() {
+      const params = { viewSize: 10 }
+      if (productIdentificationContext.fetchProducts) {
+        try {
+          const products = await productIdentificationContext.fetchProducts(params)
+          if (!hasError(products)) {
+            this.sampleProducts = products.data.response.docs;
+            this.shuffleProduct()
+          } else {
+            throw products.data
+          }
+        } catch (error: any) {
+          console.error(error)
+        }
+      }
+    },
+    shuffleProduct() {
+      if (this.sampleProducts.length) {
+        const randomIndex = Math.floor(Math.random() * this.sampleProducts.length)
+        this.currentSampleProduct = this.sampleProducts[randomIndex]
+      } else {
+        this.currentSampleProduct = null
+      }
     }
   }
 })
