@@ -49,7 +49,7 @@ const emit = defineEmits(["updateEComStore"])
 const eComStores = computed(() => userStore.getProductStores); 
 const currentEComStore = computed(() => userStore.getCurrentEComStore);
 const currentFacility = computed(()=>userStore.getCurrentFacility)
-const copyPermissionErrorMessage = "needs to be linked to a product store before it can begin fulfillment. Use the following link for more details. https://docs.hotwax.co/documents/system-admins/administration/facilities/manage-product-stores"
+const copyPermissionErrorMessage = "https://docs.hotwax.co/documents/system-admins/administration/facilities/manage-product-stores"
 
 function gotoFacilityDetails(){
   const facilityDetailsUrl = `https://facilities.hotwax.io/facility-details/${currentFacility.value.facilityId}`
