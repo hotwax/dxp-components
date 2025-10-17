@@ -3,6 +3,7 @@ import { DateTime } from "luxon";
 import { translate, useAuthStore } from "src";
 import DxpGitBookSearch from "../components/DxpGitBookSearch.vue";
 import { computed, ref } from "vue";
+import { Plugins } from '@capacitor/core';
 
 declare var process: any;
 
@@ -55,6 +56,16 @@ const getCurrentTime = (zone: string, format = 't ZZZZ') => {
   return DateTime.now().setZone(zone).toFormat(format)
 }
 
+//Copy to clipboard
+const copyToClipboard = async (value: string, text?: string) => {
+  const { Clipboard } = Plugins;
+
+  await Clipboard.write({
+    string: value,
+  }).then(() => {
+    text ? showToast(translate(text)) : showToast(translate("Copied", { value }));
+  });
+}
 const getAppLoginUrl = () => {
   const authStore = useAuthStore();
   if (authStore.isEmbedded) {
@@ -69,5 +80,6 @@ export {
   getProductIdentificationValue,
   goToOms,
   showToast,
+  copyToClipboard,
   getAppLoginUrl
 }
