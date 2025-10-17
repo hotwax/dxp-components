@@ -1,18 +1,15 @@
 <template>
   <div>
-    <ion-spinner v-if="isLoading" name="crescent" />
-    <div v-else>
-      <ion-list v-for="(featureOptions, featureType) in productFeatures" :key="featureType">
-        <ion-list-header>{{ featureType }}</ion-list-header>
-        <ion-item lines="none">
-          <ion-row>
-            <ion-chip v-for="option in featureOptions" :key="option" :outline="selectedFeatures[featureType] !== option" @click="handleFeatureSelection(option, featureType)">
-              <ion-label class="ion-text-wrap">{{ option }}</ion-label>
-            </ion-chip>
-          </ion-row>
-        </ion-item>
-      </ion-list>
-    </div>
+    <ion-list v-for="(featureOptions, featureType) in productFeatures" :key="featureType">
+      <ion-list-header>{{ featureType }}</ion-list-header>
+      <ion-item lines="none">
+        <ion-row>
+          <ion-chip v-for="option in featureOptions" :key="option" :outline="selectedFeatures[featureType] !== option" @click="handleFeatureSelection(option, featureType)">
+            <ion-label class="ion-text-wrap">{{ option }}</ion-label>
+          </ion-chip>
+        </ion-row>
+      </ion-item>
+    </ion-list>
   </div>
 </template>
 
@@ -23,25 +20,25 @@ import {
   IonItem,
   IonRow,
   IonChip,
-  IonLabel,
-  IonSpinner
+  IonLabel
 } from '@ionic/vue';
 import { sortSizes } from '../utils/apparel-sorter';
-import { ref, defineProps, defineEmits, onMounted, computed } from 'vue';
-import { useProductFeatureStore } from '../store/productFeature';
+import { ref, defineProps, defineEmits, onMounted } from 'vue';
 
-const props = defineProps(['productGroupId']);
+const props = defineProps({
+  productGroupId: String,
+  products: Array
+});
 const emit = defineEmits(['selected_variant']);
 
-const productFeatureStore = useProductFeatureStore();
-const isLoading = computed(() => productFeatureStore.isLoading);
 const productFeatures = ref({} as Record<string, string[]>);
 const selectedFeatures = ref({} as Record<string, string>);
 const selectedProductId = ref('');
 
 onMounted(async () => {
-  const products = await productFeatureStore.fetchProductsByGroupId(props.productGroupId);
-  extractProductFeatures(products);
+  if (props.products && props.products.length > 0) {
+    extractProductFeatures(props.products);
+  } 
 });
 
 function extractProductFeatures(products: any[]) {
@@ -89,7 +86,9 @@ function extractProductFeatures(products: any[]) {
 
   // Set initial selection to first option of each feature
   Object.keys(sortedFeatures).forEach(featureType => {
-    selectedFeatures.value[featureType] = sortedFeatures[featureType][0];
+    if (sortedFeatures[featureType]?.length) {
+      selectedFeatures.value[featureType] = sortedFeatures[featureType][0];
+    }
   });
 
   // Set initial selected product ID
@@ -101,11 +100,11 @@ function extractProductFeatures(products: any[]) {
 
 function handleFeatureSelection(option: string, featureType: string) {
   selectedFeatures.value[featureType] = option;
-  const selectedVariant = findMatchingVariant(productFeatureStore.getProductsByGroupId(props.productGroupId));
+  const selectedVariant = findMatchingVariant(props.products || []);
   if (selectedVariant) {
     selectedProductId.value = selectedVariant.productId;
   }
-  emit('selected_variant', selectedVariant.productId);
+  emit('selected_variant', selectedVariant?.productId);
 }
 
 function findMatchingVariant(products: any[]) {
