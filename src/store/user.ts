@@ -112,7 +112,7 @@ export const useUserStore = defineStore('user', {
       try {
         let preferredFacilityId = await facilityContext.getUserPreference(authStore.getToken.value, authStore.getBaseUrl, userPrefTypeId, userId);
         if(preferredFacilityId) {
-          const facility = this.facilities.find((facility: any) => facility.facilityId === preferredFacilityId);
+          const facility = this.facilities.find((facility: any) => facility.facilityId == preferredFacilityId);
           facility && (preferredFacility = facility)
         }
       } catch (error) {
