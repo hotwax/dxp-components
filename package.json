@@ -1,6 +1,6 @@
 {
   "name": "@hotwax/dxp-components",
-  "version": "1.24.1",
+  "version": "1.24.2",
   "description": "",
   "type": "module",
   "main": "lib/index.cjs",
