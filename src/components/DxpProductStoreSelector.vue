@@ -15,15 +15,15 @@
     
     <ion-list lines="none" v-if="eComStores.length === 0">
       <ion-item v-if="appContext.hasPermission(appContext.Actions.APP_FACILITY_EDIT_PERMISSION)">
-        <div class="facility-route" >
+        <div>
           {{ $t(`There are no Product Stores linked to`) }} {{ currentFacility.facilityName }}.
           <ion-button fill="clear" @click="gotoFacilityDetails">{{ $t("Finish facility setup") }}</ion-button>
         </div>
         <ion-icon :icon="openOutline" slot="end"></ion-icon>
       </ion-item>
       <ion-item v-else>
-        <ion-label color="medium">{{ $t("There are no Product Stores linked to") }} {{ currentFacility.facilityName }} {{ $t(". Please contact your admin to finish this facilities setup") }}</ion-label>
-        <ion-button fill="clear" color="medium" @click="copyToClipboard(copyPermissionErrorMessage, $t('Support request link copied to clipboard'))"> 
+        <ion-label color="medium">{{ $t("There are no Product Stores linked to") }} {{ currentFacility.facilityName }} {{ $t(". Please contact your admin to finish this facility setup") }}</ion-label>
+        <ion-button fill="clear" color="medium" @click="copyToClipboard(supportRequestUrl, $t('Support request link copied to clipboard'))">
           <ion-icon :icon="copyOutline" slot="end"></ion-icon>
         </ion-button> 
       </ion-item>
@@ -49,7 +49,7 @@ const emit = defineEmits(["updateEComStore"])
 const eComStores = computed(() => userStore.getProductStores); 
 const currentEComStore = computed(() => userStore.getCurrentEComStore);
 const currentFacility = computed(()=>userStore.getCurrentFacility)
-const copyPermissionErrorMessage = "https://docs.hotwax.co/documents/system-admins/administration/facilities/manage-product-stores"
+const supportRequestUrl = "https://docs.hotwax.co/documents/system-admins/administration/facilities/manage-product-stores"
 
 function gotoFacilityDetails(){
   const facilityDetailsUrl = `https://facilities.hotwax.io/facility-details/${currentFacility.value.facilityId}`
