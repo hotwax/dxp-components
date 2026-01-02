@@ -4,13 +4,14 @@
 
 <script setup lang="ts">
 import { onMounted, onUpdated, ref } from 'vue';
-import { imageContext as context } from "../index";
+import { imageContext as context, useAuthStore } from "../index";
 
 declare let process: any;
 
 const props = defineProps(['src']);
 let imageUrl = ref(context.defaultImgUrl);
-let resourceUrl = process.env.VUE_APP_RESOURCE_URL || "";
+
+const oms = useAuthStore().getOms;
 
 const setImageUrl = () => {
   if (props.src) {
@@ -25,9 +26,10 @@ const setImageUrl = () => {
       // Assign directly in case of assets or if image starts with /img/ (when url start with /img/ then the img is the local asset url of the app)
       imageUrl.value = props.src;
     } else {
+      const resourceUrl = oms.startsWith('http') ? oms.replace("/api", "") : `https://${oms}.hotwax.io/`
       // Image is from resource server, hence append to base resource url, check for existence and assign
       const newImageUrl = resourceUrl.concat(props.src)
-      checkIfImageExists(imageUrl).then(() => {
+      checkIfImageExists(newImageUrl).then(() => {
         imageUrl.value = newImageUrl;
       }).catch(() => {
         console.error("Image doesn't exist");
