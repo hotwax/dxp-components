@@ -91,7 +91,6 @@ const createShopifyAppBridge = async (shop: string, host: string) => {
   }
 }
 
-// TODO: Move this to Utils
 const getSessionTokenFromShopify = async (appBridgeConfig: any) => {
   try {
     if (appBridgeConfig) {

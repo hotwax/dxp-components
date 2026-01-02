@@ -141,7 +141,6 @@ function goToLaunchpad() {
 }
 
 async function appBridgeLogin(shop: string, host: string) {
-  console.log("This is an embedded app user, proceeding with Shopify App Bridge login flow.");
   // In case where token expired and user is routed login path, the query params will not have shop and host,
   // So we get them from auth store before it is cleared.
   if (!shop) {
