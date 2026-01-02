@@ -24,9 +24,11 @@
   "author": "HotWax Commerce",
   "license": "Apache-2.0",
   "dependencies": {
-    "@hotwax/oms-api": "^1.8.1",
+    "@hotwax/oms-api": "^1.26.0",
     "@ionic/core": "^7.6.0",
     "@ionic/vue": "^7.6.0",
+    "@shopify/app-bridge": "^3.7.10",
+    "@shopify/app-bridge-utils": "^3.5.1",
     "firebase": "^10.3.1",
     "luxon": "^3.3.0",
     "pinia": "2.0.36",

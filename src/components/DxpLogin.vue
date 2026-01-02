@@ -11,7 +11,7 @@
       <p v-if='error.message.length'>
         {{ $t(error.message) }}
       </p>
-      <ion-button v-if='error.message.length' class="ion-margin-top" @click="goToLaunchpad()">
+      <ion-button v-if='error.message.length && !authStore.isEmbedded' class="ion-margin-top" @click="goToLaunchpad()">
         <ion-icon slot="start" :icon="arrowBackOutline" />
         {{ $t("Back to Launchpad") }}
       </ion-button>
@@ -38,7 +38,8 @@ import {
   useUserStore
 } from "../index"
 import { DateTime } from "luxon"
-import { getAppLoginUrl } from "src/utils";
+import { createShopifyAppBridge, getSessionTokenFromShopify } from "src/utils";
+import { loginShopifyAppUser } from "@hotwax/oms-api";
 declare var process: any;
 
 const authStore = useAuthStore()
@@ -50,18 +51,30 @@ const error = ref({
 })
 
 onMounted(async () => {
-  if (!Object.keys(route.query).length) {
+  // This will be false for when apps run in browser directly and when user first time comes from Shopify POS or Admin embedded app.
+  let isEmbedded = authStore.isEmbedded;
+
+  // Cases Handled: 
+  // If the app is not embedded and there are no query params, redirect to launchpad
+  // If the app is embedded, it will have query params from Shopify, even if the app is not marked as embedded in the auth store, we will mark it as embedded here.
+  // In case if the token expired and user is routed to login path, the app was already marked as embedded, so we should not redirect to launchpad in that case.
+  if (!isEmbedded && !Object.keys(route.query).length) {
     window.location.replace(context.appLoginUrl)
     return
   }
 
-  const { token, oms, expirationTime, omsRedirectionUrl, isEmbedded, shop, host} = route.query
-  // Update the flag in auth, since the store is updated app login url will be embedded luanchpad's url.
-  const isEmbeddedFlag = isEmbedded === 'true'
-  await handleUserFlow(token, oms, expirationTime, omsRedirectionUrl, isEmbeddedFlag, shop, host)
+  const { token, oms, expirationTime, omsRedirectionUrl, embedded, shop, host } = route.query
+  isEmbedded = isEmbedded || embedded === '1'
+
+  if (isEmbedded) {
+    await appBridgeLogin(shop as string, host as string);
+  } else {
+    // Update the flag in auth, since the store is updated app login url will be embedded luanchpad's url.
+    await handleUserFlow(token, oms, expirationTime, omsRedirectionUrl, isEmbedded, shop, host);
+  }
 });
 
-async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "", isEmbedded: boolean, shop: string, host: string) {
+async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "", isEmbedded: boolean, shop: string, host: string, shopifyAppBridge: any = undefined) {
   // fetch the current config for the user
   const appConfig = loginContext.getConfig()
 
@@ -76,19 +89,8 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
     console.error('User token has expired, redirecting to launchpad.')
     error.value.message = 'User token has expired, redirecting to launchpad.'
 
-    // This will be the url of referer launchpad, we maintain two launchpads.
-    // The launchpad urls are defined the env file in each PW App. 
-    // Setting this flag here because it is needed to identify the launchpad's URL, this will updated in this function later.
-    authStore.isEmbedded = isEmbedded
-    authStore.shop = shop
-    authStore.host = host
-    const appLoginUrl = getAppLoginUrl()
-    if (isEmbedded) {
-      window.location.replace(appLoginUrl)
-    } else {
       const redirectUrl = window.location.origin + '/login' // current app URL
-      window.location.replace(`${appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`)
-    }
+      window.location.replace(`${context.appLoginUrl}?isLoggedOut=true&redirectUrl=${redirectUrl}`)
     return
   }
 
@@ -98,7 +100,8 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
     oms,
     isEmbedded,
     shop: shop as any,
-    host: host as any
+    host: host as any,
+    shopifyAppBridge: shopifyAppBridge as any
   })
 
   context.loader.present('Logging in')
@@ -134,7 +137,66 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
 }
 
 function goToLaunchpad() {
-  window.location.replace(getAppLoginUrl())
+  window.location.replace(process.env.VUE_APP_LOGIN_URL)
+}
+
+async function appBridgeLogin(shop: string, host: string) {
+  // In case where token expired and user is routed login path, the query params will not have shop and host,
+  // So we get them from auth store before it is cleared.
+  if (!shop) {
+    shop = authStore.shop
+  }
+  if (!host) {
+    host = authStore.host
+  }
+  if (!shop || !host) {
+    console.error("Shop or host is missing, cannot proceed further.");
+    error.value.message = "Please contact the administrator.";
+    return;
+  }
+  const loginPayload = {} as any;
+  let loginResponse;
+  const maargUrl = JSON.parse(process.env.VUE_APP_SHOPIFY_SHOP_CONFIG)[shop].maarg;
+  let shopifyAppBridge;
+  try {
+    shopifyAppBridge = await createShopifyAppBridge(shop, host);
+    const shopifySessionToken = await getSessionTokenFromShopify(shopifyAppBridge);
+    const appState: any = await shopifyAppBridge.getState();
+
+    if (!appState) {
+      throw new Error("Couldn't get Shopify App Bridge state, cannot proceed further.");
+    }
+    // Since the Shopify Admin doesn't provide location and user details,
+    // we are using the app state to get the POS location and user details in case of POS Embedded Apps.
+    loginPayload.sessionToken = shopifySessionToken;
+    if (appState.pos?.location?.id) {
+      loginPayload.locationId = appState.pos.location.id
+    }
+    if (appState.pos?.user?.firstName) {
+      loginPayload.firstName = appState.pos.user.firstName;
+    }
+    if (appState.pos?.user?.lastName) {
+      loginPayload.lastName = appState.pos.user.lastName;
+    }
+
+    loginResponse = await loginShopifyAppUser(`${maargUrl}/rest/s1/`, loginPayload);
+
+    if (!loginResponse?.token) {
+      throw new Error("Login response doesn't have token, cannot proceed further.");
+    }
+  } catch (e) {
+    console.error("Error ", e);
+    error.value.message = "Please contact the administrator.";
+    return;
+  }
+
+  const loginToken = loginResponse.token;
+  const omsInstanceUrl = loginResponse.omsInstanceUrl;
+  const expiresAt = loginResponse.expiresAt;
+  const appConfig: any = loginContext.getConfig();
+  // Switch Maarg and OMS URLs for Moqui first Apps
+  const isMoquiFirst = appConfig.systemType === "MOQUI";
+  await handleUserFlow(loginToken, isMoquiFirst ? maargUrl : omsInstanceUrl, expiresAt, isMoquiFirst ? omsInstanceUrl : maargUrl, true, shop, host, shopifyAppBridge);
 }
 </script>
 

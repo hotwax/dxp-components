@@ -13,6 +13,7 @@ export const useAuthStore = defineStore('userAuth', {
       isEmbedded: false,
       shop: undefined,
       host: undefined,
+      shopifyAppBridge: undefined
     }
   },
   getters: {

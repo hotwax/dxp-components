@@ -3,6 +3,9 @@ import { DateTime } from "luxon";
 import { translate, useAuthStore } from "src";
 import DxpGitBookSearch from "../components/DxpGitBookSearch.vue";
 import { computed, ref } from "vue";
+import createApp from "@shopify/app-bridge";
+import { getSessionToken } from "@shopify/app-bridge-utils";
+import { Scanner, Features, Group, Redirect } from '@shopify/app-bridge/actions';
 
 declare var process: any;
 
@@ -64,10 +67,92 @@ const getAppLoginUrl = () => {
   }
 }
 
+const createShopifyAppBridge = async (shop: string, host: string) => {
+  try {
+    if (!shop || !host) {
+      throw new Error("Shop or host missing");
+    }
+    const apiKey = JSON.parse(process.env.VUE_APP_SHOPIFY_SHOP_CONFIG)[shop]?.apiKey;
+    if (!apiKey) {
+      throw new Error("Api Key not found");
+    }
+    const shopifyAppBridgeConfig = {
+      apiKey: apiKey || '',
+      host: host || '',
+      forceRedirect: false,
+    };
+    
+    const appBridge = createApp(shopifyAppBridgeConfig);
+
+    return Promise.resolve(appBridge);      
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}
+
+const getSessionTokenFromShopify = async (appBridgeConfig: any) => {
+  try {
+    if (appBridgeConfig) {
+      const shopifySessionToken = await getSessionToken(appBridgeConfig);
+      return Promise.resolve(shopifySessionToken);
+    } else {
+      throw new Error("Invalid App Config");
+    }
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+const openPosScanner = (): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    try {
+      const authStore = useAuthStore();
+      const app = authStore.shopifyAppBridge;
+
+      if (!app) {
+        return reject(new Error("Shopify App Bridge not initialized."));
+      }
+
+      const scanner = Scanner.create(app);
+      const features = Features.create(app);
+
+      const unsubscribeScanner = scanner.subscribe(Scanner.Action.CAPTURE, (payload) => {
+        unsubscribeScanner();
+        unsubscribeFeatures();
+        resolve(payload?.data?.scanData);
+      });
+
+      const unsubscribeFeatures = features.subscribe(Features.Action.REQUEST_UPDATE, (payload) => {
+        if (payload.feature[Scanner.Action.OPEN_CAMERA]) {
+          const available = payload.feature[Scanner.Action.OPEN_CAMERA].Dispatch;
+          if (available) {
+            scanner.dispatch(Scanner.Action.OPEN_CAMERA);
+          } else {
+            unsubscribeScanner();
+            unsubscribeFeatures();
+            reject(new Error("Scanner feature not available."));
+          }
+        }
+      });
+
+      features.dispatch(Features.Action.REQUEST, {
+        feature: Group.Scanner,
+        action: Scanner.Action.OPEN_CAMERA
+      });
+    } catch(error) {
+      reject(error);
+    }
+  });
+}
+
 export {
   getCurrentTime,
   getProductIdentificationValue,
   goToOms,
   showToast,
-  getAppLoginUrl
+  getAppLoginUrl,
+  createShopifyAppBridge,
+  getSessionTokenFromShopify,
+  openPosScanner,
 }
