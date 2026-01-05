@@ -74,7 +74,7 @@ onMounted(async () => {
   }
 });
 
-async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "", isEmbedded: boolean, shop: string, host: string, shopifyAppBridge: any = undefined) {
+async function handleUserFlow(token: string, oms: string, expirationTime: string, omsRedirectionUrl = "", isEmbedded: boolean, shop: string, host: string, shopifyAppBridge: any = undefined, posContext: any = {}) {
   // fetch the current config for the user
   const appConfig = loginContext.getConfig()
 
@@ -101,7 +101,8 @@ async function handleUserFlow(token: string, oms: string, expirationTime: string
     isEmbedded,
     shop: shop as any,
     host: host as any,
-    shopifyAppBridge: shopifyAppBridge as any
+    shopifyAppBridge: shopifyAppBridge as any,
+    posContext
   })
 
   context.loader.present('Logging in')
@@ -196,7 +197,14 @@ async function appBridgeLogin(shop: string, host: string) {
   const appConfig: any = loginContext.getConfig();
   // Switch Maarg and OMS URLs for Moqui first Apps
   const isMoquiFirst = appConfig.systemType === "MOQUI";
-  await handleUserFlow(loginToken, isMoquiFirst ? maargUrl : omsInstanceUrl, expiresAt, isMoquiFirst ? omsInstanceUrl : maargUrl, true, shop, host, shopifyAppBridge);
+
+  const posContext = {
+    locationId: loginPayload.locationId,
+    firstName: loginPayload.firstName,
+    lastName: loginPayload.lastName
+  }
+
+  await handleUserFlow(loginToken, isMoquiFirst ? maargUrl : omsInstanceUrl, expiresAt, isMoquiFirst ? omsInstanceUrl : maargUrl, true, shop, host, shopifyAppBridge, posContext);
 }
 </script>
 

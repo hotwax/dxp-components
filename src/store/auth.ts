@@ -13,7 +13,12 @@ export const useAuthStore = defineStore('userAuth', {
       isEmbedded: false,
       shop: undefined,
       host: undefined,
-      shopifyAppBridge: undefined
+      shopifyAppBridge: undefined,
+      posContext: {
+        locationId: undefined,
+        firstName: "",
+        lastName: ""
+      }
     }
   },
   getters: {
@@ -35,6 +40,9 @@ export const useAuthStore = defineStore('userAuth', {
         isTokenExpired = state.token.expiration < currTime
       }
       return state.token.value && !isTokenExpired
+    },
+    getPosContext: (state) => {
+      return state.posContext
     }
   },
   persist: true
