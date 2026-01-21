@@ -5,6 +5,17 @@ declare var process: any;
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready () {
+      // Unregister all the other active service workers when loading the app
+      // Checks if the service worker is registered from the app(app only registers workers named service-worker.js)
+      // If the worker is not in scope of the current app version unregister that worker
+      navigator.serviceWorker.getRegistrations().then(workers => {
+        workers.forEach(worker => {
+          if(worker.active?.scriptURL.includes("service-worker.js") && !worker.scope.includes(process.env.VUE_APP_BUILD)) {
+            worker.unregister();
+          }
+        })
+      })
+
       console.log(
         'App is being served from cache by a service worker.\n' +
         'For more details, visit https://goo.gl/AFskqB'

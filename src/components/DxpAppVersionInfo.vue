@@ -31,6 +31,6 @@ const refreshApp = () => {
 }
 
 const appInfo = (process.env.VUE_APP_VERSION_INFO ? JSON.parse(process.env.VUE_APP_VERSION_INFO) : {}) as any;
-const appVersion = appInfo.branch ? (appInfo.branch + "-" + appInfo.revision) : appInfo.tag;
+const appVersion = process.env.VUE_APP_BUILD ? process.env.VUE_APP_BUILD : appInfo.tag ? appInfo.tag : appInfo.branch ? (appInfo.branch + "-" + appInfo.revision) : "";
 const getDateTime = (time: any) => DateTime.fromMillis(time).setZone(userStore.currentTimeZoneId).toLocaleString(DateTime.DATETIME_MED);
 </script>
