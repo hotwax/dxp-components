@@ -27,7 +27,7 @@ body:
         - [ ] ...
     validations:
       required: true
-  - type: checkboxes
+  - type: dropdown
     id: self-completion
     attributes:
       label: "Can you complete this feature request by yourself?"
