@@ -66,3 +66,189 @@ No methods are available for this component
 | Name | Description |
 | ---  | ---         |
 | timeZoneUpdated | Emitted when timeZone is changed |
+
+
+# Proposed Components
+
+## DxpForm
+
+This component handles creation and validation of the forms in the app. It hides the logic for form creation and validation from the developers and they can directly define the form elements and pass the schema in this component that renders a Ionic form to be used in the app.
+
+## Usage
+
+```html
+<template>
+  <DxpForm :schema="{}" :fabSaveButton="true" :blockSaveButton="false" />
+</template>
+<script></script>
+```
+
+## Slots
+
+## Props
+
+| Name | Description | Type | Default Value | Required |
+| --- | --- | --- | --- | --- |
+| schema | Schema that the component will use to prepare the form | Object | {} | True |
+| fabSaveButton | Show a fab button on the UI at the bottom right to submit the form | Boolean | true | False |
+| blockSaveButton | Show a block button on the UI to submit the form | Boolean | false | False |
+
+> Note:
+>
+> If both the fabSaveButton and blockSaveButton are passed as true, the component will display the fab button and the blockSaveButton property will be ignored.
+
+## Events
+
+| Name | Description |
+| --- | --- |
+| submitForm | Trigged when the form is submitted by the user |
+
+## Methods
+No methods are available for this component.
+
+## Recommendation
+
+Pattern for passing the schema prop value
+
+schema: {
+  <component-name>: {
+    label // Label for the component
+    val // Value against which the component will bind
+    childComp // If the component supports some child components, like select having selectOption, radioGroup having radio
+    options // if having childComp, then define its values in the format [{ id, val }, { id, val }],
+    labelInline // When the component does not access label as prop, like checkbox,
+    validations // Validation rules for the component
+    ...any property supported by the component
+  }
+}
+
+Following values are currently supported as component-name: 
+
+input
+select
+selectOption (only as child comp)
+radioGroup
+radio (only as child comp)
+checkbox
+textarea
+
+## Implementation Details
+
+We will have a parent `form` element to wrap all the elements inside the form.
+
+We will use the schema passed a prop to define the complete form structure
+
+Define a local property as `form` as an object that will help in binding the values for all the elements to its corresponding component
+
+We can have the following types of buttons to submit the form:
+- Fab Button
+- Block Button
+
+This component emits an event `submitForm` that will be handled by the parent component to perform required steps.
+
+Validations in the specific component will be applied on the basis of validations property array defined in the component schema.
+
+Following validations are supported:
+'required'
+'email'
+'number'
+'mobile' (10–15 digits, optional +)
+{ type: 'min' | 'max', value: number } (for numbers)
+{ type: 'minLength' | 'maxLength', value: number } (for strings)
+
+
+All the elements will be displayed in ion-list wrapped by ion-item.
+
+Define an object/enum consisting the type of component and actual Ionic component using which we will decide which component to render on the UI.
+enum Components {
+  input: "IonInput",
+  select: "IonSelect",
+  checkbox: "IonCheckbox",
+  textarea: "IonTextarea",
+  radio: "IonRadio"
+}
+
+Label for each component will be passed as a property of component in its schema, but when rendered we will use the pattern defined by Ionic when showing labels on UI, so when the label needs to be inline then we will pass a property as labelInline
+
+
+schema: {
+  input: {
+    min: 4
+    type: "text"
+    .
+    .
+    .
+    bind: "<variable>"
+    // all ion-input properties,
+    label: "Label"
+  },
+  select: {
+    options: [],
+    .
+    .
+    .
+    // all ion-select properties,
+    label: "Label"
+  },
+  textarea: {
+    rows: 3,
+    .
+    .
+    .
+    // all ion-textarea properties,
+    label: "Label"
+  }
+}
+
+Sample Schema:
+
+```js
+schema: {
+  input: {
+    label: 'Id',
+    type: 'text',
+    validations: ['required', 'number'],
+    val: "id"
+  },
+  select: {
+    label: 'Role',
+    interface: 'popover',
+    childComp: 'selectOption',
+    options: [
+      {
+        id: 'ADMIN',
+        val: 'Admin',
+      },
+      {
+        id: 'SUPER',
+        val: 'Super',
+      },
+    ],
+    val: 'role',
+  },
+  radioGroup: {
+    label: 'Type',
+    childComp: 'radio',
+    options: [
+      {
+        id: 'ONE',
+        val: 'One',
+      },
+      {
+        id: 'TWO',
+        val: 'Two',
+      },
+    ],
+    val: 'type',
+  },
+  checkbox: {
+    labelInline: 'Agree to terms',
+    val: 'agree',
+  },
+  textarea: {
+    labelInline: 'Additional Information',
+    class: 'ion-margin-top',
+    val: 'textarea',
+  },
+},
+```
