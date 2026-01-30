@@ -1,0 +1,44 @@
+name: Feature request
+description: Suggest an idea for this project
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a new feature!
+  - type: textarea
+    id: motivation
+    attributes:
+      label: "What is the motivation for adding/enhancing this feature?"
+      description: Describe the motivation or the concrete use case for a new feature or why one of the current ones should be enhanced.
+      placeholder: I want to be able to... because...
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: "What are the acceptance criteria?"
+      description: List the acceptance criteria for this task.
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+      value: |
+        - [ ] ...
+    validations:
+      required: true
+  - type: checkboxes
+    id: self-completion
+    attributes:
+      label: "Can you complete this feature request by yourself?"
+      options:
+        - label: "YES"
+        - label: "NO"
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: "Additional information"
+      description: If you think that any additional information would be useful, please provide them here.
+      placeholder: Links, screenshots, or any other context...
+    validations:
+      required: false
