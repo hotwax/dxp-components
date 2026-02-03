@@ -32,8 +32,8 @@ body:
     attributes:
       label: "Can you complete this feature request by yourself?"
       options:
-        - label: "YES"
-        - label: "NO"
+        - "YES"
+        - "NO"
   - type: textarea
     id: additional-info
     attributes:
